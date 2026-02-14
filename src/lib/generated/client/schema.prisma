@@ -1,0 +1,238 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/lib/generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum Role {
+  ADMIN
+  EDITOR
+  USER
+  PENGGUNA
+  SEKRETARIS
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+// Master Data: Jenjang (Level)
+model Jenjang {
+  id          String   @id @default(cuid())
+  code        String   @unique // Kode Jenjang
+  name        String // Nama Jenjang
+  description String?
+  users       User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Master Data: UPA (Unit/Group)
+model Upa {
+  id         String     @id @default(cuid())
+  code       String     @unique // Kode UPA
+  name       String // Nama UPA
+  location   String?
+  dpcId      String?
+  dpc        Dpc?       @relation(fields: [dpcId], references: [id])
+  users      User[]
+  activities Activity[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+// Master Data: DPC
+model Dpc {
+  id        String   @id @default(cuid())
+  kodeDpc   String   @unique
+  namaDpc   String
+  isActive  Boolean  @default(true)
+  upas      Upa[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// User Management
+model User {
+  id          String     @id @default(cuid())
+  email       String     @unique
+  password    String // Hashed
+  fullName    String // Nama
+  phoneNumber String? // No Telepon
+  employeeId  String?    @unique // NIK / ID Karyawan
+  role        Role       @default(USER)
+  status      UserStatus @default(ACTIVE)
+
+  // Relations
+  jenjangId String? // Kode Jenjang (Relation)
+  jenjang   Jenjang? @relation(fields: [jenjangId], references: [id])
+
+  upaId String? // Group UPA (Relation)
+  upa   Upa?    @relation(fields: [upaId], references: [id])
+
+  // Self-relation for "Pembimbing" logic (optional, or implicit by UPA role)
+  mentorId String?
+  mentor   User?   @relation("Mentorship", fields: [mentorId], references: [id])
+  mentees  User[]  @relation("Mentorship")
+
+  activities  Activity[]
+  auditLogs   AuditLog[]
+  attendances Attendance[]
+  presensi    Presensi[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Transactional: Activity/Absensi
+model Activity {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  date        DateTime
+  location    String?
+  flag        Int      @default(0) // 0 = Normal Activity, 1 = Monitoring
+  latitude    Float?
+  longitude   Float?
+  radius      Int      @default(100)
+
+  // Metadata
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  upaId String // Snapshot of UPA at time of activity (or current)
+  upa   Upa    @relation(fields: [upaId], references: [id])
+
+  answers Json? // Dynamic answers for Master Pertanyaan
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  attendanceToken String?      @default(cuid())
+  attendances     Attendance[]
+  isActive        Boolean      @default(true)
+}
+
+model Attendance {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  activityId String
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  timestamp  DateTime @default(now())
+  status     String? // e.g. "ON_TIME", "LATE"
+
+  @@unique([userId, activityId])
+}
+
+// System: Audit Log
+model AuditLog {
+  id       String @id @default(cuid())
+  action   String // e.g., "CREATE_USER", "DELETE_ACTIVITY"
+  resource String // e.g., "User", "Activity"
+  details  Json?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+enum TipeJawaban {
+  TEXTBOX
+  OPTION
+  TANGGAL
+  LISTBOX
+}
+
+// Master Data: Pertanyaan
+model Pertanyaan {
+  id            String      @id @default(cuid())
+  pertanyaan    String
+  tipeJawaban   TipeJawaban
+  opsiJawaban   Json? // Menyimpan array string ["Opsi A", "Opsi B"]
+  isRequired    Boolean     @default(true)
+  sourceList    String? // Menyimpan nama tabel master misal: "DPC", "UPA"
+  type_kegiatan String?     @db.VarChar(15)
+  isActive      Boolean     @default(true)
+  urutan        Int         @default(0)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+// Master Data: Translation
+model Translation {
+  id             String   @id @default(cuid())
+  variableName   String   @unique
+  indonesiaValue String
+  englishValue   String
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// Access Matrix
+model Menu {
+  id        String       @id @default(cuid())
+  label     String
+  path      String       @unique
+  group     String? // e.g., "Master Data"
+  order     Int          @default(0)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  accesses  RoleAccess[]
+}
+
+model RoleAccess {
+  id        String  @id @default(cuid())
+  role      Role
+  menuId    String
+  menu      Menu    @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  canAccess Boolean @default(false)
+
+  @@unique([role, menuId])
+}
+
+// System: Application Configuration
+model ApplicationConfig {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// === NEW: Daily Attendance (Presensi Harian) ===
+model Presensi {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  date DateTime @db.Date // Store just the date
+
+  checkIn  DateTime? // Waktu Masuk
+  checkOut DateTime? // Waktu Keluar
+
+  locationIn  String? // Lat,Long Masuk
+  locationOut String? // Lat,Long Keluar
+
+  photoIn  String? @db.Text // Foto Masuk (Base64 or URL)
+  photoOut String? @db.Text // Foto Keluar (Base64 or URL)
+
+  status String  @default("ABSENT") // PRESENT, LATE, ABSENT, PERMIT, SICK
+  notes  String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, date]) // One attendance record per user per day
+}

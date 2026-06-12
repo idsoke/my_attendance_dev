@@ -94,9 +94,9 @@ export function Sidebar() {
                 <div className="h-16 flex items-center px-6 border-b border-gray-100 justify-between">
                     <div className="text-2xl font-bold text-orange-600 flex items-center gap-2">
                         <div className="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center text-white text-lg">
-                            M
+                            A
                         </div>
-                        APP
+                        AttendIQ
                     </div>
                     <button onClick={close} className="md:hidden text-gray-400 hover:text-gray-600">
                         <Menu size={20} />

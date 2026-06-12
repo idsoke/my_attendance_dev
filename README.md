@@ -1,4 +1,4 @@
-# Absensi App
+# AttendIQ
 
 Sistem manajemen absensi karyawan berbasis web dengan validasi lokasi (GPS) dan dashboard monitoring real-time, dibangun menggunakan Next.js dan Prisma.
 

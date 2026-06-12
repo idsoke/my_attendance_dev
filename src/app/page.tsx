@@ -21,7 +21,7 @@ export default async function Home() {
             <div className="bg-blue-600 p-1.5 rounded-lg group-hover:bg-blue-700 transition-colors">
               <Building2 className="h-5 w-5 text-white" />
             </div>
-            <span className="font-bold text-xl tracking-tight text-slate-900">PT Optima<span className="text-blue-600">ITT</span></span>
+            <span className="font-bold text-xl tracking-tight text-slate-900">Attend<span className="text-blue-600">IQ</span></span>
           </Link>
           <nav className="flex items-center gap-6">
             <Link href="/login">
@@ -44,7 +44,7 @@ export default async function Home() {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Manajemen Karyawan</span>
               </h1>
               <p className="text-lg md:text-xl text-slate-500 max-w-2xl leading-relaxed">
-                Platform terintegrasi untuk pengelolaan absensi, aktivitas harian, dan administrasi karyawan PT Optima ITT.
+                Platform terintegrasi untuk pengelolaan absensi, aktivitas harian, dan administrasi karyawan perusahaan Anda.
               </p>
               <div className="pt-4 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <Link href="/login" className="w-full sm:w-auto">
@@ -67,9 +67,9 @@ export default async function Home() {
         <div className="container px-4 md:px-6 mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <Building2 className="h-5 w-5 text-slate-400" />
-            <span className="font-semibold text-slate-700">PT Optima ITT</span>
+            <span className="font-semibold text-slate-700">AttendIQ</span>
           </div>
-          <p className="text-sm text-slate-400">© 2026 Internal System. All rights reserved.</p>
+          <p className="text-sm text-slate-400">© 2026 AttendIQ. All rights reserved.</p>
         </div>
       </footer>
     </div>

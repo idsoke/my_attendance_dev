@@ -1,4 +1,4 @@
-# Contributing to Monitoring App
+# Contributing to AttendIQ
 
 Terima kasih atas minat Anda untuk berkontribusi! 🎉
 
@@ -7,8 +7,8 @@ Terima kasih atas minat Anda untuk berkontribusi! 🎉
 1. Fork repository ini
 2. Clone fork Anda:
    ```bash
-   git clone https://github.com/your-username/monitoring-app.git
-   cd monitoring-app
+   git clone https://github.com/your-username/my_attendance_dev.git
+   cd my_attendance_dev
    ```
 3. Install dependencies:
    ```bash

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PT Optima ITT - Absensi",
-  description: "Employee Attendance System for PT Optima ITT",
+  title: "AttendIQ",
+  description: "Smart employee attendance system with GPS validation and real-time monitoring.",
 };
 
 export default function RootLayout({

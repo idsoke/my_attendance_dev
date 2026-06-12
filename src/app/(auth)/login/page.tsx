@@ -56,7 +56,7 @@ function LoginForm() {
                         <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 shadow-inner ring-1 ring-white/30">
                             <Building2 className="w-8 h-8 text-white" />
                         </div>
-                        <h1 className="text-2xl font-bold text-white tracking-tight">PT Optima ITT</h1>
+                        <h1 className="text-2xl font-bold text-white tracking-tight">AttendIQ</h1>
                         <p className="text-blue-100 text-sm mt-1 font-medium">Employee Attendance System</p>
                     </div>
                 </div>
@@ -128,7 +128,7 @@ function LoginForm() {
 
                     <div className="mt-8 text-center">
                         <p className="text-xs text-gray-400">
-                            © 2026 PT Optima ITT. All rights reserved.
+                            © 2026 AttendIQ. All rights reserved.
                         </p>
                     </div>
                 </div>

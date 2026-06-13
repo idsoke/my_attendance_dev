@@ -7,7 +7,6 @@ Sistem manajemen absensi karyawan berbasis web dengan validasi lokasi (GPS) dan 
 - Check-in / check-out absensi dengan validasi lokasi dan foto
 - Riwayat absensi per karyawan
 - Dashboard monitoring untuk admin
-- Manajemen data master (UPA, DPC, Jenjang, dll)
 - Autentikasi dan kontrol akses berbasis peran (Admin, Editor, User)
 - Approval workflow
 

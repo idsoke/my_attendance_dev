@@ -3,11 +3,11 @@
 ## ✅ Completed Features
 
 ### Core Setup
-- [x] Next.js 14 project initialized
+- [x] Next.js 16 project initialized
 - [x] TypeScript configured
 - [x] Tailwind CSS v4 setup
 - [x] Prisma ORM configured
-- [x] PostgreSQL schema defined
+- [x] MySQL schema defined
 - [x] NextAuth v5 authentication
 - [x] Middleware for route protection
 

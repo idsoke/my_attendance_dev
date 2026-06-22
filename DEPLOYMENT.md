@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- PostgreSQL database (dapat menggunakan Supabase, Railway, atau Neon)
+- MySQL database (dapat menggunakan PlanetScale, Railway, atau VPS sendiri)
 - Node.js 18+
 - Platform hosting (Vercel, Railway, atau lainnya)
 
@@ -11,7 +11,7 @@
 Pastikan semua environment variables berikut sudah diset:
 
 ```env
-DATABASE_URL="postgresql://user:password@host:5432/database"
+DATABASE_URL="mysql://user:password@host:3306/database"
 NEXTAUTH_SECRET="generate-random-secret-key"
 NEXTAUTH_URL="https://your-domain.com"
 ```
@@ -54,10 +54,10 @@ npm run db:seed
    - Click "New Project"
    - Pilih "Deploy from GitHub repo"
 
-3. Add PostgreSQL database:
+3. Add MySQL database:
    - Click "New"
    - Pilih "Database"
-   - Pilih "PostgreSQL"
+   - Pilih "MySQL"
 
 4. Configure environment variables
 

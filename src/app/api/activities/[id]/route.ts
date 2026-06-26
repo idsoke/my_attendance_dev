@@ -15,7 +15,6 @@ export async function GET(
             where: { id },
             include: {
                 user: { select: { fullName: true, email: true } },
-                upa: { select: { name: true } },
                 attendances: {
                     include: {
                         user: { select: { fullName: true } }

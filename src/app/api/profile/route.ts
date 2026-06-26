@@ -19,18 +19,6 @@ export async function GET() {
                 role: true,
                 status: true,
                 createdAt: true,
-                upa: {
-                    select: {
-                        name: true,
-                        location: true,
-                    },
-                },
-                jenjang: {
-                    select: {
-                        name: true,
-                        description: true,
-                    },
-                },
                 _count: {
                     select: {
                         activities: true,
@@ -79,18 +67,6 @@ export async function PATCH(req: NextRequest) {
                 role: true,
                 status: true,
                 createdAt: true,
-                upa: {
-                    select: {
-                        name: true,
-                        location: true,
-                    },
-                },
-                jenjang: {
-                    select: {
-                        name: true,
-                        description: true,
-                    },
-                },
                 _count: {
                     select: {
                         activities: true,

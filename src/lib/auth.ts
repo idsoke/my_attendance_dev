@@ -36,8 +36,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 token.id = user.id
                 token.role = user.role
                 token.fullName = user.fullName
-                token.upaId = user.upaId
-                token.jenjangId = user.jenjangId
             }
             return token
         },
@@ -46,8 +44,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 session.user.id = token.id as string
                 session.user.role = token.role as any
                 session.user.fullName = token.fullName as string
-                session.user.upaId = token.upaId as string | null | undefined
-                session.user.jenjangId = token.jenjangId as string | null | undefined
             }
             return session
         },

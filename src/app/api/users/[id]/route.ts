@@ -14,19 +14,13 @@ export async function GET(
 
     const user = await prisma.user.findUnique({
         where: { id },
-        include: { upa: true, jenjang: true },
     })
 
     if (!user) return new NextResponse("User not found", { status: 404 })
 
     // Check access scope
-    if (session.user.role !== "ADMIN" && session.user.id !== user.id) {
-        // If Editor, check UPA
-        if (session.user.role === "EDITOR" && session.user.upaId === user.upaId) {
-            // Allowed
-        } else {
-            return new NextResponse("Forbidden", { status: 403 })
-        }
+    if (session.user.role !== "ADMIN" && session.user.role !== "MANAGER" && session.user.id !== user.id) {
+        return new NextResponse("Forbidden", { status: 403 })
     }
 
     const { password, ...sanitizedUser } = user
@@ -80,11 +74,9 @@ export async function PATCH(
             }
         }
 
-        // Prevent non-admin from changing role or UPA/Jenjang
+        // Prevent non-admin from changing role
         if (session.user.role !== "ADMIN") {
             delete body.role
-            delete body.upaId
-            delete body.jenjangId
         }
 
         const user = await prisma.user.update({

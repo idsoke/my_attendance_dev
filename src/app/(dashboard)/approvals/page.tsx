@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useSession } from "next-auth/react"
-import { Check, X, User, Mail, Phone, Calendar } from "lucide-react"
+import { Check, X, Mail, Phone, Calendar } from "lucide-react"
 import { apiClient } from "@/lib/api-client"
 
 interface PendingUser {
@@ -13,12 +13,6 @@ interface PendingUser {
     fullName: string
     phoneNumber?: string
     createdAt: string
-    jenjang?: {
-        name: string
-    }
-    upa?: {
-        name: string
-    }
 }
 
 export default function ApprovalsPage() {
@@ -116,19 +110,6 @@ export default function ApprovalsPage() {
                                         <div className="flex items-center gap-2 text-gray-600">
                                             <Phone size={14} className="text-orange-500" />
                                             <span>{user.phoneNumber}</span>
-                                        </div>
-                                    )}
-                                    {user.jenjang && (
-                                        <div className="flex items-center gap-2 text-gray-600">
-                                            <User size={14} className="text-orange-500" />
-                                            <span>{user.jenjang.name}</span>
-                                        </div>
-                                    )}
-                                    {user.upa && (
-                                        <div className="text-xs">
-                                            <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded-full">
-                                                {user.upa.name}
-                                            </span>
                                         </div>
                                     )}
                                 </div>

@@ -122,34 +122,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.JenjangScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  name: 'name',
-  description: 'description',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.UpaScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  name: 'name',
-  location: 'location',
-  dpcId: 'dpcId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.DpcScalarFieldEnum = {
-  id: 'id',
-  kodeDpc: 'kodeDpc',
-  namaDpc: 'namaDpc',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -159,8 +131,6 @@ exports.Prisma.UserScalarFieldEnum = {
   employeeId: 'employeeId',
   role: 'role',
   status: 'status',
-  jenjangId: 'jenjangId',
-  upaId: 'upaId',
   mentorId: 'mentorId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -177,7 +147,6 @@ exports.Prisma.ActivityScalarFieldEnum = {
   longitude: 'longitude',
   radius: 'radius',
   userId: 'userId',
-  upaId: 'upaId',
   answers: 'answers',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -290,10 +259,8 @@ exports.Prisma.JsonNullValueFilter = {
 };
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
-  EDITOR: 'EDITOR',
-  USER: 'USER',
-  PENGGUNA: 'PENGGUNA',
-  SEKRETARIS: 'SEKRETARIS'
+  MANAGER: 'MANAGER',
+  EMPLOYEE: 'EMPLOYEE'
 };
 
 exports.UserStatus = exports.$Enums.UserStatus = {
@@ -311,9 +278,6 @@ exports.TipeJawaban = exports.$Enums.TipeJawaban = {
 };
 
 exports.Prisma.ModelName = {
-  Jenjang: 'Jenjang',
-  Upa: 'Upa',
-  Dpc: 'Dpc',
   User: 'User',
   Activity: 'Activity',
   Attendance: 'Attendance',

@@ -66,7 +66,7 @@ function SortableRow({ item, children, ...props }: { item: Pertanyaan, children:
     );
 }
 
-const SOURCE_LIST_OPTIONS = ["DPC", "UPA", "JENJANG"]
+const SOURCE_LIST_OPTIONS: string[] = []
 
 export default function PertanyaanPage() {
     const [pertanyaans, setPertanyaans] = useState<Pertanyaan[]>([])

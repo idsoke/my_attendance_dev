@@ -22,7 +22,7 @@ export async function GET(req: Request) {
 }
 
 const updateAccessSchema = z.object({
-    role: z.enum(["ADMIN", "EDITOR", "USER", "PENGGUNA", "SEKRETARIS"]),
+    role: z.enum(["ADMIN", "MANAGER", "EMPLOYEE"]),
     menuId: z.string(),
     canAccess: z.boolean(),
 })

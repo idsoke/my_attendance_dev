@@ -34,7 +34,7 @@ export async function POST(req: Request) {
                 password: hashedPassword,
                 fullName: body.fullName,
                 phoneNumber: body.phoneNumber,
-                role: "USER",
+                role: "EMPLOYEE",
                 status: "PENDING",
             },
         })

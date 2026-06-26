@@ -1,4 +1,5 @@
-import { Role } from "@prisma/client"
+// @ts-ignore
+import { Role } from "@/lib/generated/client"
 import NextAuth, { DefaultSession } from "next-auth"
 
 declare module "next-auth" {
@@ -7,16 +8,12 @@ declare module "next-auth" {
             id: string
             role: Role
             fullName: string
-            upaId?: string | null
-            jenjangId?: string | null
         } & DefaultSession["user"]
     }
 
     interface User {
         role: Role
         fullName: string
-        upaId?: string | null
-        jenjangId?: string | null
     }
 }
 
@@ -25,7 +22,5 @@ declare module "next-auth/jwt" {
         id: string
         role: Role
         fullName: string
-        upaId?: string | null
-        jenjangId?: string | null
     }
 }

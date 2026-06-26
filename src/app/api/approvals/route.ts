@@ -13,10 +13,6 @@ export async function GET(req: Request) {
             where: {
                 status: "PENDING",
             },
-            include: {
-                jenjang: true,
-                upa: true,
-            },
             orderBy: {
                 createdAt: "desc",
             },

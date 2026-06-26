@@ -25,15 +25,14 @@ export default async function DashboardPage() {
     // Or strictly check admin.
     const isAdmin = session.user.role === 'ADMIN'
 
-    let stats = { upaCount: 0, totalUsers: 0, activeUsers: 0 }
+    let stats = { totalUsers: 0, activeUsers: 0 }
 
     if (isAdmin) {
-        const [upaCount, totalUsers, activeUsers] = await Promise.all([
-            prisma.upa.count(),
+        const [totalUsers, activeUsers] = await Promise.all([
             prisma.user.count({ where: { role: { not: "ADMIN" } } }),
             prisma.user.count({ where: { status: "ACTIVE", role: { not: "ADMIN" } } })
         ])
-        stats = { upaCount, totalUsers, activeUsers }
+        stats = { totalUsers, activeUsers }
     }
 
     return (

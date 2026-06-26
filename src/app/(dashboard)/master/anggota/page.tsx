@@ -13,21 +13,10 @@ interface User {
     email: string
     role: string
     status: string
-    upaId?: string
-    jenjangId?: string
-    upa?: { name: string }
-    jenjang?: { name: string }
-}
-
-interface Option {
-    id: string
-    name: string
 }
 
 export default function AnggotaPage() {
     const [users, setUsers] = useState<User[]>([])
-    const [upas, setUpas] = useState<Option[]>([])
-    const [jenjangs, setJenjangs] = useState<Option[]>([])
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState("")
 
@@ -47,14 +36,11 @@ export default function AnggotaPage() {
         email: "",
         phoneNumber: "",
         password: "",
-        role: "USER",
-        upaId: "",
-        jenjangId: ""
+        role: "EMPLOYEE",
     })
 
     useEffect(() => {
         fetchUsers()
-        fetchMasterData()
     }, [])
 
     const fetchUsers = async () => {
@@ -68,19 +54,6 @@ export default function AnggotaPage() {
             console.error("Error fetching users:", error)
         } finally {
             setLoading(false)
-        }
-    }
-
-    const fetchMasterData = async () => {
-        try {
-            const [upaRes, jenjangRes] = await Promise.all([
-                apiClient("/api/master/upas"),
-                apiClient("/api/master/jenjangs")
-            ])
-            if (upaRes.ok) setUpas(await upaRes.json())
-            if (jenjangRes.ok) setJenjangs(await jenjangRes.json())
-        } catch (error) {
-            console.error("Error fetching master data:", error)
         }
     }
 
@@ -105,8 +78,6 @@ export default function AnggotaPage() {
             phoneNumber: (user as any).phoneNumber || "",
             password: "", // Password not shown
             role: user.role,
-            upaId: user.upaId || "",
-            jenjangId: user.jenjangId || ""
         })
         setIsEditing(true)
         setShowForm(true)
@@ -140,8 +111,6 @@ export default function AnggotaPage() {
                 email: formData.email,
                 phoneNumber: formData.phoneNumber,
                 role: formData.role,
-                upaId: formData.upaId || null,
-                jenjangId: formData.jenjangId || null
             }
 
             if (!isEditing && formData.password) {
@@ -173,9 +142,7 @@ export default function AnggotaPage() {
             email: "",
             phoneNumber: "",
             password: "",
-            role: "USER",
-            upaId: "",
-            jenjangId: ""
+            role: "EMPLOYEE",
         })
         setShowForm(false)
         setIsEditing(false)
@@ -302,37 +269,9 @@ export default function AnggotaPage() {
                                             value={formData.role}
                                             onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                                         >
-                                            <option value="USER">User</option>
-                                            <option value="PENGGUNA">Pengguna</option>
-                                            <option value="SEKRETARIS">Sekretaris</option>
-                                            <option value="EDITOR">Editor</option>
+                                            <option value="EMPLOYEE">Employee</option>
+                                            <option value="MANAGER">Manager</option>
                                             <option value="ADMIN">Admin</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">UPA</label>
-                                        <select
-                                            className="w-full rounded-md border border-gray-200 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                                            value={formData.upaId}
-                                            onChange={(e) => setFormData({ ...formData, upaId: e.target.value })}
-                                        >
-                                            <option value="">Select UPA</option>
-                                            {upas.map(upa => (
-                                                <option key={upa.id} value={upa.id}>{upa.name}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Jenjang</label>
-                                        <select
-                                            className="w-full rounded-md border border-gray-200 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                                            value={formData.jenjangId}
-                                            onChange={(e) => setFormData({ ...formData, jenjangId: e.target.value })}
-                                        >
-                                            <option value="">Select Jenjang</option>
-                                            {jenjangs.map(jenjang => (
-                                                <option key={jenjang.id} value={jenjang.id}>{jenjang.name}</option>
-                                            ))}
                                         </select>
                                     </div>
                                 </div>
@@ -379,14 +318,6 @@ export default function AnggotaPage() {
                                     <span className="block text-gray-500 text-xs uppercase">Status</span>
                                     <span className="font-semibold text-green-600">Active</span>
                                 </div>
-                                <div className="p-3 bg-gray-50 rounded-lg">
-                                    <span className="block text-gray-500 text-xs uppercase">UPA</span>
-                                    <span className="font-semibold text-gray-900">{selectedUser.upa?.name || "-"}</span>
-                                </div>
-                                <div className="p-3 bg-gray-50 rounded-lg">
-                                    <span className="block text-gray-500 text-xs uppercase">Jenjang</span>
-                                    <span className="font-semibold text-gray-900">{selectedUser.jenjang?.name || "-"}</span>
-                                </div>
                             </div>
 
                             <div className="flex justify-end pt-4">
@@ -420,18 +351,17 @@ export default function AnggotaPage() {
                                     <th className="px-6 py-3">Name</th>
                                     <th className="px-6 py-3">Role</th>
                                     <th className="px-6 py-3">Status</th>
-                                    <th className="px-6 py-3">UPA / Jenjang</th>
                                     <th className="px-6 py-3 text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {loading ? (
                                     <tr>
-                                        <td colSpan={5} className="px-6 py-4 text-center">Loading...</td>
+                                        <td colSpan={4} className="px-6 py-4 text-center">Loading...</td>
                                     </tr>
                                 ) : filteredUsers.length === 0 ? (
                                     <tr>
-                                        <td colSpan={5} className="px-6 py-4 text-center">No users found</td>
+                                        <td colSpan={4} className="px-6 py-4 text-center">No users found</td>
                                     </tr>
                                 ) : (
                                     filteredUsers.map((user) => (
@@ -450,10 +380,8 @@ export default function AnggotaPage() {
                                             <td className="px-6 py-4">
                                                 <span className={`px-2 py-1 rounded-full text-xs font-semibold
                           ${user.role === 'ADMIN' ? 'bg-red-100 text-red-600' :
-                                                        user.role === 'EDITOR' ? 'bg-blue-100 text-blue-600' :
-                                                            user.role === 'PENGGUNA' ? 'bg-purple-100 text-purple-600' :
-                                                                user.role === 'SEKRETARIS' ? 'bg-orange-100 text-orange-600' :
-                                                                    'bg-green-100 text-green-600'}`}>
+                                                        user.role === 'MANAGER' ? 'bg-blue-100 text-blue-600' :
+                                                            'bg-green-100 text-green-600'}`}>
                                                     {user.role}
                                                 </span>
                                             </td>
@@ -461,10 +389,6 @@ export default function AnggotaPage() {
                                                 <span className="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-600">
                                                     Active
                                                 </span>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="text-gray-900">{user.upa?.name || "-"}</div>
-                                                <div className="text-xs text-gray-500">{user.jenjang?.name || "-"}</div>
                                             </td>
                                             <td className="px-6 py-4 text-center">
                                                 <div className="flex items-center justify-center gap-2">

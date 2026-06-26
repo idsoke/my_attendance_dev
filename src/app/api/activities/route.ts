@@ -12,26 +12,10 @@ export async function GET(req: Request) {
     let where: any = {}
 
     // Scope Filtering
-    if (user.role === "ADMIN") {
+    if (user.role === "ADMIN" || user.role === "MANAGER") {
         // No filter
-    } else if (user.role === "EDITOR") {
-        // Editor sees activities within their UPA
-        if (user.upaId) {
-            where.upaId = user.upaId
-        } else {
-            // If no UPA assigned, maybe see nothing or all? 
-            // Requirement says "Dibatasi berdasarkan UPA".
-            where.upaId = "NO_ACCESS"
-        }
-    } else if (user.role === "USER") {
-        // User sees own activities
-        // If Pembimbing, sees UPA activities?
-        // Requirement: "Pembimbing: Monitoring kegiatan anggota UPA"
-        // We need to know if user is Pembimbing. 
-        // Current schema doesn't have explicit "Pembimbing" role, maybe it's a flag or implied?
-        // "Sub Role: Pembimbing / Admin Group UPA"
-        // Let's assume if they have a specific permission or just check logic.
-        // For now, standard user = own data.
+    } else {
+        // EMPLOYEE sees only own activities
         where.userId = user.id
     }
 
@@ -40,9 +24,6 @@ export async function GET(req: Request) {
         include: {
             user: {
                 select: { fullName: true, email: true },
-            },
-            upa: {
-                select: { name: true },
             },
             attendances: {
                 include: {
@@ -73,10 +54,6 @@ export async function POST(req: Request) {
         const json = await req.json()
         const body = activitySchema.parse(json)
 
-        if (!session.user.upaId) {
-            return new NextResponse("User does not belong to a UPA", { status: 400 })
-        }
-
         const activity = await prisma.activity.create({
             data: {
                 title: body.title,
@@ -89,7 +66,6 @@ export async function POST(req: Request) {
                 longitude: (body as any).longitude,
                 radius: (body as any).radius ?? 100,
                 userId: session.user.id,
-                upaId: session.user.upaId,
                 answers: (body.answers as any) ?? undefined,
             } as any,
         })

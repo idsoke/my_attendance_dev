@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { loginSchema, userSchema } from '@/lib/validations/auth'
 import { activitySchema } from '@/lib/validations/activity'
-import { upaSchema, jenjangSchema } from '@/lib/validations/master'
 
 describe('Validation Schemas', () => {
     describe('loginSchema', () => {
@@ -39,9 +38,7 @@ describe('Validation Schemas', () => {
                 email: 'user@example.com',
                 fullName: 'John Doe',
                 phoneNumber: '081234567890',
-                role: 'USER',
-                upaId: 'upa-id',
-                jenjangId: 'jenjang-id',
+                role: 'EMPLOYEE',
                 password: 'password123',
             }
             const result = userSchema.safeParse(data)
@@ -78,30 +75,6 @@ describe('Validation Schemas', () => {
             }
             const result = activitySchema.safeParse(data)
             expect(result.success).toBe(false)
-        })
-    })
-
-    describe('upaSchema', () => {
-        it('should validate correct UPA data', () => {
-            const data = {
-                code: 'UPA001',
-                name: 'UPA Jakarta',
-                location: 'Jakarta',
-            }
-            const result = upaSchema.safeParse(data)
-            expect(result.success).toBe(true)
-        })
-    })
-
-    describe('jenjangSchema', () => {
-        it('should validate correct Jenjang data', () => {
-            const data = {
-                code: 'J1',
-                name: 'Junior',
-                description: 'Junior Level',
-            }
-            const result = jenjangSchema.safeParse(data)
-            expect(result.success).toBe(true)
         })
     })
 })

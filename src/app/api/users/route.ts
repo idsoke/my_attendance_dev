@@ -13,10 +13,6 @@ export async function GET(req: Request) {
         const scope = getUserScope(session.user)
         const users = await prisma.user.findMany({
             where: scope,
-            include: {
-                upa: true,
-                jenjang: true,
-            },
             orderBy: { createdAt: "desc" },
         })
 

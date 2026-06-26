@@ -14,21 +14,6 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model Jenjang
- * 
- */
-export type Jenjang = $Result.DefaultSelection<Prisma.$JenjangPayload>
-/**
- * Model Upa
- * 
- */
-export type Upa = $Result.DefaultSelection<Prisma.$UpaPayload>
-/**
- * Model Dpc
- * 
- */
-export type Dpc = $Result.DefaultSelection<Prisma.$DpcPayload>
-/**
  * Model User
  * 
  */
@@ -85,10 +70,8 @@ export type Presensi = $Result.DefaultSelection<Prisma.$PresensiPayload>
 export namespace $Enums {
   export const Role: {
   ADMIN: 'ADMIN',
-  EDITOR: 'EDITOR',
-  USER: 'USER',
-  PENGGUNA: 'PENGGUNA',
-  SEKRETARIS: 'SEKRETARIS'
+  MANAGER: 'MANAGER',
+  EMPLOYEE: 'EMPLOYEE'
 };
 
 export type Role = (typeof Role)[keyof typeof Role]
@@ -134,8 +117,8 @@ export const TipeJawaban: typeof $Enums.TipeJawaban
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Jenjangs
- * const jenjangs = await prisma.jenjang.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  *
  * 
@@ -155,8 +138,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Jenjangs
-   * const jenjangs = await prisma.jenjang.findMany()
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
    * ```
    *
    * 
@@ -251,36 +234,6 @@ export class PrismaClient<
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb, ExtArgs>
 
       /**
-   * `prisma.jenjang`: Exposes CRUD operations for the **Jenjang** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Jenjangs
-    * const jenjangs = await prisma.jenjang.findMany()
-    * ```
-    */
-  get jenjang(): Prisma.JenjangDelegate<ExtArgs>;
-
-  /**
-   * `prisma.upa`: Exposes CRUD operations for the **Upa** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Upas
-    * const upas = await prisma.upa.findMany()
-    * ```
-    */
-  get upa(): Prisma.UpaDelegate<ExtArgs>;
-
-  /**
-   * `prisma.dpc`: Exposes CRUD operations for the **Dpc** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Dpcs
-    * const dpcs = await prisma.dpc.findMany()
-    * ```
-    */
-  get dpc(): Prisma.DpcDelegate<ExtArgs>;
-
-  /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
@@ -820,9 +773,6 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Jenjang: 'Jenjang',
-    Upa: 'Upa',
-    Dpc: 'Dpc',
     User: 'User',
     Activity: 'Activity',
     Attendance: 'Attendance',
@@ -848,208 +798,10 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "jenjang" | "upa" | "dpc" | "user" | "activity" | "attendance" | "auditLog" | "pertanyaan" | "translation" | "menu" | "roleAccess" | "applicationConfig" | "presensi"
+      modelProps: "user" | "activity" | "attendance" | "auditLog" | "pertanyaan" | "translation" | "menu" | "roleAccess" | "applicationConfig" | "presensi"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      Jenjang: {
-        payload: Prisma.$JenjangPayload<ExtArgs>
-        fields: Prisma.JenjangFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.JenjangFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$JenjangPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.JenjangFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$JenjangPayload>
-          }
-          findFirst: {
-            args: Prisma.JenjangFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$JenjangPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.JenjangFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$JenjangPayload>
-          }
-          findMany: {
-            args: Prisma.JenjangFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$JenjangPayload>[]
-          }
-          create: {
-            args: Prisma.JenjangCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$JenjangPayload>
-          }
-          createMany: {
-            args: Prisma.JenjangCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.JenjangDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$JenjangPayload>
-          }
-          update: {
-            args: Prisma.JenjangUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$JenjangPayload>
-          }
-          deleteMany: {
-            args: Prisma.JenjangDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.JenjangUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.JenjangUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$JenjangPayload>
-          }
-          aggregate: {
-            args: Prisma.JenjangAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateJenjang>
-          }
-          groupBy: {
-            args: Prisma.JenjangGroupByArgs<ExtArgs>
-            result: $Utils.Optional<JenjangGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.JenjangCountArgs<ExtArgs>
-            result: $Utils.Optional<JenjangCountAggregateOutputType> | number
-          }
-        }
-      }
-      Upa: {
-        payload: Prisma.$UpaPayload<ExtArgs>
-        fields: Prisma.UpaFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.UpaFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UpaPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.UpaFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UpaPayload>
-          }
-          findFirst: {
-            args: Prisma.UpaFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UpaPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.UpaFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UpaPayload>
-          }
-          findMany: {
-            args: Prisma.UpaFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UpaPayload>[]
-          }
-          create: {
-            args: Prisma.UpaCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UpaPayload>
-          }
-          createMany: {
-            args: Prisma.UpaCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.UpaDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UpaPayload>
-          }
-          update: {
-            args: Prisma.UpaUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UpaPayload>
-          }
-          deleteMany: {
-            args: Prisma.UpaDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.UpaUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.UpaUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UpaPayload>
-          }
-          aggregate: {
-            args: Prisma.UpaAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateUpa>
-          }
-          groupBy: {
-            args: Prisma.UpaGroupByArgs<ExtArgs>
-            result: $Utils.Optional<UpaGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.UpaCountArgs<ExtArgs>
-            result: $Utils.Optional<UpaCountAggregateOutputType> | number
-          }
-        }
-      }
-      Dpc: {
-        payload: Prisma.$DpcPayload<ExtArgs>
-        fields: Prisma.DpcFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.DpcFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DpcPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.DpcFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DpcPayload>
-          }
-          findFirst: {
-            args: Prisma.DpcFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DpcPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.DpcFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DpcPayload>
-          }
-          findMany: {
-            args: Prisma.DpcFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DpcPayload>[]
-          }
-          create: {
-            args: Prisma.DpcCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DpcPayload>
-          }
-          createMany: {
-            args: Prisma.DpcCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.DpcDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DpcPayload>
-          }
-          update: {
-            args: Prisma.DpcUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DpcPayload>
-          }
-          deleteMany: {
-            args: Prisma.DpcDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.DpcUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.DpcUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DpcPayload>
-          }
-          aggregate: {
-            args: Prisma.DpcAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateDpc>
-          }
-          groupBy: {
-            args: Prisma.DpcGroupByArgs<ExtArgs>
-            result: $Utils.Optional<DpcGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.DpcCountArgs<ExtArgs>
-            result: $Utils.Optional<DpcCountAggregateOutputType> | number
-          }
-        }
-      }
       User: {
         payload: Prisma.$UserPayload<ExtArgs>
         fields: Prisma.UserFieldRefs
@@ -1867,108 +1619,6 @@ export namespace Prisma {
 
 
   /**
-   * Count Type JenjangCountOutputType
-   */
-
-  export type JenjangCountOutputType = {
-    users: number
-  }
-
-  export type JenjangCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | JenjangCountOutputTypeCountUsersArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * JenjangCountOutputType without action
-   */
-  export type JenjangCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the JenjangCountOutputType
-     */
-    select?: JenjangCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * JenjangCountOutputType without action
-   */
-  export type JenjangCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
-  }
-
-
-  /**
-   * Count Type UpaCountOutputType
-   */
-
-  export type UpaCountOutputType = {
-    users: number
-    activities: number
-  }
-
-  export type UpaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | UpaCountOutputTypeCountUsersArgs
-    activities?: boolean | UpaCountOutputTypeCountActivitiesArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * UpaCountOutputType without action
-   */
-  export type UpaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UpaCountOutputType
-     */
-    select?: UpaCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * UpaCountOutputType without action
-   */
-  export type UpaCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
-  }
-
-  /**
-   * UpaCountOutputType without action
-   */
-  export type UpaCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ActivityWhereInput
-  }
-
-
-  /**
-   * Count Type DpcCountOutputType
-   */
-
-  export type DpcCountOutputType = {
-    upas: number
-  }
-
-  export type DpcCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    upas?: boolean | DpcCountOutputTypeCountUpasArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * DpcCountOutputType without action
-   */
-  export type DpcCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DpcCountOutputType
-     */
-    select?: DpcCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * DpcCountOutputType without action
-   */
-  export type DpcCountOutputTypeCountUpasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UpaWhereInput
-  }
-
-
-  /**
    * Count Type UserCountOutputType
    */
 
@@ -2102,2796 +1752,6 @@ export namespace Prisma {
    */
 
   /**
-   * Model Jenjang
-   */
-
-  export type AggregateJenjang = {
-    _count: JenjangCountAggregateOutputType | null
-    _min: JenjangMinAggregateOutputType | null
-    _max: JenjangMaxAggregateOutputType | null
-  }
-
-  export type JenjangMinAggregateOutputType = {
-    id: string | null
-    code: string | null
-    name: string | null
-    description: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type JenjangMaxAggregateOutputType = {
-    id: string | null
-    code: string | null
-    name: string | null
-    description: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type JenjangCountAggregateOutputType = {
-    id: number
-    code: number
-    name: number
-    description: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type JenjangMinAggregateInputType = {
-    id?: true
-    code?: true
-    name?: true
-    description?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type JenjangMaxAggregateInputType = {
-    id?: true
-    code?: true
-    name?: true
-    description?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type JenjangCountAggregateInputType = {
-    id?: true
-    code?: true
-    name?: true
-    description?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type JenjangAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Jenjang to aggregate.
-     */
-    where?: JenjangWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Jenjangs to fetch.
-     */
-    orderBy?: JenjangOrderByWithRelationInput | JenjangOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: JenjangWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Jenjangs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Jenjangs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Jenjangs
-    **/
-    _count?: true | JenjangCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: JenjangMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: JenjangMaxAggregateInputType
-  }
-
-  export type GetJenjangAggregateType<T extends JenjangAggregateArgs> = {
-        [P in keyof T & keyof AggregateJenjang]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateJenjang[P]>
-      : GetScalarType<T[P], AggregateJenjang[P]>
-  }
-
-
-
-
-  export type JenjangGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: JenjangWhereInput
-    orderBy?: JenjangOrderByWithAggregationInput | JenjangOrderByWithAggregationInput[]
-    by: JenjangScalarFieldEnum[] | JenjangScalarFieldEnum
-    having?: JenjangScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: JenjangCountAggregateInputType | true
-    _min?: JenjangMinAggregateInputType
-    _max?: JenjangMaxAggregateInputType
-  }
-
-  export type JenjangGroupByOutputType = {
-    id: string
-    code: string
-    name: string
-    description: string | null
-    createdAt: Date
-    updatedAt: Date
-    _count: JenjangCountAggregateOutputType | null
-    _min: JenjangMinAggregateOutputType | null
-    _max: JenjangMaxAggregateOutputType | null
-  }
-
-  type GetJenjangGroupByPayload<T extends JenjangGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<JenjangGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof JenjangGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], JenjangGroupByOutputType[P]>
-            : GetScalarType<T[P], JenjangGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type JenjangSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    code?: boolean
-    name?: boolean
-    description?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    users?: boolean | Jenjang$usersArgs<ExtArgs>
-    _count?: boolean | JenjangCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["jenjang"]>
-
-
-  export type JenjangSelectScalar = {
-    id?: boolean
-    code?: boolean
-    name?: boolean
-    description?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type JenjangInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | Jenjang$usersArgs<ExtArgs>
-    _count?: boolean | JenjangCountOutputTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $JenjangPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Jenjang"
-    objects: {
-      users: Prisma.$UserPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      code: string
-      name: string
-      description: string | null
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["jenjang"]>
-    composites: {}
-  }
-
-  type JenjangGetPayload<S extends boolean | null | undefined | JenjangDefaultArgs> = $Result.GetResult<Prisma.$JenjangPayload, S>
-
-  type JenjangCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<JenjangFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: JenjangCountAggregateInputType | true
-    }
-
-  export interface JenjangDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Jenjang'], meta: { name: 'Jenjang' } }
-    /**
-     * Find zero or one Jenjang that matches the filter.
-     * @param {JenjangFindUniqueArgs} args - Arguments to find a Jenjang
-     * @example
-     * // Get one Jenjang
-     * const jenjang = await prisma.jenjang.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends JenjangFindUniqueArgs>(args: SelectSubset<T, JenjangFindUniqueArgs<ExtArgs>>): Prisma__JenjangClient<$Result.GetResult<Prisma.$JenjangPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
-
-    /**
-     * Find one Jenjang that matches the filter or throw an error with `error.code='P2025'` 
-     * if no matches were found.
-     * @param {JenjangFindUniqueOrThrowArgs} args - Arguments to find a Jenjang
-     * @example
-     * // Get one Jenjang
-     * const jenjang = await prisma.jenjang.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends JenjangFindUniqueOrThrowArgs>(args: SelectSubset<T, JenjangFindUniqueOrThrowArgs<ExtArgs>>): Prisma__JenjangClient<$Result.GetResult<Prisma.$JenjangPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
-
-    /**
-     * Find the first Jenjang that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {JenjangFindFirstArgs} args - Arguments to find a Jenjang
-     * @example
-     * // Get one Jenjang
-     * const jenjang = await prisma.jenjang.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends JenjangFindFirstArgs>(args?: SelectSubset<T, JenjangFindFirstArgs<ExtArgs>>): Prisma__JenjangClient<$Result.GetResult<Prisma.$JenjangPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
-
-    /**
-     * Find the first Jenjang that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {JenjangFindFirstOrThrowArgs} args - Arguments to find a Jenjang
-     * @example
-     * // Get one Jenjang
-     * const jenjang = await prisma.jenjang.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends JenjangFindFirstOrThrowArgs>(args?: SelectSubset<T, JenjangFindFirstOrThrowArgs<ExtArgs>>): Prisma__JenjangClient<$Result.GetResult<Prisma.$JenjangPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
-
-    /**
-     * Find zero or more Jenjangs that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {JenjangFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Jenjangs
-     * const jenjangs = await prisma.jenjang.findMany()
-     * 
-     * // Get first 10 Jenjangs
-     * const jenjangs = await prisma.jenjang.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const jenjangWithIdOnly = await prisma.jenjang.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends JenjangFindManyArgs>(args?: SelectSubset<T, JenjangFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JenjangPayload<ExtArgs>, T, "findMany">>
-
-    /**
-     * Create a Jenjang.
-     * @param {JenjangCreateArgs} args - Arguments to create a Jenjang.
-     * @example
-     * // Create one Jenjang
-     * const Jenjang = await prisma.jenjang.create({
-     *   data: {
-     *     // ... data to create a Jenjang
-     *   }
-     * })
-     * 
-     */
-    create<T extends JenjangCreateArgs>(args: SelectSubset<T, JenjangCreateArgs<ExtArgs>>): Prisma__JenjangClient<$Result.GetResult<Prisma.$JenjangPayload<ExtArgs>, T, "create">, never, ExtArgs>
-
-    /**
-     * Create many Jenjangs.
-     * @param {JenjangCreateManyArgs} args - Arguments to create many Jenjangs.
-     * @example
-     * // Create many Jenjangs
-     * const jenjang = await prisma.jenjang.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends JenjangCreateManyArgs>(args?: SelectSubset<T, JenjangCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Jenjang.
-     * @param {JenjangDeleteArgs} args - Arguments to delete one Jenjang.
-     * @example
-     * // Delete one Jenjang
-     * const Jenjang = await prisma.jenjang.delete({
-     *   where: {
-     *     // ... filter to delete one Jenjang
-     *   }
-     * })
-     * 
-     */
-    delete<T extends JenjangDeleteArgs>(args: SelectSubset<T, JenjangDeleteArgs<ExtArgs>>): Prisma__JenjangClient<$Result.GetResult<Prisma.$JenjangPayload<ExtArgs>, T, "delete">, never, ExtArgs>
-
-    /**
-     * Update one Jenjang.
-     * @param {JenjangUpdateArgs} args - Arguments to update one Jenjang.
-     * @example
-     * // Update one Jenjang
-     * const jenjang = await prisma.jenjang.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends JenjangUpdateArgs>(args: SelectSubset<T, JenjangUpdateArgs<ExtArgs>>): Prisma__JenjangClient<$Result.GetResult<Prisma.$JenjangPayload<ExtArgs>, T, "update">, never, ExtArgs>
-
-    /**
-     * Delete zero or more Jenjangs.
-     * @param {JenjangDeleteManyArgs} args - Arguments to filter Jenjangs to delete.
-     * @example
-     * // Delete a few Jenjangs
-     * const { count } = await prisma.jenjang.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends JenjangDeleteManyArgs>(args?: SelectSubset<T, JenjangDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Jenjangs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {JenjangUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Jenjangs
-     * const jenjang = await prisma.jenjang.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends JenjangUpdateManyArgs>(args: SelectSubset<T, JenjangUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Jenjang.
-     * @param {JenjangUpsertArgs} args - Arguments to update or create a Jenjang.
-     * @example
-     * // Update or create a Jenjang
-     * const jenjang = await prisma.jenjang.upsert({
-     *   create: {
-     *     // ... data to create a Jenjang
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Jenjang we want to update
-     *   }
-     * })
-     */
-    upsert<T extends JenjangUpsertArgs>(args: SelectSubset<T, JenjangUpsertArgs<ExtArgs>>): Prisma__JenjangClient<$Result.GetResult<Prisma.$JenjangPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
-
-
-    /**
-     * Count the number of Jenjangs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {JenjangCountArgs} args - Arguments to filter Jenjangs to count.
-     * @example
-     * // Count the number of Jenjangs
-     * const count = await prisma.jenjang.count({
-     *   where: {
-     *     // ... the filter for the Jenjangs we want to count
-     *   }
-     * })
-    **/
-    count<T extends JenjangCountArgs>(
-      args?: Subset<T, JenjangCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], JenjangCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Jenjang.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {JenjangAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends JenjangAggregateArgs>(args: Subset<T, JenjangAggregateArgs>): Prisma.PrismaPromise<GetJenjangAggregateType<T>>
-
-    /**
-     * Group by Jenjang.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {JenjangGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends JenjangGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: JenjangGroupByArgs['orderBy'] }
-        : { orderBy?: JenjangGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, JenjangGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetJenjangGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Jenjang model
-   */
-  readonly fields: JenjangFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Jenjang.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__JenjangClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    users<T extends Jenjang$usersArgs<ExtArgs> = {}>(args?: Subset<T, Jenjang$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany"> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Jenjang model
-   */ 
-  interface JenjangFieldRefs {
-    readonly id: FieldRef<"Jenjang", 'String'>
-    readonly code: FieldRef<"Jenjang", 'String'>
-    readonly name: FieldRef<"Jenjang", 'String'>
-    readonly description: FieldRef<"Jenjang", 'String'>
-    readonly createdAt: FieldRef<"Jenjang", 'DateTime'>
-    readonly updatedAt: FieldRef<"Jenjang", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Jenjang findUnique
-   */
-  export type JenjangFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-    /**
-     * Filter, which Jenjang to fetch.
-     */
-    where: JenjangWhereUniqueInput
-  }
-
-  /**
-   * Jenjang findUniqueOrThrow
-   */
-  export type JenjangFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-    /**
-     * Filter, which Jenjang to fetch.
-     */
-    where: JenjangWhereUniqueInput
-  }
-
-  /**
-   * Jenjang findFirst
-   */
-  export type JenjangFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-    /**
-     * Filter, which Jenjang to fetch.
-     */
-    where?: JenjangWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Jenjangs to fetch.
-     */
-    orderBy?: JenjangOrderByWithRelationInput | JenjangOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Jenjangs.
-     */
-    cursor?: JenjangWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Jenjangs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Jenjangs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Jenjangs.
-     */
-    distinct?: JenjangScalarFieldEnum | JenjangScalarFieldEnum[]
-  }
-
-  /**
-   * Jenjang findFirstOrThrow
-   */
-  export type JenjangFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-    /**
-     * Filter, which Jenjang to fetch.
-     */
-    where?: JenjangWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Jenjangs to fetch.
-     */
-    orderBy?: JenjangOrderByWithRelationInput | JenjangOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Jenjangs.
-     */
-    cursor?: JenjangWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Jenjangs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Jenjangs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Jenjangs.
-     */
-    distinct?: JenjangScalarFieldEnum | JenjangScalarFieldEnum[]
-  }
-
-  /**
-   * Jenjang findMany
-   */
-  export type JenjangFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-    /**
-     * Filter, which Jenjangs to fetch.
-     */
-    where?: JenjangWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Jenjangs to fetch.
-     */
-    orderBy?: JenjangOrderByWithRelationInput | JenjangOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Jenjangs.
-     */
-    cursor?: JenjangWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Jenjangs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Jenjangs.
-     */
-    skip?: number
-    distinct?: JenjangScalarFieldEnum | JenjangScalarFieldEnum[]
-  }
-
-  /**
-   * Jenjang create
-   */
-  export type JenjangCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Jenjang.
-     */
-    data: XOR<JenjangCreateInput, JenjangUncheckedCreateInput>
-  }
-
-  /**
-   * Jenjang createMany
-   */
-  export type JenjangCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Jenjangs.
-     */
-    data: JenjangCreateManyInput | JenjangCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Jenjang update
-   */
-  export type JenjangUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Jenjang.
-     */
-    data: XOR<JenjangUpdateInput, JenjangUncheckedUpdateInput>
-    /**
-     * Choose, which Jenjang to update.
-     */
-    where: JenjangWhereUniqueInput
-  }
-
-  /**
-   * Jenjang updateMany
-   */
-  export type JenjangUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Jenjangs.
-     */
-    data: XOR<JenjangUpdateManyMutationInput, JenjangUncheckedUpdateManyInput>
-    /**
-     * Filter which Jenjangs to update
-     */
-    where?: JenjangWhereInput
-  }
-
-  /**
-   * Jenjang upsert
-   */
-  export type JenjangUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Jenjang to update in case it exists.
-     */
-    where: JenjangWhereUniqueInput
-    /**
-     * In case the Jenjang found by the `where` argument doesn't exist, create a new Jenjang with this data.
-     */
-    create: XOR<JenjangCreateInput, JenjangUncheckedCreateInput>
-    /**
-     * In case the Jenjang was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<JenjangUpdateInput, JenjangUncheckedUpdateInput>
-  }
-
-  /**
-   * Jenjang delete
-   */
-  export type JenjangDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-    /**
-     * Filter which Jenjang to delete.
-     */
-    where: JenjangWhereUniqueInput
-  }
-
-  /**
-   * Jenjang deleteMany
-   */
-  export type JenjangDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Jenjangs to delete
-     */
-    where?: JenjangWhereInput
-  }
-
-  /**
-   * Jenjang.users
-   */
-  export type Jenjang$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
-  }
-
-  /**
-   * Jenjang without action
-   */
-  export type JenjangDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Upa
-   */
-
-  export type AggregateUpa = {
-    _count: UpaCountAggregateOutputType | null
-    _min: UpaMinAggregateOutputType | null
-    _max: UpaMaxAggregateOutputType | null
-  }
-
-  export type UpaMinAggregateOutputType = {
-    id: string | null
-    code: string | null
-    name: string | null
-    location: string | null
-    dpcId: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type UpaMaxAggregateOutputType = {
-    id: string | null
-    code: string | null
-    name: string | null
-    location: string | null
-    dpcId: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type UpaCountAggregateOutputType = {
-    id: number
-    code: number
-    name: number
-    location: number
-    dpcId: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type UpaMinAggregateInputType = {
-    id?: true
-    code?: true
-    name?: true
-    location?: true
-    dpcId?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type UpaMaxAggregateInputType = {
-    id?: true
-    code?: true
-    name?: true
-    location?: true
-    dpcId?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type UpaCountAggregateInputType = {
-    id?: true
-    code?: true
-    name?: true
-    location?: true
-    dpcId?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type UpaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Upa to aggregate.
-     */
-    where?: UpaWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Upas to fetch.
-     */
-    orderBy?: UpaOrderByWithRelationInput | UpaOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: UpaWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Upas from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Upas.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Upas
-    **/
-    _count?: true | UpaCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: UpaMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: UpaMaxAggregateInputType
-  }
-
-  export type GetUpaAggregateType<T extends UpaAggregateArgs> = {
-        [P in keyof T & keyof AggregateUpa]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateUpa[P]>
-      : GetScalarType<T[P], AggregateUpa[P]>
-  }
-
-
-
-
-  export type UpaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UpaWhereInput
-    orderBy?: UpaOrderByWithAggregationInput | UpaOrderByWithAggregationInput[]
-    by: UpaScalarFieldEnum[] | UpaScalarFieldEnum
-    having?: UpaScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: UpaCountAggregateInputType | true
-    _min?: UpaMinAggregateInputType
-    _max?: UpaMaxAggregateInputType
-  }
-
-  export type UpaGroupByOutputType = {
-    id: string
-    code: string
-    name: string
-    location: string | null
-    dpcId: string | null
-    createdAt: Date
-    updatedAt: Date
-    _count: UpaCountAggregateOutputType | null
-    _min: UpaMinAggregateOutputType | null
-    _max: UpaMaxAggregateOutputType | null
-  }
-
-  type GetUpaGroupByPayload<T extends UpaGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<UpaGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof UpaGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], UpaGroupByOutputType[P]>
-            : GetScalarType<T[P], UpaGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type UpaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    code?: boolean
-    name?: boolean
-    location?: boolean
-    dpcId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    dpc?: boolean | Upa$dpcArgs<ExtArgs>
-    users?: boolean | Upa$usersArgs<ExtArgs>
-    activities?: boolean | Upa$activitiesArgs<ExtArgs>
-    _count?: boolean | UpaCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["upa"]>
-
-
-  export type UpaSelectScalar = {
-    id?: boolean
-    code?: boolean
-    name?: boolean
-    location?: boolean
-    dpcId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type UpaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    dpc?: boolean | Upa$dpcArgs<ExtArgs>
-    users?: boolean | Upa$usersArgs<ExtArgs>
-    activities?: boolean | Upa$activitiesArgs<ExtArgs>
-    _count?: boolean | UpaCountOutputTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $UpaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Upa"
-    objects: {
-      dpc: Prisma.$DpcPayload<ExtArgs> | null
-      users: Prisma.$UserPayload<ExtArgs>[]
-      activities: Prisma.$ActivityPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      code: string
-      name: string
-      location: string | null
-      dpcId: string | null
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["upa"]>
-    composites: {}
-  }
-
-  type UpaGetPayload<S extends boolean | null | undefined | UpaDefaultArgs> = $Result.GetResult<Prisma.$UpaPayload, S>
-
-  type UpaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<UpaFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: UpaCountAggregateInputType | true
-    }
-
-  export interface UpaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Upa'], meta: { name: 'Upa' } }
-    /**
-     * Find zero or one Upa that matches the filter.
-     * @param {UpaFindUniqueArgs} args - Arguments to find a Upa
-     * @example
-     * // Get one Upa
-     * const upa = await prisma.upa.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends UpaFindUniqueArgs>(args: SelectSubset<T, UpaFindUniqueArgs<ExtArgs>>): Prisma__UpaClient<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
-
-    /**
-     * Find one Upa that matches the filter or throw an error with `error.code='P2025'` 
-     * if no matches were found.
-     * @param {UpaFindUniqueOrThrowArgs} args - Arguments to find a Upa
-     * @example
-     * // Get one Upa
-     * const upa = await prisma.upa.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends UpaFindUniqueOrThrowArgs>(args: SelectSubset<T, UpaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UpaClient<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
-
-    /**
-     * Find the first Upa that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UpaFindFirstArgs} args - Arguments to find a Upa
-     * @example
-     * // Get one Upa
-     * const upa = await prisma.upa.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends UpaFindFirstArgs>(args?: SelectSubset<T, UpaFindFirstArgs<ExtArgs>>): Prisma__UpaClient<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
-
-    /**
-     * Find the first Upa that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UpaFindFirstOrThrowArgs} args - Arguments to find a Upa
-     * @example
-     * // Get one Upa
-     * const upa = await prisma.upa.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends UpaFindFirstOrThrowArgs>(args?: SelectSubset<T, UpaFindFirstOrThrowArgs<ExtArgs>>): Prisma__UpaClient<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
-
-    /**
-     * Find zero or more Upas that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UpaFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Upas
-     * const upas = await prisma.upa.findMany()
-     * 
-     * // Get first 10 Upas
-     * const upas = await prisma.upa.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const upaWithIdOnly = await prisma.upa.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends UpaFindManyArgs>(args?: SelectSubset<T, UpaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "findMany">>
-
-    /**
-     * Create a Upa.
-     * @param {UpaCreateArgs} args - Arguments to create a Upa.
-     * @example
-     * // Create one Upa
-     * const Upa = await prisma.upa.create({
-     *   data: {
-     *     // ... data to create a Upa
-     *   }
-     * })
-     * 
-     */
-    create<T extends UpaCreateArgs>(args: SelectSubset<T, UpaCreateArgs<ExtArgs>>): Prisma__UpaClient<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "create">, never, ExtArgs>
-
-    /**
-     * Create many Upas.
-     * @param {UpaCreateManyArgs} args - Arguments to create many Upas.
-     * @example
-     * // Create many Upas
-     * const upa = await prisma.upa.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends UpaCreateManyArgs>(args?: SelectSubset<T, UpaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Upa.
-     * @param {UpaDeleteArgs} args - Arguments to delete one Upa.
-     * @example
-     * // Delete one Upa
-     * const Upa = await prisma.upa.delete({
-     *   where: {
-     *     // ... filter to delete one Upa
-     *   }
-     * })
-     * 
-     */
-    delete<T extends UpaDeleteArgs>(args: SelectSubset<T, UpaDeleteArgs<ExtArgs>>): Prisma__UpaClient<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "delete">, never, ExtArgs>
-
-    /**
-     * Update one Upa.
-     * @param {UpaUpdateArgs} args - Arguments to update one Upa.
-     * @example
-     * // Update one Upa
-     * const upa = await prisma.upa.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends UpaUpdateArgs>(args: SelectSubset<T, UpaUpdateArgs<ExtArgs>>): Prisma__UpaClient<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "update">, never, ExtArgs>
-
-    /**
-     * Delete zero or more Upas.
-     * @param {UpaDeleteManyArgs} args - Arguments to filter Upas to delete.
-     * @example
-     * // Delete a few Upas
-     * const { count } = await prisma.upa.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends UpaDeleteManyArgs>(args?: SelectSubset<T, UpaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Upas.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UpaUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Upas
-     * const upa = await prisma.upa.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends UpaUpdateManyArgs>(args: SelectSubset<T, UpaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Upa.
-     * @param {UpaUpsertArgs} args - Arguments to update or create a Upa.
-     * @example
-     * // Update or create a Upa
-     * const upa = await prisma.upa.upsert({
-     *   create: {
-     *     // ... data to create a Upa
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Upa we want to update
-     *   }
-     * })
-     */
-    upsert<T extends UpaUpsertArgs>(args: SelectSubset<T, UpaUpsertArgs<ExtArgs>>): Prisma__UpaClient<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
-
-
-    /**
-     * Count the number of Upas.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UpaCountArgs} args - Arguments to filter Upas to count.
-     * @example
-     * // Count the number of Upas
-     * const count = await prisma.upa.count({
-     *   where: {
-     *     // ... the filter for the Upas we want to count
-     *   }
-     * })
-    **/
-    count<T extends UpaCountArgs>(
-      args?: Subset<T, UpaCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], UpaCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Upa.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UpaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends UpaAggregateArgs>(args: Subset<T, UpaAggregateArgs>): Prisma.PrismaPromise<GetUpaAggregateType<T>>
-
-    /**
-     * Group by Upa.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UpaGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends UpaGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UpaGroupByArgs['orderBy'] }
-        : { orderBy?: UpaGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, UpaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUpaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Upa model
-   */
-  readonly fields: UpaFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Upa.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__UpaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    dpc<T extends Upa$dpcArgs<ExtArgs> = {}>(args?: Subset<T, Upa$dpcArgs<ExtArgs>>): Prisma__DpcClient<$Result.GetResult<Prisma.$DpcPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
-    users<T extends Upa$usersArgs<ExtArgs> = {}>(args?: Subset<T, Upa$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany"> | Null>
-    activities<T extends Upa$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Upa$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Upa model
-   */ 
-  interface UpaFieldRefs {
-    readonly id: FieldRef<"Upa", 'String'>
-    readonly code: FieldRef<"Upa", 'String'>
-    readonly name: FieldRef<"Upa", 'String'>
-    readonly location: FieldRef<"Upa", 'String'>
-    readonly dpcId: FieldRef<"Upa", 'String'>
-    readonly createdAt: FieldRef<"Upa", 'DateTime'>
-    readonly updatedAt: FieldRef<"Upa", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Upa findUnique
-   */
-  export type UpaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    /**
-     * Filter, which Upa to fetch.
-     */
-    where: UpaWhereUniqueInput
-  }
-
-  /**
-   * Upa findUniqueOrThrow
-   */
-  export type UpaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    /**
-     * Filter, which Upa to fetch.
-     */
-    where: UpaWhereUniqueInput
-  }
-
-  /**
-   * Upa findFirst
-   */
-  export type UpaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    /**
-     * Filter, which Upa to fetch.
-     */
-    where?: UpaWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Upas to fetch.
-     */
-    orderBy?: UpaOrderByWithRelationInput | UpaOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Upas.
-     */
-    cursor?: UpaWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Upas from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Upas.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Upas.
-     */
-    distinct?: UpaScalarFieldEnum | UpaScalarFieldEnum[]
-  }
-
-  /**
-   * Upa findFirstOrThrow
-   */
-  export type UpaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    /**
-     * Filter, which Upa to fetch.
-     */
-    where?: UpaWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Upas to fetch.
-     */
-    orderBy?: UpaOrderByWithRelationInput | UpaOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Upas.
-     */
-    cursor?: UpaWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Upas from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Upas.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Upas.
-     */
-    distinct?: UpaScalarFieldEnum | UpaScalarFieldEnum[]
-  }
-
-  /**
-   * Upa findMany
-   */
-  export type UpaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    /**
-     * Filter, which Upas to fetch.
-     */
-    where?: UpaWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Upas to fetch.
-     */
-    orderBy?: UpaOrderByWithRelationInput | UpaOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Upas.
-     */
-    cursor?: UpaWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Upas from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Upas.
-     */
-    skip?: number
-    distinct?: UpaScalarFieldEnum | UpaScalarFieldEnum[]
-  }
-
-  /**
-   * Upa create
-   */
-  export type UpaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Upa.
-     */
-    data: XOR<UpaCreateInput, UpaUncheckedCreateInput>
-  }
-
-  /**
-   * Upa createMany
-   */
-  export type UpaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Upas.
-     */
-    data: UpaCreateManyInput | UpaCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Upa update
-   */
-  export type UpaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Upa.
-     */
-    data: XOR<UpaUpdateInput, UpaUncheckedUpdateInput>
-    /**
-     * Choose, which Upa to update.
-     */
-    where: UpaWhereUniqueInput
-  }
-
-  /**
-   * Upa updateMany
-   */
-  export type UpaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Upas.
-     */
-    data: XOR<UpaUpdateManyMutationInput, UpaUncheckedUpdateManyInput>
-    /**
-     * Filter which Upas to update
-     */
-    where?: UpaWhereInput
-  }
-
-  /**
-   * Upa upsert
-   */
-  export type UpaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Upa to update in case it exists.
-     */
-    where: UpaWhereUniqueInput
-    /**
-     * In case the Upa found by the `where` argument doesn't exist, create a new Upa with this data.
-     */
-    create: XOR<UpaCreateInput, UpaUncheckedCreateInput>
-    /**
-     * In case the Upa was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<UpaUpdateInput, UpaUncheckedUpdateInput>
-  }
-
-  /**
-   * Upa delete
-   */
-  export type UpaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    /**
-     * Filter which Upa to delete.
-     */
-    where: UpaWhereUniqueInput
-  }
-
-  /**
-   * Upa deleteMany
-   */
-  export type UpaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Upas to delete
-     */
-    where?: UpaWhereInput
-  }
-
-  /**
-   * Upa.dpc
-   */
-  export type Upa$dpcArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-    where?: DpcWhereInput
-  }
-
-  /**
-   * Upa.users
-   */
-  export type Upa$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
-  }
-
-  /**
-   * Upa.activities
-   */
-  export type Upa$activitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Activity
-     */
-    select?: ActivitySelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ActivityInclude<ExtArgs> | null
-    where?: ActivityWhereInput
-    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
-    cursor?: ActivityWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
-  }
-
-  /**
-   * Upa without action
-   */
-  export type UpaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Dpc
-   */
-
-  export type AggregateDpc = {
-    _count: DpcCountAggregateOutputType | null
-    _min: DpcMinAggregateOutputType | null
-    _max: DpcMaxAggregateOutputType | null
-  }
-
-  export type DpcMinAggregateOutputType = {
-    id: string | null
-    kodeDpc: string | null
-    namaDpc: string | null
-    isActive: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type DpcMaxAggregateOutputType = {
-    id: string | null
-    kodeDpc: string | null
-    namaDpc: string | null
-    isActive: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type DpcCountAggregateOutputType = {
-    id: number
-    kodeDpc: number
-    namaDpc: number
-    isActive: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type DpcMinAggregateInputType = {
-    id?: true
-    kodeDpc?: true
-    namaDpc?: true
-    isActive?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type DpcMaxAggregateInputType = {
-    id?: true
-    kodeDpc?: true
-    namaDpc?: true
-    isActive?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type DpcCountAggregateInputType = {
-    id?: true
-    kodeDpc?: true
-    namaDpc?: true
-    isActive?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type DpcAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Dpc to aggregate.
-     */
-    where?: DpcWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Dpcs to fetch.
-     */
-    orderBy?: DpcOrderByWithRelationInput | DpcOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: DpcWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Dpcs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Dpcs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Dpcs
-    **/
-    _count?: true | DpcCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: DpcMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: DpcMaxAggregateInputType
-  }
-
-  export type GetDpcAggregateType<T extends DpcAggregateArgs> = {
-        [P in keyof T & keyof AggregateDpc]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateDpc[P]>
-      : GetScalarType<T[P], AggregateDpc[P]>
-  }
-
-
-
-
-  export type DpcGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DpcWhereInput
-    orderBy?: DpcOrderByWithAggregationInput | DpcOrderByWithAggregationInput[]
-    by: DpcScalarFieldEnum[] | DpcScalarFieldEnum
-    having?: DpcScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: DpcCountAggregateInputType | true
-    _min?: DpcMinAggregateInputType
-    _max?: DpcMaxAggregateInputType
-  }
-
-  export type DpcGroupByOutputType = {
-    id: string
-    kodeDpc: string
-    namaDpc: string
-    isActive: boolean
-    createdAt: Date
-    updatedAt: Date
-    _count: DpcCountAggregateOutputType | null
-    _min: DpcMinAggregateOutputType | null
-    _max: DpcMaxAggregateOutputType | null
-  }
-
-  type GetDpcGroupByPayload<T extends DpcGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<DpcGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof DpcGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], DpcGroupByOutputType[P]>
-            : GetScalarType<T[P], DpcGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type DpcSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    kodeDpc?: boolean
-    namaDpc?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    upas?: boolean | Dpc$upasArgs<ExtArgs>
-    _count?: boolean | DpcCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["dpc"]>
-
-
-  export type DpcSelectScalar = {
-    id?: boolean
-    kodeDpc?: boolean
-    namaDpc?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type DpcInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    upas?: boolean | Dpc$upasArgs<ExtArgs>
-    _count?: boolean | DpcCountOutputTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $DpcPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Dpc"
-    objects: {
-      upas: Prisma.$UpaPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      kodeDpc: string
-      namaDpc: string
-      isActive: boolean
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["dpc"]>
-    composites: {}
-  }
-
-  type DpcGetPayload<S extends boolean | null | undefined | DpcDefaultArgs> = $Result.GetResult<Prisma.$DpcPayload, S>
-
-  type DpcCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<DpcFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: DpcCountAggregateInputType | true
-    }
-
-  export interface DpcDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Dpc'], meta: { name: 'Dpc' } }
-    /**
-     * Find zero or one Dpc that matches the filter.
-     * @param {DpcFindUniqueArgs} args - Arguments to find a Dpc
-     * @example
-     * // Get one Dpc
-     * const dpc = await prisma.dpc.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends DpcFindUniqueArgs>(args: SelectSubset<T, DpcFindUniqueArgs<ExtArgs>>): Prisma__DpcClient<$Result.GetResult<Prisma.$DpcPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
-
-    /**
-     * Find one Dpc that matches the filter or throw an error with `error.code='P2025'` 
-     * if no matches were found.
-     * @param {DpcFindUniqueOrThrowArgs} args - Arguments to find a Dpc
-     * @example
-     * // Get one Dpc
-     * const dpc = await prisma.dpc.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends DpcFindUniqueOrThrowArgs>(args: SelectSubset<T, DpcFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DpcClient<$Result.GetResult<Prisma.$DpcPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
-
-    /**
-     * Find the first Dpc that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DpcFindFirstArgs} args - Arguments to find a Dpc
-     * @example
-     * // Get one Dpc
-     * const dpc = await prisma.dpc.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends DpcFindFirstArgs>(args?: SelectSubset<T, DpcFindFirstArgs<ExtArgs>>): Prisma__DpcClient<$Result.GetResult<Prisma.$DpcPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
-
-    /**
-     * Find the first Dpc that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DpcFindFirstOrThrowArgs} args - Arguments to find a Dpc
-     * @example
-     * // Get one Dpc
-     * const dpc = await prisma.dpc.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends DpcFindFirstOrThrowArgs>(args?: SelectSubset<T, DpcFindFirstOrThrowArgs<ExtArgs>>): Prisma__DpcClient<$Result.GetResult<Prisma.$DpcPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
-
-    /**
-     * Find zero or more Dpcs that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DpcFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Dpcs
-     * const dpcs = await prisma.dpc.findMany()
-     * 
-     * // Get first 10 Dpcs
-     * const dpcs = await prisma.dpc.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const dpcWithIdOnly = await prisma.dpc.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends DpcFindManyArgs>(args?: SelectSubset<T, DpcFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DpcPayload<ExtArgs>, T, "findMany">>
-
-    /**
-     * Create a Dpc.
-     * @param {DpcCreateArgs} args - Arguments to create a Dpc.
-     * @example
-     * // Create one Dpc
-     * const Dpc = await prisma.dpc.create({
-     *   data: {
-     *     // ... data to create a Dpc
-     *   }
-     * })
-     * 
-     */
-    create<T extends DpcCreateArgs>(args: SelectSubset<T, DpcCreateArgs<ExtArgs>>): Prisma__DpcClient<$Result.GetResult<Prisma.$DpcPayload<ExtArgs>, T, "create">, never, ExtArgs>
-
-    /**
-     * Create many Dpcs.
-     * @param {DpcCreateManyArgs} args - Arguments to create many Dpcs.
-     * @example
-     * // Create many Dpcs
-     * const dpc = await prisma.dpc.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends DpcCreateManyArgs>(args?: SelectSubset<T, DpcCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Dpc.
-     * @param {DpcDeleteArgs} args - Arguments to delete one Dpc.
-     * @example
-     * // Delete one Dpc
-     * const Dpc = await prisma.dpc.delete({
-     *   where: {
-     *     // ... filter to delete one Dpc
-     *   }
-     * })
-     * 
-     */
-    delete<T extends DpcDeleteArgs>(args: SelectSubset<T, DpcDeleteArgs<ExtArgs>>): Prisma__DpcClient<$Result.GetResult<Prisma.$DpcPayload<ExtArgs>, T, "delete">, never, ExtArgs>
-
-    /**
-     * Update one Dpc.
-     * @param {DpcUpdateArgs} args - Arguments to update one Dpc.
-     * @example
-     * // Update one Dpc
-     * const dpc = await prisma.dpc.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends DpcUpdateArgs>(args: SelectSubset<T, DpcUpdateArgs<ExtArgs>>): Prisma__DpcClient<$Result.GetResult<Prisma.$DpcPayload<ExtArgs>, T, "update">, never, ExtArgs>
-
-    /**
-     * Delete zero or more Dpcs.
-     * @param {DpcDeleteManyArgs} args - Arguments to filter Dpcs to delete.
-     * @example
-     * // Delete a few Dpcs
-     * const { count } = await prisma.dpc.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends DpcDeleteManyArgs>(args?: SelectSubset<T, DpcDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Dpcs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DpcUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Dpcs
-     * const dpc = await prisma.dpc.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends DpcUpdateManyArgs>(args: SelectSubset<T, DpcUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Dpc.
-     * @param {DpcUpsertArgs} args - Arguments to update or create a Dpc.
-     * @example
-     * // Update or create a Dpc
-     * const dpc = await prisma.dpc.upsert({
-     *   create: {
-     *     // ... data to create a Dpc
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Dpc we want to update
-     *   }
-     * })
-     */
-    upsert<T extends DpcUpsertArgs>(args: SelectSubset<T, DpcUpsertArgs<ExtArgs>>): Prisma__DpcClient<$Result.GetResult<Prisma.$DpcPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
-
-
-    /**
-     * Count the number of Dpcs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DpcCountArgs} args - Arguments to filter Dpcs to count.
-     * @example
-     * // Count the number of Dpcs
-     * const count = await prisma.dpc.count({
-     *   where: {
-     *     // ... the filter for the Dpcs we want to count
-     *   }
-     * })
-    **/
-    count<T extends DpcCountArgs>(
-      args?: Subset<T, DpcCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], DpcCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Dpc.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DpcAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends DpcAggregateArgs>(args: Subset<T, DpcAggregateArgs>): Prisma.PrismaPromise<GetDpcAggregateType<T>>
-
-    /**
-     * Group by Dpc.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DpcGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends DpcGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: DpcGroupByArgs['orderBy'] }
-        : { orderBy?: DpcGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, DpcGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDpcGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Dpc model
-   */
-  readonly fields: DpcFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Dpc.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__DpcClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    upas<T extends Dpc$upasArgs<ExtArgs> = {}>(args?: Subset<T, Dpc$upasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "findMany"> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Dpc model
-   */ 
-  interface DpcFieldRefs {
-    readonly id: FieldRef<"Dpc", 'String'>
-    readonly kodeDpc: FieldRef<"Dpc", 'String'>
-    readonly namaDpc: FieldRef<"Dpc", 'String'>
-    readonly isActive: FieldRef<"Dpc", 'Boolean'>
-    readonly createdAt: FieldRef<"Dpc", 'DateTime'>
-    readonly updatedAt: FieldRef<"Dpc", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Dpc findUnique
-   */
-  export type DpcFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-    /**
-     * Filter, which Dpc to fetch.
-     */
-    where: DpcWhereUniqueInput
-  }
-
-  /**
-   * Dpc findUniqueOrThrow
-   */
-  export type DpcFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-    /**
-     * Filter, which Dpc to fetch.
-     */
-    where: DpcWhereUniqueInput
-  }
-
-  /**
-   * Dpc findFirst
-   */
-  export type DpcFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-    /**
-     * Filter, which Dpc to fetch.
-     */
-    where?: DpcWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Dpcs to fetch.
-     */
-    orderBy?: DpcOrderByWithRelationInput | DpcOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Dpcs.
-     */
-    cursor?: DpcWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Dpcs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Dpcs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Dpcs.
-     */
-    distinct?: DpcScalarFieldEnum | DpcScalarFieldEnum[]
-  }
-
-  /**
-   * Dpc findFirstOrThrow
-   */
-  export type DpcFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-    /**
-     * Filter, which Dpc to fetch.
-     */
-    where?: DpcWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Dpcs to fetch.
-     */
-    orderBy?: DpcOrderByWithRelationInput | DpcOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Dpcs.
-     */
-    cursor?: DpcWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Dpcs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Dpcs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Dpcs.
-     */
-    distinct?: DpcScalarFieldEnum | DpcScalarFieldEnum[]
-  }
-
-  /**
-   * Dpc findMany
-   */
-  export type DpcFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-    /**
-     * Filter, which Dpcs to fetch.
-     */
-    where?: DpcWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Dpcs to fetch.
-     */
-    orderBy?: DpcOrderByWithRelationInput | DpcOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Dpcs.
-     */
-    cursor?: DpcWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Dpcs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Dpcs.
-     */
-    skip?: number
-    distinct?: DpcScalarFieldEnum | DpcScalarFieldEnum[]
-  }
-
-  /**
-   * Dpc create
-   */
-  export type DpcCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Dpc.
-     */
-    data: XOR<DpcCreateInput, DpcUncheckedCreateInput>
-  }
-
-  /**
-   * Dpc createMany
-   */
-  export type DpcCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Dpcs.
-     */
-    data: DpcCreateManyInput | DpcCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Dpc update
-   */
-  export type DpcUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Dpc.
-     */
-    data: XOR<DpcUpdateInput, DpcUncheckedUpdateInput>
-    /**
-     * Choose, which Dpc to update.
-     */
-    where: DpcWhereUniqueInput
-  }
-
-  /**
-   * Dpc updateMany
-   */
-  export type DpcUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Dpcs.
-     */
-    data: XOR<DpcUpdateManyMutationInput, DpcUncheckedUpdateManyInput>
-    /**
-     * Filter which Dpcs to update
-     */
-    where?: DpcWhereInput
-  }
-
-  /**
-   * Dpc upsert
-   */
-  export type DpcUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Dpc to update in case it exists.
-     */
-    where: DpcWhereUniqueInput
-    /**
-     * In case the Dpc found by the `where` argument doesn't exist, create a new Dpc with this data.
-     */
-    create: XOR<DpcCreateInput, DpcUncheckedCreateInput>
-    /**
-     * In case the Dpc was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<DpcUpdateInput, DpcUncheckedUpdateInput>
-  }
-
-  /**
-   * Dpc delete
-   */
-  export type DpcDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-    /**
-     * Filter which Dpc to delete.
-     */
-    where: DpcWhereUniqueInput
-  }
-
-  /**
-   * Dpc deleteMany
-   */
-  export type DpcDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Dpcs to delete
-     */
-    where?: DpcWhereInput
-  }
-
-  /**
-   * Dpc.upas
-   */
-  export type Dpc$upasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    where?: UpaWhereInput
-    orderBy?: UpaOrderByWithRelationInput | UpaOrderByWithRelationInput[]
-    cursor?: UpaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UpaScalarFieldEnum | UpaScalarFieldEnum[]
-  }
-
-  /**
-   * Dpc without action
-   */
-  export type DpcDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Dpc
-     */
-    select?: DpcSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DpcInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model User
    */
 
@@ -4910,8 +1770,6 @@ export namespace Prisma {
     employeeId: string | null
     role: $Enums.Role | null
     status: $Enums.UserStatus | null
-    jenjangId: string | null
-    upaId: string | null
     mentorId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4926,8 +1784,6 @@ export namespace Prisma {
     employeeId: string | null
     role: $Enums.Role | null
     status: $Enums.UserStatus | null
-    jenjangId: string | null
-    upaId: string | null
     mentorId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4942,8 +1798,6 @@ export namespace Prisma {
     employeeId: number
     role: number
     status: number
-    jenjangId: number
-    upaId: number
     mentorId: number
     createdAt: number
     updatedAt: number
@@ -4960,8 +1814,6 @@ export namespace Prisma {
     employeeId?: true
     role?: true
     status?: true
-    jenjangId?: true
-    upaId?: true
     mentorId?: true
     createdAt?: true
     updatedAt?: true
@@ -4976,8 +1828,6 @@ export namespace Prisma {
     employeeId?: true
     role?: true
     status?: true
-    jenjangId?: true
-    upaId?: true
     mentorId?: true
     createdAt?: true
     updatedAt?: true
@@ -4992,8 +1842,6 @@ export namespace Prisma {
     employeeId?: true
     role?: true
     status?: true
-    jenjangId?: true
-    upaId?: true
     mentorId?: true
     createdAt?: true
     updatedAt?: true
@@ -5081,8 +1929,6 @@ export namespace Prisma {
     employeeId: string | null
     role: $Enums.Role
     status: $Enums.UserStatus
-    jenjangId: string | null
-    upaId: string | null
     mentorId: string | null
     createdAt: Date
     updatedAt: Date
@@ -5114,13 +1960,9 @@ export namespace Prisma {
     employeeId?: boolean
     role?: boolean
     status?: boolean
-    jenjangId?: boolean
-    upaId?: boolean
     mentorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    jenjang?: boolean | User$jenjangArgs<ExtArgs>
-    upa?: boolean | User$upaArgs<ExtArgs>
     mentor?: boolean | User$mentorArgs<ExtArgs>
     mentees?: boolean | User$menteesArgs<ExtArgs>
     activities?: boolean | User$activitiesArgs<ExtArgs>
@@ -5140,16 +1982,12 @@ export namespace Prisma {
     employeeId?: boolean
     role?: boolean
     status?: boolean
-    jenjangId?: boolean
-    upaId?: boolean
     mentorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    jenjang?: boolean | User$jenjangArgs<ExtArgs>
-    upa?: boolean | User$upaArgs<ExtArgs>
     mentor?: boolean | User$mentorArgs<ExtArgs>
     mentees?: boolean | User$menteesArgs<ExtArgs>
     activities?: boolean | User$activitiesArgs<ExtArgs>
@@ -5162,8 +2000,6 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      jenjang: Prisma.$JenjangPayload<ExtArgs> | null
-      upa: Prisma.$UpaPayload<ExtArgs> | null
       mentor: Prisma.$UserPayload<ExtArgs> | null
       mentees: Prisma.$UserPayload<ExtArgs>[]
       activities: Prisma.$ActivityPayload<ExtArgs>[]
@@ -5180,8 +2016,6 @@ export namespace Prisma {
       employeeId: string | null
       role: $Enums.Role
       status: $Enums.UserStatus
-      jenjangId: string | null
-      upaId: string | null
       mentorId: string | null
       createdAt: Date
       updatedAt: Date
@@ -5525,8 +2359,6 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    jenjang<T extends User$jenjangArgs<ExtArgs> = {}>(args?: Subset<T, User$jenjangArgs<ExtArgs>>): Prisma__JenjangClient<$Result.GetResult<Prisma.$JenjangPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
-    upa<T extends User$upaArgs<ExtArgs> = {}>(args?: Subset<T, User$upaArgs<ExtArgs>>): Prisma__UpaClient<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     mentor<T extends User$mentorArgs<ExtArgs> = {}>(args?: Subset<T, User$mentorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     mentees<T extends User$menteesArgs<ExtArgs> = {}>(args?: Subset<T, User$menteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany"> | Null>
     activities<T extends User$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, User$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
@@ -5570,8 +2402,6 @@ export namespace Prisma {
     readonly employeeId: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly status: FieldRef<"User", 'UserStatus'>
-    readonly jenjangId: FieldRef<"User", 'String'>
-    readonly upaId: FieldRef<"User", 'String'>
     readonly mentorId: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -5874,36 +2704,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.jenjang
-   */
-  export type User$jenjangArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Jenjang
-     */
-    select?: JenjangSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JenjangInclude<ExtArgs> | null
-    where?: JenjangWhereInput
-  }
-
-  /**
-   * User.upa
-   */
-  export type User$upaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Upa
-     */
-    select?: UpaSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UpaInclude<ExtArgs> | null
-    where?: UpaWhereInput
-  }
-
-  /**
    * User.mentor
    */
   export type User$mentorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6070,7 +2870,6 @@ export namespace Prisma {
     longitude: number | null
     radius: number | null
     userId: string | null
-    upaId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     attendanceToken: string | null
@@ -6088,7 +2887,6 @@ export namespace Prisma {
     longitude: number | null
     radius: number | null
     userId: string | null
-    upaId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     attendanceToken: string | null
@@ -6106,7 +2904,6 @@ export namespace Prisma {
     longitude: number
     radius: number
     userId: number
-    upaId: number
     answers: number
     createdAt: number
     updatedAt: number
@@ -6141,7 +2938,6 @@ export namespace Prisma {
     longitude?: true
     radius?: true
     userId?: true
-    upaId?: true
     createdAt?: true
     updatedAt?: true
     attendanceToken?: true
@@ -6159,7 +2955,6 @@ export namespace Prisma {
     longitude?: true
     radius?: true
     userId?: true
-    upaId?: true
     createdAt?: true
     updatedAt?: true
     attendanceToken?: true
@@ -6177,7 +2972,6 @@ export namespace Prisma {
     longitude?: true
     radius?: true
     userId?: true
-    upaId?: true
     answers?: true
     createdAt?: true
     updatedAt?: true
@@ -6283,7 +3077,6 @@ export namespace Prisma {
     longitude: number | null
     radius: number
     userId: string
-    upaId: string
     answers: JsonValue | null
     createdAt: Date
     updatedAt: Date
@@ -6321,14 +3114,12 @@ export namespace Prisma {
     longitude?: boolean
     radius?: boolean
     userId?: boolean
-    upaId?: boolean
     answers?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     attendanceToken?: boolean
     isActive?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    upa?: boolean | UpaDefaultArgs<ExtArgs>
     attendances?: boolean | Activity$attendancesArgs<ExtArgs>
     _count?: boolean | ActivityCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["activity"]>
@@ -6345,7 +3136,6 @@ export namespace Prisma {
     longitude?: boolean
     radius?: boolean
     userId?: boolean
-    upaId?: boolean
     answers?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6355,7 +3145,6 @@ export namespace Prisma {
 
   export type ActivityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    upa?: boolean | UpaDefaultArgs<ExtArgs>
     attendances?: boolean | Activity$attendancesArgs<ExtArgs>
     _count?: boolean | ActivityCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -6364,7 +3153,6 @@ export namespace Prisma {
     name: "Activity"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      upa: Prisma.$UpaPayload<ExtArgs>
       attendances: Prisma.$AttendancePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6378,7 +3166,6 @@ export namespace Prisma {
       longitude: number | null
       radius: number
       userId: string
-      upaId: string
       answers: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
@@ -6725,7 +3512,6 @@ export namespace Prisma {
   export interface Prisma__ActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    upa<T extends UpaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UpaDefaultArgs<ExtArgs>>): Prisma__UpaClient<$Result.GetResult<Prisma.$UpaPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     attendances<T extends Activity$attendancesArgs<ExtArgs> = {}>(args?: Subset<T, Activity$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6766,7 +3552,6 @@ export namespace Prisma {
     readonly longitude: FieldRef<"Activity", 'Float'>
     readonly radius: FieldRef<"Activity", 'Int'>
     readonly userId: FieldRef<"Activity", 'String'>
-    readonly upaId: FieldRef<"Activity", 'String'>
     readonly answers: FieldRef<"Activity", 'Json'>
     readonly createdAt: FieldRef<"Activity", 'DateTime'>
     readonly updatedAt: FieldRef<"Activity", 'DateTime'>
@@ -14305,43 +11090,6 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-  export const JenjangScalarFieldEnum: {
-    id: 'id',
-    code: 'code',
-    name: 'name',
-    description: 'description',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type JenjangScalarFieldEnum = (typeof JenjangScalarFieldEnum)[keyof typeof JenjangScalarFieldEnum]
-
-
-  export const UpaScalarFieldEnum: {
-    id: 'id',
-    code: 'code',
-    name: 'name',
-    location: 'location',
-    dpcId: 'dpcId',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type UpaScalarFieldEnum = (typeof UpaScalarFieldEnum)[keyof typeof UpaScalarFieldEnum]
-
-
-  export const DpcScalarFieldEnum: {
-    id: 'id',
-    kodeDpc: 'kodeDpc',
-    namaDpc: 'namaDpc',
-    isActive: 'isActive',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type DpcScalarFieldEnum = (typeof DpcScalarFieldEnum)[keyof typeof DpcScalarFieldEnum]
-
-
   export const UserScalarFieldEnum: {
     id: 'id',
     email: 'email',
@@ -14351,8 +11099,6 @@ export namespace Prisma {
     employeeId: 'employeeId',
     role: 'role',
     status: 'status',
-    jenjangId: 'jenjangId',
-    upaId: 'upaId',
     mentorId: 'mentorId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -14372,7 +11118,6 @@ export namespace Prisma {
     longitude: 'longitude',
     radius: 'radius',
     userId: 'userId',
-    upaId: 'upaId',
     answers: 'answers',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -14536,20 +11281,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DateTime'
-   */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Role'
    */
   export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -14560,6 +11291,13 @@ export namespace Prisma {
    * Reference to a field of type 'UserStatus'
    */
   export type EnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
     
 
 
@@ -14585,6 +11323,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'TipeJawaban'
    */
   export type EnumTipeJawabanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipeJawaban'>
@@ -14593,197 +11338,6 @@ export namespace Prisma {
    * Deep Input Types
    */
 
-
-  export type JenjangWhereInput = {
-    AND?: JenjangWhereInput | JenjangWhereInput[]
-    OR?: JenjangWhereInput[]
-    NOT?: JenjangWhereInput | JenjangWhereInput[]
-    id?: StringFilter<"Jenjang"> | string
-    code?: StringFilter<"Jenjang"> | string
-    name?: StringFilter<"Jenjang"> | string
-    description?: StringNullableFilter<"Jenjang"> | string | null
-    createdAt?: DateTimeFilter<"Jenjang"> | Date | string
-    updatedAt?: DateTimeFilter<"Jenjang"> | Date | string
-    users?: UserListRelationFilter
-  }
-
-  export type JenjangOrderByWithRelationInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    users?: UserOrderByRelationAggregateInput
-  }
-
-  export type JenjangWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    code?: string
-    AND?: JenjangWhereInput | JenjangWhereInput[]
-    OR?: JenjangWhereInput[]
-    NOT?: JenjangWhereInput | JenjangWhereInput[]
-    name?: StringFilter<"Jenjang"> | string
-    description?: StringNullableFilter<"Jenjang"> | string | null
-    createdAt?: DateTimeFilter<"Jenjang"> | Date | string
-    updatedAt?: DateTimeFilter<"Jenjang"> | Date | string
-    users?: UserListRelationFilter
-  }, "id" | "code">
-
-  export type JenjangOrderByWithAggregationInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: JenjangCountOrderByAggregateInput
-    _max?: JenjangMaxOrderByAggregateInput
-    _min?: JenjangMinOrderByAggregateInput
-  }
-
-  export type JenjangScalarWhereWithAggregatesInput = {
-    AND?: JenjangScalarWhereWithAggregatesInput | JenjangScalarWhereWithAggregatesInput[]
-    OR?: JenjangScalarWhereWithAggregatesInput[]
-    NOT?: JenjangScalarWhereWithAggregatesInput | JenjangScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Jenjang"> | string
-    code?: StringWithAggregatesFilter<"Jenjang"> | string
-    name?: StringWithAggregatesFilter<"Jenjang"> | string
-    description?: StringNullableWithAggregatesFilter<"Jenjang"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"Jenjang"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Jenjang"> | Date | string
-  }
-
-  export type UpaWhereInput = {
-    AND?: UpaWhereInput | UpaWhereInput[]
-    OR?: UpaWhereInput[]
-    NOT?: UpaWhereInput | UpaWhereInput[]
-    id?: StringFilter<"Upa"> | string
-    code?: StringFilter<"Upa"> | string
-    name?: StringFilter<"Upa"> | string
-    location?: StringNullableFilter<"Upa"> | string | null
-    dpcId?: StringNullableFilter<"Upa"> | string | null
-    createdAt?: DateTimeFilter<"Upa"> | Date | string
-    updatedAt?: DateTimeFilter<"Upa"> | Date | string
-    dpc?: XOR<DpcNullableRelationFilter, DpcWhereInput> | null
-    users?: UserListRelationFilter
-    activities?: ActivityListRelationFilter
-  }
-
-  export type UpaOrderByWithRelationInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    location?: SortOrderInput | SortOrder
-    dpcId?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    dpc?: DpcOrderByWithRelationInput
-    users?: UserOrderByRelationAggregateInput
-    activities?: ActivityOrderByRelationAggregateInput
-  }
-
-  export type UpaWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    code?: string
-    AND?: UpaWhereInput | UpaWhereInput[]
-    OR?: UpaWhereInput[]
-    NOT?: UpaWhereInput | UpaWhereInput[]
-    name?: StringFilter<"Upa"> | string
-    location?: StringNullableFilter<"Upa"> | string | null
-    dpcId?: StringNullableFilter<"Upa"> | string | null
-    createdAt?: DateTimeFilter<"Upa"> | Date | string
-    updatedAt?: DateTimeFilter<"Upa"> | Date | string
-    dpc?: XOR<DpcNullableRelationFilter, DpcWhereInput> | null
-    users?: UserListRelationFilter
-    activities?: ActivityListRelationFilter
-  }, "id" | "code">
-
-  export type UpaOrderByWithAggregationInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    location?: SortOrderInput | SortOrder
-    dpcId?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: UpaCountOrderByAggregateInput
-    _max?: UpaMaxOrderByAggregateInput
-    _min?: UpaMinOrderByAggregateInput
-  }
-
-  export type UpaScalarWhereWithAggregatesInput = {
-    AND?: UpaScalarWhereWithAggregatesInput | UpaScalarWhereWithAggregatesInput[]
-    OR?: UpaScalarWhereWithAggregatesInput[]
-    NOT?: UpaScalarWhereWithAggregatesInput | UpaScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Upa"> | string
-    code?: StringWithAggregatesFilter<"Upa"> | string
-    name?: StringWithAggregatesFilter<"Upa"> | string
-    location?: StringNullableWithAggregatesFilter<"Upa"> | string | null
-    dpcId?: StringNullableWithAggregatesFilter<"Upa"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"Upa"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Upa"> | Date | string
-  }
-
-  export type DpcWhereInput = {
-    AND?: DpcWhereInput | DpcWhereInput[]
-    OR?: DpcWhereInput[]
-    NOT?: DpcWhereInput | DpcWhereInput[]
-    id?: StringFilter<"Dpc"> | string
-    kodeDpc?: StringFilter<"Dpc"> | string
-    namaDpc?: StringFilter<"Dpc"> | string
-    isActive?: BoolFilter<"Dpc"> | boolean
-    createdAt?: DateTimeFilter<"Dpc"> | Date | string
-    updatedAt?: DateTimeFilter<"Dpc"> | Date | string
-    upas?: UpaListRelationFilter
-  }
-
-  export type DpcOrderByWithRelationInput = {
-    id?: SortOrder
-    kodeDpc?: SortOrder
-    namaDpc?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    upas?: UpaOrderByRelationAggregateInput
-  }
-
-  export type DpcWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    kodeDpc?: string
-    AND?: DpcWhereInput | DpcWhereInput[]
-    OR?: DpcWhereInput[]
-    NOT?: DpcWhereInput | DpcWhereInput[]
-    namaDpc?: StringFilter<"Dpc"> | string
-    isActive?: BoolFilter<"Dpc"> | boolean
-    createdAt?: DateTimeFilter<"Dpc"> | Date | string
-    updatedAt?: DateTimeFilter<"Dpc"> | Date | string
-    upas?: UpaListRelationFilter
-  }, "id" | "kodeDpc">
-
-  export type DpcOrderByWithAggregationInput = {
-    id?: SortOrder
-    kodeDpc?: SortOrder
-    namaDpc?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: DpcCountOrderByAggregateInput
-    _max?: DpcMaxOrderByAggregateInput
-    _min?: DpcMinOrderByAggregateInput
-  }
-
-  export type DpcScalarWhereWithAggregatesInput = {
-    AND?: DpcScalarWhereWithAggregatesInput | DpcScalarWhereWithAggregatesInput[]
-    OR?: DpcScalarWhereWithAggregatesInput[]
-    NOT?: DpcScalarWhereWithAggregatesInput | DpcScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Dpc"> | string
-    kodeDpc?: StringWithAggregatesFilter<"Dpc"> | string
-    namaDpc?: StringWithAggregatesFilter<"Dpc"> | string
-    isActive?: BoolWithAggregatesFilter<"Dpc"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"Dpc"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Dpc"> | Date | string
-  }
 
   export type UserWhereInput = {
     AND?: UserWhereInput | UserWhereInput[]
@@ -14797,13 +11351,9 @@ export namespace Prisma {
     employeeId?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
-    jenjangId?: StringNullableFilter<"User"> | string | null
-    upaId?: StringNullableFilter<"User"> | string | null
     mentorId?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    jenjang?: XOR<JenjangNullableRelationFilter, JenjangWhereInput> | null
-    upa?: XOR<UpaNullableRelationFilter, UpaWhereInput> | null
     mentor?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     mentees?: UserListRelationFilter
     activities?: ActivityListRelationFilter
@@ -14821,13 +11371,9 @@ export namespace Prisma {
     employeeId?: SortOrderInput | SortOrder
     role?: SortOrder
     status?: SortOrder
-    jenjangId?: SortOrderInput | SortOrder
-    upaId?: SortOrderInput | SortOrder
     mentorId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    jenjang?: JenjangOrderByWithRelationInput
-    upa?: UpaOrderByWithRelationInput
     mentor?: UserOrderByWithRelationInput
     mentees?: UserOrderByRelationAggregateInput
     activities?: ActivityOrderByRelationAggregateInput
@@ -14848,13 +11394,9 @@ export namespace Prisma {
     phoneNumber?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
-    jenjangId?: StringNullableFilter<"User"> | string | null
-    upaId?: StringNullableFilter<"User"> | string | null
     mentorId?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    jenjang?: XOR<JenjangNullableRelationFilter, JenjangWhereInput> | null
-    upa?: XOR<UpaNullableRelationFilter, UpaWhereInput> | null
     mentor?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     mentees?: UserListRelationFilter
     activities?: ActivityListRelationFilter
@@ -14872,8 +11414,6 @@ export namespace Prisma {
     employeeId?: SortOrderInput | SortOrder
     role?: SortOrder
     status?: SortOrder
-    jenjangId?: SortOrderInput | SortOrder
-    upaId?: SortOrderInput | SortOrder
     mentorId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14894,8 +11434,6 @@ export namespace Prisma {
     employeeId?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     status?: EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
-    jenjangId?: StringNullableWithAggregatesFilter<"User"> | string | null
-    upaId?: StringNullableWithAggregatesFilter<"User"> | string | null
     mentorId?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -14915,14 +11453,12 @@ export namespace Prisma {
     longitude?: FloatNullableFilter<"Activity"> | number | null
     radius?: IntFilter<"Activity"> | number
     userId?: StringFilter<"Activity"> | string
-    upaId?: StringFilter<"Activity"> | string
     answers?: JsonNullableFilter<"Activity">
     createdAt?: DateTimeFilter<"Activity"> | Date | string
     updatedAt?: DateTimeFilter<"Activity"> | Date | string
     attendanceToken?: StringNullableFilter<"Activity"> | string | null
     isActive?: BoolFilter<"Activity"> | boolean
     user?: XOR<UserRelationFilter, UserWhereInput>
-    upa?: XOR<UpaRelationFilter, UpaWhereInput>
     attendances?: AttendanceListRelationFilter
   }
 
@@ -14937,14 +11473,12 @@ export namespace Prisma {
     longitude?: SortOrderInput | SortOrder
     radius?: SortOrder
     userId?: SortOrder
-    upaId?: SortOrder
     answers?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     attendanceToken?: SortOrderInput | SortOrder
     isActive?: SortOrder
     user?: UserOrderByWithRelationInput
-    upa?: UpaOrderByWithRelationInput
     attendances?: AttendanceOrderByRelationAggregateInput
   }
 
@@ -14962,14 +11496,12 @@ export namespace Prisma {
     longitude?: FloatNullableFilter<"Activity"> | number | null
     radius?: IntFilter<"Activity"> | number
     userId?: StringFilter<"Activity"> | string
-    upaId?: StringFilter<"Activity"> | string
     answers?: JsonNullableFilter<"Activity">
     createdAt?: DateTimeFilter<"Activity"> | Date | string
     updatedAt?: DateTimeFilter<"Activity"> | Date | string
     attendanceToken?: StringNullableFilter<"Activity"> | string | null
     isActive?: BoolFilter<"Activity"> | boolean
     user?: XOR<UserRelationFilter, UserWhereInput>
-    upa?: XOR<UpaRelationFilter, UpaWhereInput>
     attendances?: AttendanceListRelationFilter
   }, "id">
 
@@ -14984,7 +11516,6 @@ export namespace Prisma {
     longitude?: SortOrderInput | SortOrder
     radius?: SortOrder
     userId?: SortOrder
-    upaId?: SortOrder
     answers?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15011,7 +11542,6 @@ export namespace Prisma {
     longitude?: FloatNullableWithAggregatesFilter<"Activity"> | number | null
     radius?: IntWithAggregatesFilter<"Activity"> | number
     userId?: StringWithAggregatesFilter<"Activity"> | string
-    upaId?: StringWithAggregatesFilter<"Activity"> | string
     answers?: JsonNullableWithAggregatesFilter<"Activity">
     createdAt?: DateTimeWithAggregatesFilter<"Activity"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Activity"> | Date | string
@@ -15555,217 +12085,6 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Presensi"> | Date | string
   }
 
-  export type JenjangCreateInput = {
-    id?: string
-    code: string
-    name: string
-    description?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserCreateNestedManyWithoutJenjangInput
-  }
-
-  export type JenjangUncheckedCreateInput = {
-    id?: string
-    code: string
-    name: string
-    description?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutJenjangInput
-  }
-
-  export type JenjangUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUpdateManyWithoutJenjangNestedInput
-  }
-
-  export type JenjangUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutJenjangNestedInput
-  }
-
-  export type JenjangCreateManyInput = {
-    id?: string
-    code: string
-    name: string
-    description?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type JenjangUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type JenjangUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UpaCreateInput = {
-    id?: string
-    code: string
-    name: string
-    location?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    dpc?: DpcCreateNestedOneWithoutUpasInput
-    users?: UserCreateNestedManyWithoutUpaInput
-    activities?: ActivityCreateNestedManyWithoutUpaInput
-  }
-
-  export type UpaUncheckedCreateInput = {
-    id?: string
-    code: string
-    name: string
-    location?: string | null
-    dpcId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutUpaInput
-    activities?: ActivityUncheckedCreateNestedManyWithoutUpaInput
-  }
-
-  export type UpaUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    dpc?: DpcUpdateOneWithoutUpasNestedInput
-    users?: UserUpdateManyWithoutUpaNestedInput
-    activities?: ActivityUpdateManyWithoutUpaNestedInput
-  }
-
-  export type UpaUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    dpcId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutUpaNestedInput
-    activities?: ActivityUncheckedUpdateManyWithoutUpaNestedInput
-  }
-
-  export type UpaCreateManyInput = {
-    id?: string
-    code: string
-    name: string
-    location?: string | null
-    dpcId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UpaUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UpaUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    dpcId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DpcCreateInput = {
-    id?: string
-    kodeDpc: string
-    namaDpc: string
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    upas?: UpaCreateNestedManyWithoutDpcInput
-  }
-
-  export type DpcUncheckedCreateInput = {
-    id?: string
-    kodeDpc: string
-    namaDpc: string
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    upas?: UpaUncheckedCreateNestedManyWithoutDpcInput
-  }
-
-  export type DpcUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    kodeDpc?: StringFieldUpdateOperationsInput | string
-    namaDpc?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    upas?: UpaUpdateManyWithoutDpcNestedInput
-  }
-
-  export type DpcUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    kodeDpc?: StringFieldUpdateOperationsInput | string
-    namaDpc?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    upas?: UpaUncheckedUpdateManyWithoutDpcNestedInput
-  }
-
-  export type DpcCreateManyInput = {
-    id?: string
-    kodeDpc: string
-    namaDpc: string
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type DpcUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    kodeDpc?: StringFieldUpdateOperationsInput | string
-    namaDpc?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DpcUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    kodeDpc?: StringFieldUpdateOperationsInput | string
-    namaDpc?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type UserCreateInput = {
     id?: string
     email: string
@@ -15777,8 +12096,6 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    jenjang?: JenjangCreateNestedOneWithoutUsersInput
-    upa?: UpaCreateNestedOneWithoutUsersInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     activities?: ActivityCreateNestedManyWithoutUserInput
@@ -15796,8 +12113,6 @@ export namespace Prisma {
     employeeId?: string | null
     role?: $Enums.Role
     status?: $Enums.UserStatus
-    jenjangId?: string | null
-    upaId?: string | null
     mentorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15819,8 +12134,6 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    jenjang?: JenjangUpdateOneWithoutUsersNestedInput
-    upa?: UpaUpdateOneWithoutUsersNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
@@ -15838,8 +12151,6 @@ export namespace Prisma {
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15859,8 +12170,6 @@ export namespace Prisma {
     employeeId?: string | null
     role?: $Enums.Role
     status?: $Enums.UserStatus
-    jenjangId?: string | null
-    upaId?: string | null
     mentorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15888,8 +12197,6 @@ export namespace Prisma {
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15911,7 +12218,6 @@ export namespace Prisma {
     attendanceToken?: string | null
     isActive?: boolean
     user: UserCreateNestedOneWithoutActivitiesInput
-    upa: UpaCreateNestedOneWithoutActivitiesInput
     attendances?: AttendanceCreateNestedManyWithoutActivityInput
   }
 
@@ -15926,7 +12232,6 @@ export namespace Prisma {
     longitude?: number | null
     radius?: number
     userId: string
-    upaId: string
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15951,7 +12256,6 @@ export namespace Prisma {
     attendanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutActivitiesNestedInput
-    upa?: UpaUpdateOneRequiredWithoutActivitiesNestedInput
     attendances?: AttendanceUpdateManyWithoutActivityNestedInput
   }
 
@@ -15966,7 +12270,6 @@ export namespace Prisma {
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     radius?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
-    upaId?: StringFieldUpdateOperationsInput | string
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15986,7 +12289,6 @@ export namespace Prisma {
     longitude?: number | null
     radius?: number
     userId: string
-    upaId: string
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16022,7 +12324,6 @@ export namespace Prisma {
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     radius?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
-    upaId?: StringFieldUpdateOperationsInput | string
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16638,6 +12939,20 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type EnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[]
+    notIn?: $Enums.Role[]
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
+  export type EnumUserStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserStatus | EnumUserStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserStatus[]
+    notIn?: $Enums.UserStatus[]
+    not?: NestedEnumUserStatusFilter<$PrismaModel> | $Enums.UserStatus
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -16649,10 +12964,39 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type UserNullableRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type UserListRelationFilter = {
     every?: UserWhereInput
     some?: UserWhereInput
     none?: UserWhereInput
+  }
+
+  export type ActivityListRelationFilter = {
+    every?: ActivityWhereInput
+    some?: ActivityWhereInput
+    none?: ActivityWhereInput
+  }
+
+  export type AuditLogListRelationFilter = {
+    every?: AuditLogWhereInput
+    some?: AuditLogWhereInput
+    none?: AuditLogWhereInput
+  }
+
+  export type AttendanceListRelationFilter = {
+    every?: AttendanceWhereInput
+    some?: AttendanceWhereInput
+    none?: AttendanceWhereInput
+  }
+
+  export type PresensiListRelationFilter = {
+    every?: PresensiWhereInput
+    some?: PresensiWhereInput
+    none?: PresensiWhereInput
   }
 
   export type SortOrderInput = {
@@ -16664,29 +13008,60 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type JenjangCountOrderByAggregateInput = {
+  export type ActivityOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AuditLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttendanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PresensiOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCountOrderByAggregateInput = {
     id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    fullName?: SortOrder
+    phoneNumber?: SortOrder
+    employeeId?: SortOrder
+    role?: SortOrder
+    status?: SortOrder
+    mentorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type JenjangMaxOrderByAggregateInput = {
+  export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    fullName?: SortOrder
+    phoneNumber?: SortOrder
+    employeeId?: SortOrder
+    role?: SortOrder
+    status?: SortOrder
+    mentorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type JenjangMinOrderByAggregateInput = {
+  export type UserMinOrderByAggregateInput = {
     id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    fullName?: SortOrder
+    phoneNumber?: SortOrder
+    employeeId?: SortOrder
+    role?: SortOrder
+    status?: SortOrder
+    mentorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16725,222 +13100,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type DpcNullableRelationFilter = {
-    is?: DpcWhereInput | null
-    isNot?: DpcWhereInput | null
-  }
-
-  export type ActivityListRelationFilter = {
-    every?: ActivityWhereInput
-    some?: ActivityWhereInput
-    none?: ActivityWhereInput
-  }
-
-  export type ActivityOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type UpaCountOrderByAggregateInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    location?: SortOrder
-    dpcId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type UpaMaxOrderByAggregateInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    location?: SortOrder
-    dpcId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type UpaMinOrderByAggregateInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    location?: SortOrder
-    dpcId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type UpaListRelationFilter = {
-    every?: UpaWhereInput
-    some?: UpaWhereInput
-    none?: UpaWhereInput
-  }
-
-  export type UpaOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type DpcCountOrderByAggregateInput = {
-    id?: SortOrder
-    kodeDpc?: SortOrder
-    namaDpc?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type DpcMaxOrderByAggregateInput = {
-    id?: SortOrder
-    kodeDpc?: SortOrder
-    namaDpc?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type DpcMinOrderByAggregateInput = {
-    id?: SortOrder
-    kodeDpc?: SortOrder
-    namaDpc?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type EnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[]
-    notIn?: $Enums.Role[]
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
-  export type EnumUserStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserStatus | EnumUserStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.UserStatus[]
-    notIn?: $Enums.UserStatus[]
-    not?: NestedEnumUserStatusFilter<$PrismaModel> | $Enums.UserStatus
-  }
-
-  export type JenjangNullableRelationFilter = {
-    is?: JenjangWhereInput | null
-    isNot?: JenjangWhereInput | null
-  }
-
-  export type UpaNullableRelationFilter = {
-    is?: UpaWhereInput | null
-    isNot?: UpaWhereInput | null
-  }
-
-  export type UserNullableRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
-  export type AuditLogListRelationFilter = {
-    every?: AuditLogWhereInput
-    some?: AuditLogWhereInput
-    none?: AuditLogWhereInput
-  }
-
-  export type AttendanceListRelationFilter = {
-    every?: AttendanceWhereInput
-    some?: AttendanceWhereInput
-    none?: AttendanceWhereInput
-  }
-
-  export type PresensiListRelationFilter = {
-    every?: PresensiWhereInput
-    some?: PresensiWhereInput
-    none?: PresensiWhereInput
-  }
-
-  export type AuditLogOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type AttendanceOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type PresensiOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type UserCountOrderByAggregateInput = {
-    id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    fullName?: SortOrder
-    phoneNumber?: SortOrder
-    employeeId?: SortOrder
-    role?: SortOrder
-    status?: SortOrder
-    jenjangId?: SortOrder
-    upaId?: SortOrder
-    mentorId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type UserMaxOrderByAggregateInput = {
-    id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    fullName?: SortOrder
-    phoneNumber?: SortOrder
-    employeeId?: SortOrder
-    role?: SortOrder
-    status?: SortOrder
-    jenjangId?: SortOrder
-    upaId?: SortOrder
-    mentorId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type UserMinOrderByAggregateInput = {
-    id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    fullName?: SortOrder
-    phoneNumber?: SortOrder
-    employeeId?: SortOrder
-    role?: SortOrder
-    status?: SortOrder
-    jenjangId?: SortOrder
-    upaId?: SortOrder
-    mentorId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[]
@@ -16959,6 +13118,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserStatusFilter<$PrismaModel>
     _max?: NestedEnumUserStatusFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -17005,14 +13178,14 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type UserRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
-  }
-
-  export type UpaRelationFilter = {
-    is?: UpaWhereInput
-    isNot?: UpaWhereInput
   }
 
   export type ActivityCountOrderByAggregateInput = {
@@ -17026,7 +13199,6 @@ export namespace Prisma {
     longitude?: SortOrder
     radius?: SortOrder
     userId?: SortOrder
-    upaId?: SortOrder
     answers?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17052,7 +13224,6 @@ export namespace Prisma {
     longitude?: SortOrder
     radius?: SortOrder
     userId?: SortOrder
-    upaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     attendanceToken?: SortOrder
@@ -17070,7 +13241,6 @@ export namespace Prisma {
     longitude?: SortOrder
     radius?: SortOrder
     userId?: SortOrder
-    upaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     attendanceToken?: SortOrder
@@ -17139,6 +13309,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ActivityRelationFilter = {
@@ -17479,218 +13657,6 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type UserCreateNestedManyWithoutJenjangInput = {
-    create?: XOR<UserCreateWithoutJenjangInput, UserUncheckedCreateWithoutJenjangInput> | UserCreateWithoutJenjangInput[] | UserUncheckedCreateWithoutJenjangInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutJenjangInput | UserCreateOrConnectWithoutJenjangInput[]
-    createMany?: UserCreateManyJenjangInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type UserUncheckedCreateNestedManyWithoutJenjangInput = {
-    create?: XOR<UserCreateWithoutJenjangInput, UserUncheckedCreateWithoutJenjangInput> | UserCreateWithoutJenjangInput[] | UserUncheckedCreateWithoutJenjangInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutJenjangInput | UserCreateOrConnectWithoutJenjangInput[]
-    createMany?: UserCreateManyJenjangInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
-  export type UserUpdateManyWithoutJenjangNestedInput = {
-    create?: XOR<UserCreateWithoutJenjangInput, UserUncheckedCreateWithoutJenjangInput> | UserCreateWithoutJenjangInput[] | UserUncheckedCreateWithoutJenjangInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutJenjangInput | UserCreateOrConnectWithoutJenjangInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutJenjangInput | UserUpsertWithWhereUniqueWithoutJenjangInput[]
-    createMany?: UserCreateManyJenjangInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutJenjangInput | UserUpdateWithWhereUniqueWithoutJenjangInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutJenjangInput | UserUpdateManyWithWhereWithoutJenjangInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
-  }
-
-  export type UserUncheckedUpdateManyWithoutJenjangNestedInput = {
-    create?: XOR<UserCreateWithoutJenjangInput, UserUncheckedCreateWithoutJenjangInput> | UserCreateWithoutJenjangInput[] | UserUncheckedCreateWithoutJenjangInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutJenjangInput | UserCreateOrConnectWithoutJenjangInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutJenjangInput | UserUpsertWithWhereUniqueWithoutJenjangInput[]
-    createMany?: UserCreateManyJenjangInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutJenjangInput | UserUpdateWithWhereUniqueWithoutJenjangInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutJenjangInput | UserUpdateManyWithWhereWithoutJenjangInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
-  }
-
-  export type DpcCreateNestedOneWithoutUpasInput = {
-    create?: XOR<DpcCreateWithoutUpasInput, DpcUncheckedCreateWithoutUpasInput>
-    connectOrCreate?: DpcCreateOrConnectWithoutUpasInput
-    connect?: DpcWhereUniqueInput
-  }
-
-  export type UserCreateNestedManyWithoutUpaInput = {
-    create?: XOR<UserCreateWithoutUpaInput, UserUncheckedCreateWithoutUpaInput> | UserCreateWithoutUpaInput[] | UserUncheckedCreateWithoutUpaInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutUpaInput | UserCreateOrConnectWithoutUpaInput[]
-    createMany?: UserCreateManyUpaInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type ActivityCreateNestedManyWithoutUpaInput = {
-    create?: XOR<ActivityCreateWithoutUpaInput, ActivityUncheckedCreateWithoutUpaInput> | ActivityCreateWithoutUpaInput[] | ActivityUncheckedCreateWithoutUpaInput[]
-    connectOrCreate?: ActivityCreateOrConnectWithoutUpaInput | ActivityCreateOrConnectWithoutUpaInput[]
-    createMany?: ActivityCreateManyUpaInputEnvelope
-    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
-  }
-
-  export type UserUncheckedCreateNestedManyWithoutUpaInput = {
-    create?: XOR<UserCreateWithoutUpaInput, UserUncheckedCreateWithoutUpaInput> | UserCreateWithoutUpaInput[] | UserUncheckedCreateWithoutUpaInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutUpaInput | UserCreateOrConnectWithoutUpaInput[]
-    createMany?: UserCreateManyUpaInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type ActivityUncheckedCreateNestedManyWithoutUpaInput = {
-    create?: XOR<ActivityCreateWithoutUpaInput, ActivityUncheckedCreateWithoutUpaInput> | ActivityCreateWithoutUpaInput[] | ActivityUncheckedCreateWithoutUpaInput[]
-    connectOrCreate?: ActivityCreateOrConnectWithoutUpaInput | ActivityCreateOrConnectWithoutUpaInput[]
-    createMany?: ActivityCreateManyUpaInputEnvelope
-    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
-  }
-
-  export type DpcUpdateOneWithoutUpasNestedInput = {
-    create?: XOR<DpcCreateWithoutUpasInput, DpcUncheckedCreateWithoutUpasInput>
-    connectOrCreate?: DpcCreateOrConnectWithoutUpasInput
-    upsert?: DpcUpsertWithoutUpasInput
-    disconnect?: DpcWhereInput | boolean
-    delete?: DpcWhereInput | boolean
-    connect?: DpcWhereUniqueInput
-    update?: XOR<XOR<DpcUpdateToOneWithWhereWithoutUpasInput, DpcUpdateWithoutUpasInput>, DpcUncheckedUpdateWithoutUpasInput>
-  }
-
-  export type UserUpdateManyWithoutUpaNestedInput = {
-    create?: XOR<UserCreateWithoutUpaInput, UserUncheckedCreateWithoutUpaInput> | UserCreateWithoutUpaInput[] | UserUncheckedCreateWithoutUpaInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutUpaInput | UserCreateOrConnectWithoutUpaInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutUpaInput | UserUpsertWithWhereUniqueWithoutUpaInput[]
-    createMany?: UserCreateManyUpaInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutUpaInput | UserUpdateWithWhereUniqueWithoutUpaInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutUpaInput | UserUpdateManyWithWhereWithoutUpaInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
-  }
-
-  export type ActivityUpdateManyWithoutUpaNestedInput = {
-    create?: XOR<ActivityCreateWithoutUpaInput, ActivityUncheckedCreateWithoutUpaInput> | ActivityCreateWithoutUpaInput[] | ActivityUncheckedCreateWithoutUpaInput[]
-    connectOrCreate?: ActivityCreateOrConnectWithoutUpaInput | ActivityCreateOrConnectWithoutUpaInput[]
-    upsert?: ActivityUpsertWithWhereUniqueWithoutUpaInput | ActivityUpsertWithWhereUniqueWithoutUpaInput[]
-    createMany?: ActivityCreateManyUpaInputEnvelope
-    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
-    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
-    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
-    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
-    update?: ActivityUpdateWithWhereUniqueWithoutUpaInput | ActivityUpdateWithWhereUniqueWithoutUpaInput[]
-    updateMany?: ActivityUpdateManyWithWhereWithoutUpaInput | ActivityUpdateManyWithWhereWithoutUpaInput[]
-    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
-  }
-
-  export type UserUncheckedUpdateManyWithoutUpaNestedInput = {
-    create?: XOR<UserCreateWithoutUpaInput, UserUncheckedCreateWithoutUpaInput> | UserCreateWithoutUpaInput[] | UserUncheckedCreateWithoutUpaInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutUpaInput | UserCreateOrConnectWithoutUpaInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutUpaInput | UserUpsertWithWhereUniqueWithoutUpaInput[]
-    createMany?: UserCreateManyUpaInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutUpaInput | UserUpdateWithWhereUniqueWithoutUpaInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutUpaInput | UserUpdateManyWithWhereWithoutUpaInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
-  }
-
-  export type ActivityUncheckedUpdateManyWithoutUpaNestedInput = {
-    create?: XOR<ActivityCreateWithoutUpaInput, ActivityUncheckedCreateWithoutUpaInput> | ActivityCreateWithoutUpaInput[] | ActivityUncheckedCreateWithoutUpaInput[]
-    connectOrCreate?: ActivityCreateOrConnectWithoutUpaInput | ActivityCreateOrConnectWithoutUpaInput[]
-    upsert?: ActivityUpsertWithWhereUniqueWithoutUpaInput | ActivityUpsertWithWhereUniqueWithoutUpaInput[]
-    createMany?: ActivityCreateManyUpaInputEnvelope
-    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
-    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
-    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
-    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
-    update?: ActivityUpdateWithWhereUniqueWithoutUpaInput | ActivityUpdateWithWhereUniqueWithoutUpaInput[]
-    updateMany?: ActivityUpdateManyWithWhereWithoutUpaInput | ActivityUpdateManyWithWhereWithoutUpaInput[]
-    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
-  }
-
-  export type UpaCreateNestedManyWithoutDpcInput = {
-    create?: XOR<UpaCreateWithoutDpcInput, UpaUncheckedCreateWithoutDpcInput> | UpaCreateWithoutDpcInput[] | UpaUncheckedCreateWithoutDpcInput[]
-    connectOrCreate?: UpaCreateOrConnectWithoutDpcInput | UpaCreateOrConnectWithoutDpcInput[]
-    createMany?: UpaCreateManyDpcInputEnvelope
-    connect?: UpaWhereUniqueInput | UpaWhereUniqueInput[]
-  }
-
-  export type UpaUncheckedCreateNestedManyWithoutDpcInput = {
-    create?: XOR<UpaCreateWithoutDpcInput, UpaUncheckedCreateWithoutDpcInput> | UpaCreateWithoutDpcInput[] | UpaUncheckedCreateWithoutDpcInput[]
-    connectOrCreate?: UpaCreateOrConnectWithoutDpcInput | UpaCreateOrConnectWithoutDpcInput[]
-    createMany?: UpaCreateManyDpcInputEnvelope
-    connect?: UpaWhereUniqueInput | UpaWhereUniqueInput[]
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
-  export type UpaUpdateManyWithoutDpcNestedInput = {
-    create?: XOR<UpaCreateWithoutDpcInput, UpaUncheckedCreateWithoutDpcInput> | UpaCreateWithoutDpcInput[] | UpaUncheckedCreateWithoutDpcInput[]
-    connectOrCreate?: UpaCreateOrConnectWithoutDpcInput | UpaCreateOrConnectWithoutDpcInput[]
-    upsert?: UpaUpsertWithWhereUniqueWithoutDpcInput | UpaUpsertWithWhereUniqueWithoutDpcInput[]
-    createMany?: UpaCreateManyDpcInputEnvelope
-    set?: UpaWhereUniqueInput | UpaWhereUniqueInput[]
-    disconnect?: UpaWhereUniqueInput | UpaWhereUniqueInput[]
-    delete?: UpaWhereUniqueInput | UpaWhereUniqueInput[]
-    connect?: UpaWhereUniqueInput | UpaWhereUniqueInput[]
-    update?: UpaUpdateWithWhereUniqueWithoutDpcInput | UpaUpdateWithWhereUniqueWithoutDpcInput[]
-    updateMany?: UpaUpdateManyWithWhereWithoutDpcInput | UpaUpdateManyWithWhereWithoutDpcInput[]
-    deleteMany?: UpaScalarWhereInput | UpaScalarWhereInput[]
-  }
-
-  export type UpaUncheckedUpdateManyWithoutDpcNestedInput = {
-    create?: XOR<UpaCreateWithoutDpcInput, UpaUncheckedCreateWithoutDpcInput> | UpaCreateWithoutDpcInput[] | UpaUncheckedCreateWithoutDpcInput[]
-    connectOrCreate?: UpaCreateOrConnectWithoutDpcInput | UpaCreateOrConnectWithoutDpcInput[]
-    upsert?: UpaUpsertWithWhereUniqueWithoutDpcInput | UpaUpsertWithWhereUniqueWithoutDpcInput[]
-    createMany?: UpaCreateManyDpcInputEnvelope
-    set?: UpaWhereUniqueInput | UpaWhereUniqueInput[]
-    disconnect?: UpaWhereUniqueInput | UpaWhereUniqueInput[]
-    delete?: UpaWhereUniqueInput | UpaWhereUniqueInput[]
-    connect?: UpaWhereUniqueInput | UpaWhereUniqueInput[]
-    update?: UpaUpdateWithWhereUniqueWithoutDpcInput | UpaUpdateWithWhereUniqueWithoutDpcInput[]
-    updateMany?: UpaUpdateManyWithWhereWithoutDpcInput | UpaUpdateManyWithWhereWithoutDpcInput[]
-    deleteMany?: UpaScalarWhereInput | UpaScalarWhereInput[]
-  }
-
-  export type JenjangCreateNestedOneWithoutUsersInput = {
-    create?: XOR<JenjangCreateWithoutUsersInput, JenjangUncheckedCreateWithoutUsersInput>
-    connectOrCreate?: JenjangCreateOrConnectWithoutUsersInput
-    connect?: JenjangWhereUniqueInput
-  }
-
-  export type UpaCreateNestedOneWithoutUsersInput = {
-    create?: XOR<UpaCreateWithoutUsersInput, UpaUncheckedCreateWithoutUsersInput>
-    connectOrCreate?: UpaCreateOrConnectWithoutUsersInput
-    connect?: UpaWhereUniqueInput
-  }
-
   export type UserCreateNestedOneWithoutMenteesInput = {
     create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
     connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
@@ -17767,6 +13733,14 @@ export namespace Prisma {
     connect?: PresensiWhereUniqueInput | PresensiWhereUniqueInput[]
   }
 
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
   }
@@ -17775,24 +13749,8 @@ export namespace Prisma {
     set?: $Enums.UserStatus
   }
 
-  export type JenjangUpdateOneWithoutUsersNestedInput = {
-    create?: XOR<JenjangCreateWithoutUsersInput, JenjangUncheckedCreateWithoutUsersInput>
-    connectOrCreate?: JenjangCreateOrConnectWithoutUsersInput
-    upsert?: JenjangUpsertWithoutUsersInput
-    disconnect?: JenjangWhereInput | boolean
-    delete?: JenjangWhereInput | boolean
-    connect?: JenjangWhereUniqueInput
-    update?: XOR<XOR<JenjangUpdateToOneWithWhereWithoutUsersInput, JenjangUpdateWithoutUsersInput>, JenjangUncheckedUpdateWithoutUsersInput>
-  }
-
-  export type UpaUpdateOneWithoutUsersNestedInput = {
-    create?: XOR<UpaCreateWithoutUsersInput, UpaUncheckedCreateWithoutUsersInput>
-    connectOrCreate?: UpaCreateOrConnectWithoutUsersInput
-    upsert?: UpaUpsertWithoutUsersInput
-    disconnect?: UpaWhereInput | boolean
-    delete?: UpaWhereInput | boolean
-    connect?: UpaWhereUniqueInput
-    update?: XOR<XOR<UpaUpdateToOneWithWhereWithoutUsersInput, UpaUpdateWithoutUsersInput>, UpaUncheckedUpdateWithoutUsersInput>
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type UserUpdateOneWithoutMenteesNestedInput = {
@@ -17951,12 +13909,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type UpaCreateNestedOneWithoutActivitiesInput = {
-    create?: XOR<UpaCreateWithoutActivitiesInput, UpaUncheckedCreateWithoutActivitiesInput>
-    connectOrCreate?: UpaCreateOrConnectWithoutActivitiesInput
-    connect?: UpaWhereUniqueInput
-  }
-
   export type AttendanceCreateNestedManyWithoutActivityInput = {
     create?: XOR<AttendanceCreateWithoutActivityInput, AttendanceUncheckedCreateWithoutActivityInput> | AttendanceCreateWithoutActivityInput[] | AttendanceUncheckedCreateWithoutActivityInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutActivityInput | AttendanceCreateOrConnectWithoutActivityInput[]
@@ -17987,20 +13939,16 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type UserUpdateOneRequiredWithoutActivitiesNestedInput = {
     create?: XOR<UserCreateWithoutActivitiesInput, UserUncheckedCreateWithoutActivitiesInput>
     connectOrCreate?: UserCreateOrConnectWithoutActivitiesInput
     upsert?: UserUpsertWithoutActivitiesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutActivitiesInput, UserUpdateWithoutActivitiesInput>, UserUncheckedUpdateWithoutActivitiesInput>
-  }
-
-  export type UpaUpdateOneRequiredWithoutActivitiesNestedInput = {
-    create?: XOR<UpaCreateWithoutActivitiesInput, UpaUncheckedCreateWithoutActivitiesInput>
-    connectOrCreate?: UpaCreateOrConnectWithoutActivitiesInput
-    upsert?: UpaUpsertWithoutActivitiesInput
-    connect?: UpaWhereUniqueInput
-    update?: XOR<XOR<UpaUpdateToOneWithWhereWithoutActivitiesInput, UpaUpdateWithoutActivitiesInput>, UpaUncheckedUpdateWithoutActivitiesInput>
   }
 
   export type AttendanceUpdateManyWithoutActivityNestedInput = {
@@ -18179,6 +14127,20 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[]
+    notIn?: $Enums.Role[]
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
+  export type NestedEnumUserStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserStatus | EnumUserStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserStatus[]
+    notIn?: $Enums.UserStatus[]
+    not?: NestedEnumUserStatusFilter<$PrismaModel> | $Enums.UserStatus
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -18246,47 +14208,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[]
-    notIn?: $Enums.Role[]
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
-  export type NestedEnumUserStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserStatus | EnumUserStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.UserStatus[]
-    notIn?: $Enums.UserStatus[]
-    not?: NestedEnumUserStatusFilter<$PrismaModel> | $Enums.UserStatus
-  }
-
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[]
@@ -18307,6 +14228,20 @@ export namespace Prisma {
     _max?: NestedEnumUserStatusFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -18316,6 +14251,11 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -18383,6 +14323,14 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedEnumTipeJawabanFilter<$PrismaModel = never> = {
     equals?: $Enums.TipeJawaban | EnumTipeJawabanFieldRefInput<$PrismaModel>
     in?: $Enums.TipeJawaban[]
@@ -18425,406 +14373,6 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type UserCreateWithoutJenjangInput = {
-    id?: string
-    email: string
-    password: string
-    fullName: string
-    phoneNumber?: string | null
-    employeeId?: string | null
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    upa?: UpaCreateNestedOneWithoutUsersInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
-    activities?: ActivityCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
-    attendances?: AttendanceCreateNestedManyWithoutUserInput
-    presensi?: PresensiCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutJenjangInput = {
-    id?: string
-    email: string
-    password: string
-    fullName: string
-    phoneNumber?: string | null
-    employeeId?: string | null
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    upaId?: string | null
-    mentorId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-    activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
-    attendances?: AttendanceUncheckedCreateNestedManyWithoutUserInput
-    presensi?: PresensiUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutJenjangInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutJenjangInput, UserUncheckedCreateWithoutJenjangInput>
-  }
-
-  export type UserCreateManyJenjangInputEnvelope = {
-    data: UserCreateManyJenjangInput | UserCreateManyJenjangInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserUpsertWithWhereUniqueWithoutJenjangInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutJenjangInput, UserUncheckedUpdateWithoutJenjangInput>
-    create: XOR<UserCreateWithoutJenjangInput, UserUncheckedCreateWithoutJenjangInput>
-  }
-
-  export type UserUpdateWithWhereUniqueWithoutJenjangInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutJenjangInput, UserUncheckedUpdateWithoutJenjangInput>
-  }
-
-  export type UserUpdateManyWithWhereWithoutJenjangInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutJenjangInput>
-  }
-
-  export type UserScalarWhereInput = {
-    AND?: UserScalarWhereInput | UserScalarWhereInput[]
-    OR?: UserScalarWhereInput[]
-    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
-    fullName?: StringFilter<"User"> | string
-    phoneNumber?: StringNullableFilter<"User"> | string | null
-    employeeId?: StringNullableFilter<"User"> | string | null
-    role?: EnumRoleFilter<"User"> | $Enums.Role
-    status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
-    jenjangId?: StringNullableFilter<"User"> | string | null
-    upaId?: StringNullableFilter<"User"> | string | null
-    mentorId?: StringNullableFilter<"User"> | string | null
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-  }
-
-  export type DpcCreateWithoutUpasInput = {
-    id?: string
-    kodeDpc: string
-    namaDpc: string
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type DpcUncheckedCreateWithoutUpasInput = {
-    id?: string
-    kodeDpc: string
-    namaDpc: string
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type DpcCreateOrConnectWithoutUpasInput = {
-    where: DpcWhereUniqueInput
-    create: XOR<DpcCreateWithoutUpasInput, DpcUncheckedCreateWithoutUpasInput>
-  }
-
-  export type UserCreateWithoutUpaInput = {
-    id?: string
-    email: string
-    password: string
-    fullName: string
-    phoneNumber?: string | null
-    employeeId?: string | null
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    jenjang?: JenjangCreateNestedOneWithoutUsersInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
-    activities?: ActivityCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
-    attendances?: AttendanceCreateNestedManyWithoutUserInput
-    presensi?: PresensiCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutUpaInput = {
-    id?: string
-    email: string
-    password: string
-    fullName: string
-    phoneNumber?: string | null
-    employeeId?: string | null
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    jenjangId?: string | null
-    mentorId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-    activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
-    attendances?: AttendanceUncheckedCreateNestedManyWithoutUserInput
-    presensi?: PresensiUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutUpaInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutUpaInput, UserUncheckedCreateWithoutUpaInput>
-  }
-
-  export type UserCreateManyUpaInputEnvelope = {
-    data: UserCreateManyUpaInput | UserCreateManyUpaInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ActivityCreateWithoutUpaInput = {
-    id?: string
-    title: string
-    description?: string | null
-    date: Date | string
-    location?: string | null
-    flag?: number
-    latitude?: number | null
-    longitude?: number | null
-    radius?: number
-    answers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attendanceToken?: string | null
-    isActive?: boolean
-    user: UserCreateNestedOneWithoutActivitiesInput
-    attendances?: AttendanceCreateNestedManyWithoutActivityInput
-  }
-
-  export type ActivityUncheckedCreateWithoutUpaInput = {
-    id?: string
-    title: string
-    description?: string | null
-    date: Date | string
-    location?: string | null
-    flag?: number
-    latitude?: number | null
-    longitude?: number | null
-    radius?: number
-    userId: string
-    answers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attendanceToken?: string | null
-    isActive?: boolean
-    attendances?: AttendanceUncheckedCreateNestedManyWithoutActivityInput
-  }
-
-  export type ActivityCreateOrConnectWithoutUpaInput = {
-    where: ActivityWhereUniqueInput
-    create: XOR<ActivityCreateWithoutUpaInput, ActivityUncheckedCreateWithoutUpaInput>
-  }
-
-  export type ActivityCreateManyUpaInputEnvelope = {
-    data: ActivityCreateManyUpaInput | ActivityCreateManyUpaInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type DpcUpsertWithoutUpasInput = {
-    update: XOR<DpcUpdateWithoutUpasInput, DpcUncheckedUpdateWithoutUpasInput>
-    create: XOR<DpcCreateWithoutUpasInput, DpcUncheckedCreateWithoutUpasInput>
-    where?: DpcWhereInput
-  }
-
-  export type DpcUpdateToOneWithWhereWithoutUpasInput = {
-    where?: DpcWhereInput
-    data: XOR<DpcUpdateWithoutUpasInput, DpcUncheckedUpdateWithoutUpasInput>
-  }
-
-  export type DpcUpdateWithoutUpasInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    kodeDpc?: StringFieldUpdateOperationsInput | string
-    namaDpc?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DpcUncheckedUpdateWithoutUpasInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    kodeDpc?: StringFieldUpdateOperationsInput | string
-    namaDpc?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserUpsertWithWhereUniqueWithoutUpaInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutUpaInput, UserUncheckedUpdateWithoutUpaInput>
-    create: XOR<UserCreateWithoutUpaInput, UserUncheckedCreateWithoutUpaInput>
-  }
-
-  export type UserUpdateWithWhereUniqueWithoutUpaInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutUpaInput, UserUncheckedUpdateWithoutUpaInput>
-  }
-
-  export type UserUpdateManyWithWhereWithoutUpaInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutUpaInput>
-  }
-
-  export type ActivityUpsertWithWhereUniqueWithoutUpaInput = {
-    where: ActivityWhereUniqueInput
-    update: XOR<ActivityUpdateWithoutUpaInput, ActivityUncheckedUpdateWithoutUpaInput>
-    create: XOR<ActivityCreateWithoutUpaInput, ActivityUncheckedCreateWithoutUpaInput>
-  }
-
-  export type ActivityUpdateWithWhereUniqueWithoutUpaInput = {
-    where: ActivityWhereUniqueInput
-    data: XOR<ActivityUpdateWithoutUpaInput, ActivityUncheckedUpdateWithoutUpaInput>
-  }
-
-  export type ActivityUpdateManyWithWhereWithoutUpaInput = {
-    where: ActivityScalarWhereInput
-    data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutUpaInput>
-  }
-
-  export type ActivityScalarWhereInput = {
-    AND?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
-    OR?: ActivityScalarWhereInput[]
-    NOT?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
-    id?: StringFilter<"Activity"> | string
-    title?: StringFilter<"Activity"> | string
-    description?: StringNullableFilter<"Activity"> | string | null
-    date?: DateTimeFilter<"Activity"> | Date | string
-    location?: StringNullableFilter<"Activity"> | string | null
-    flag?: IntFilter<"Activity"> | number
-    latitude?: FloatNullableFilter<"Activity"> | number | null
-    longitude?: FloatNullableFilter<"Activity"> | number | null
-    radius?: IntFilter<"Activity"> | number
-    userId?: StringFilter<"Activity"> | string
-    upaId?: StringFilter<"Activity"> | string
-    answers?: JsonNullableFilter<"Activity">
-    createdAt?: DateTimeFilter<"Activity"> | Date | string
-    updatedAt?: DateTimeFilter<"Activity"> | Date | string
-    attendanceToken?: StringNullableFilter<"Activity"> | string | null
-    isActive?: BoolFilter<"Activity"> | boolean
-  }
-
-  export type UpaCreateWithoutDpcInput = {
-    id?: string
-    code: string
-    name: string
-    location?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserCreateNestedManyWithoutUpaInput
-    activities?: ActivityCreateNestedManyWithoutUpaInput
-  }
-
-  export type UpaUncheckedCreateWithoutDpcInput = {
-    id?: string
-    code: string
-    name: string
-    location?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutUpaInput
-    activities?: ActivityUncheckedCreateNestedManyWithoutUpaInput
-  }
-
-  export type UpaCreateOrConnectWithoutDpcInput = {
-    where: UpaWhereUniqueInput
-    create: XOR<UpaCreateWithoutDpcInput, UpaUncheckedCreateWithoutDpcInput>
-  }
-
-  export type UpaCreateManyDpcInputEnvelope = {
-    data: UpaCreateManyDpcInput | UpaCreateManyDpcInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UpaUpsertWithWhereUniqueWithoutDpcInput = {
-    where: UpaWhereUniqueInput
-    update: XOR<UpaUpdateWithoutDpcInput, UpaUncheckedUpdateWithoutDpcInput>
-    create: XOR<UpaCreateWithoutDpcInput, UpaUncheckedCreateWithoutDpcInput>
-  }
-
-  export type UpaUpdateWithWhereUniqueWithoutDpcInput = {
-    where: UpaWhereUniqueInput
-    data: XOR<UpaUpdateWithoutDpcInput, UpaUncheckedUpdateWithoutDpcInput>
-  }
-
-  export type UpaUpdateManyWithWhereWithoutDpcInput = {
-    where: UpaScalarWhereInput
-    data: XOR<UpaUpdateManyMutationInput, UpaUncheckedUpdateManyWithoutDpcInput>
-  }
-
-  export type UpaScalarWhereInput = {
-    AND?: UpaScalarWhereInput | UpaScalarWhereInput[]
-    OR?: UpaScalarWhereInput[]
-    NOT?: UpaScalarWhereInput | UpaScalarWhereInput[]
-    id?: StringFilter<"Upa"> | string
-    code?: StringFilter<"Upa"> | string
-    name?: StringFilter<"Upa"> | string
-    location?: StringNullableFilter<"Upa"> | string | null
-    dpcId?: StringNullableFilter<"Upa"> | string | null
-    createdAt?: DateTimeFilter<"Upa"> | Date | string
-    updatedAt?: DateTimeFilter<"Upa"> | Date | string
-  }
-
-  export type JenjangCreateWithoutUsersInput = {
-    id?: string
-    code: string
-    name: string
-    description?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type JenjangUncheckedCreateWithoutUsersInput = {
-    id?: string
-    code: string
-    name: string
-    description?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type JenjangCreateOrConnectWithoutUsersInput = {
-    where: JenjangWhereUniqueInput
-    create: XOR<JenjangCreateWithoutUsersInput, JenjangUncheckedCreateWithoutUsersInput>
-  }
-
-  export type UpaCreateWithoutUsersInput = {
-    id?: string
-    code: string
-    name: string
-    location?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    dpc?: DpcCreateNestedOneWithoutUpasInput
-    activities?: ActivityCreateNestedManyWithoutUpaInput
-  }
-
-  export type UpaUncheckedCreateWithoutUsersInput = {
-    id?: string
-    code: string
-    name: string
-    location?: string | null
-    dpcId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    activities?: ActivityUncheckedCreateNestedManyWithoutUpaInput
-  }
-
-  export type UpaCreateOrConnectWithoutUsersInput = {
-    where: UpaWhereUniqueInput
-    create: XOR<UpaCreateWithoutUsersInput, UpaUncheckedCreateWithoutUsersInput>
-  }
-
   export type UserCreateWithoutMenteesInput = {
     id?: string
     email: string
@@ -18836,8 +14384,6 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    jenjang?: JenjangCreateNestedOneWithoutUsersInput
-    upa?: UpaCreateNestedOneWithoutUsersInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
@@ -18854,8 +14400,6 @@ export namespace Prisma {
     employeeId?: string | null
     role?: $Enums.Role
     status?: $Enums.UserStatus
-    jenjangId?: string | null
-    upaId?: string | null
     mentorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18881,8 +14425,6 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    jenjang?: JenjangCreateNestedOneWithoutUsersInput
-    upa?: UpaCreateNestedOneWithoutUsersInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
@@ -18899,8 +14441,6 @@ export namespace Prisma {
     employeeId?: string | null
     role?: $Enums.Role
     status?: $Enums.UserStatus
-    jenjangId?: string | null
-    upaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -18935,7 +14475,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     attendanceToken?: string | null
     isActive?: boolean
-    upa: UpaCreateNestedOneWithoutActivitiesInput
     attendances?: AttendanceCreateNestedManyWithoutActivityInput
   }
 
@@ -18949,7 +14488,6 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     radius?: number
-    upaId: string
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19058,68 +14596,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type JenjangUpsertWithoutUsersInput = {
-    update: XOR<JenjangUpdateWithoutUsersInput, JenjangUncheckedUpdateWithoutUsersInput>
-    create: XOR<JenjangCreateWithoutUsersInput, JenjangUncheckedCreateWithoutUsersInput>
-    where?: JenjangWhereInput
-  }
-
-  export type JenjangUpdateToOneWithWhereWithoutUsersInput = {
-    where?: JenjangWhereInput
-    data: XOR<JenjangUpdateWithoutUsersInput, JenjangUncheckedUpdateWithoutUsersInput>
-  }
-
-  export type JenjangUpdateWithoutUsersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type JenjangUncheckedUpdateWithoutUsersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UpaUpsertWithoutUsersInput = {
-    update: XOR<UpaUpdateWithoutUsersInput, UpaUncheckedUpdateWithoutUsersInput>
-    create: XOR<UpaCreateWithoutUsersInput, UpaUncheckedCreateWithoutUsersInput>
-    where?: UpaWhereInput
-  }
-
-  export type UpaUpdateToOneWithWhereWithoutUsersInput = {
-    where?: UpaWhereInput
-    data: XOR<UpaUpdateWithoutUsersInput, UpaUncheckedUpdateWithoutUsersInput>
-  }
-
-  export type UpaUpdateWithoutUsersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    dpc?: DpcUpdateOneWithoutUpasNestedInput
-    activities?: ActivityUpdateManyWithoutUpaNestedInput
-  }
-
-  export type UpaUncheckedUpdateWithoutUsersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    dpcId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    activities?: ActivityUncheckedUpdateManyWithoutUpaNestedInput
-  }
-
   export type UserUpsertWithoutMenteesInput = {
     update: XOR<UserUpdateWithoutMenteesInput, UserUncheckedUpdateWithoutMenteesInput>
     create: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
@@ -19142,8 +14618,6 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    jenjang?: JenjangUpdateOneWithoutUsersNestedInput
-    upa?: UpaUpdateOneWithoutUsersNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
@@ -19160,8 +14634,6 @@ export namespace Prisma {
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19187,6 +14659,23 @@ export namespace Prisma {
     data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutMentorInput>
   }
 
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
+    fullName?: StringFilter<"User"> | string
+    phoneNumber?: StringNullableFilter<"User"> | string | null
+    employeeId?: StringNullableFilter<"User"> | string | null
+    role?: EnumRoleFilter<"User"> | $Enums.Role
+    status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
+    mentorId?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+  }
+
   export type ActivityUpsertWithWhereUniqueWithoutUserInput = {
     where: ActivityWhereUniqueInput
     update: XOR<ActivityUpdateWithoutUserInput, ActivityUncheckedUpdateWithoutUserInput>
@@ -19201,6 +14690,27 @@ export namespace Prisma {
   export type ActivityUpdateManyWithWhereWithoutUserInput = {
     where: ActivityScalarWhereInput
     data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ActivityScalarWhereInput = {
+    AND?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+    OR?: ActivityScalarWhereInput[]
+    NOT?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+    id?: StringFilter<"Activity"> | string
+    title?: StringFilter<"Activity"> | string
+    description?: StringNullableFilter<"Activity"> | string | null
+    date?: DateTimeFilter<"Activity"> | Date | string
+    location?: StringNullableFilter<"Activity"> | string | null
+    flag?: IntFilter<"Activity"> | number
+    latitude?: FloatNullableFilter<"Activity"> | number | null
+    longitude?: FloatNullableFilter<"Activity"> | number | null
+    radius?: IntFilter<"Activity"> | number
+    userId?: StringFilter<"Activity"> | string
+    answers?: JsonNullableFilter<"Activity">
+    createdAt?: DateTimeFilter<"Activity"> | Date | string
+    updatedAt?: DateTimeFilter<"Activity"> | Date | string
+    attendanceToken?: StringNullableFilter<"Activity"> | string | null
+    isActive?: BoolFilter<"Activity"> | boolean
   }
 
   export type AuditLogUpsertWithWhereUniqueWithoutUserInput = {
@@ -19304,8 +14814,6 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    jenjang?: JenjangCreateNestedOneWithoutUsersInput
-    upa?: UpaCreateNestedOneWithoutUsersInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
@@ -19322,8 +14830,6 @@ export namespace Prisma {
     employeeId?: string | null
     role?: $Enums.Role
     status?: $Enums.UserStatus
-    jenjangId?: string | null
-    upaId?: string | null
     mentorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19336,33 +14842,6 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutActivitiesInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutActivitiesInput, UserUncheckedCreateWithoutActivitiesInput>
-  }
-
-  export type UpaCreateWithoutActivitiesInput = {
-    id?: string
-    code: string
-    name: string
-    location?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    dpc?: DpcCreateNestedOneWithoutUpasInput
-    users?: UserCreateNestedManyWithoutUpaInput
-  }
-
-  export type UpaUncheckedCreateWithoutActivitiesInput = {
-    id?: string
-    code: string
-    name: string
-    location?: string | null
-    dpcId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutUpaInput
-  }
-
-  export type UpaCreateOrConnectWithoutActivitiesInput = {
-    where: UpaWhereUniqueInput
-    create: XOR<UpaCreateWithoutActivitiesInput, UpaUncheckedCreateWithoutActivitiesInput>
   }
 
   export type AttendanceCreateWithoutActivityInput = {
@@ -19411,8 +14890,6 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    jenjang?: JenjangUpdateOneWithoutUsersNestedInput
-    upa?: UpaUpdateOneWithoutUsersNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
@@ -19429,8 +14906,6 @@ export namespace Prisma {
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19438,39 +14913,6 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     attendances?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
     presensi?: PresensiUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UpaUpsertWithoutActivitiesInput = {
-    update: XOR<UpaUpdateWithoutActivitiesInput, UpaUncheckedUpdateWithoutActivitiesInput>
-    create: XOR<UpaCreateWithoutActivitiesInput, UpaUncheckedCreateWithoutActivitiesInput>
-    where?: UpaWhereInput
-  }
-
-  export type UpaUpdateToOneWithWhereWithoutActivitiesInput = {
-    where?: UpaWhereInput
-    data: XOR<UpaUpdateWithoutActivitiesInput, UpaUncheckedUpdateWithoutActivitiesInput>
-  }
-
-  export type UpaUpdateWithoutActivitiesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    dpc?: DpcUpdateOneWithoutUpasNestedInput
-    users?: UserUpdateManyWithoutUpaNestedInput
-  }
-
-  export type UpaUncheckedUpdateWithoutActivitiesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    dpcId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutUpaNestedInput
   }
 
   export type AttendanceUpsertWithWhereUniqueWithoutActivityInput = {
@@ -19500,8 +14942,6 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    jenjang?: JenjangCreateNestedOneWithoutUsersInput
-    upa?: UpaCreateNestedOneWithoutUsersInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     activities?: ActivityCreateNestedManyWithoutUserInput
@@ -19518,8 +14958,6 @@ export namespace Prisma {
     employeeId?: string | null
     role?: $Enums.Role
     status?: $Enums.UserStatus
-    jenjangId?: string | null
-    upaId?: string | null
     mentorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19550,7 +14988,6 @@ export namespace Prisma {
     attendanceToken?: string | null
     isActive?: boolean
     user: UserCreateNestedOneWithoutActivitiesInput
-    upa: UpaCreateNestedOneWithoutActivitiesInput
   }
 
   export type ActivityUncheckedCreateWithoutAttendancesInput = {
@@ -19564,7 +15001,6 @@ export namespace Prisma {
     longitude?: number | null
     radius?: number
     userId: string
-    upaId: string
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19599,8 +15035,6 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    jenjang?: JenjangUpdateOneWithoutUsersNestedInput
-    upa?: UpaUpdateOneWithoutUsersNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
@@ -19617,8 +15051,6 @@ export namespace Prisma {
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19655,7 +15087,6 @@ export namespace Prisma {
     attendanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutActivitiesNestedInput
-    upa?: UpaUpdateOneRequiredWithoutActivitiesNestedInput
   }
 
   export type ActivityUncheckedUpdateWithoutAttendancesInput = {
@@ -19669,7 +15100,6 @@ export namespace Prisma {
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     radius?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
-    upaId?: StringFieldUpdateOperationsInput | string
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19688,8 +15118,6 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    jenjang?: JenjangCreateNestedOneWithoutUsersInput
-    upa?: UpaCreateNestedOneWithoutUsersInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     activities?: ActivityCreateNestedManyWithoutUserInput
@@ -19706,8 +15134,6 @@ export namespace Prisma {
     employeeId?: string | null
     role?: $Enums.Role
     status?: $Enums.UserStatus
-    jenjangId?: string | null
-    upaId?: string | null
     mentorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19744,8 +15170,6 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    jenjang?: JenjangUpdateOneWithoutUsersNestedInput
-    upa?: UpaUpdateOneWithoutUsersNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
@@ -19762,8 +15186,6 @@ export namespace Prisma {
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19888,8 +15310,6 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    jenjang?: JenjangCreateNestedOneWithoutUsersInput
-    upa?: UpaCreateNestedOneWithoutUsersInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     activities?: ActivityCreateNestedManyWithoutUserInput
@@ -19906,8 +15326,6 @@ export namespace Prisma {
     employeeId?: string | null
     role?: $Enums.Role
     status?: $Enums.UserStatus
-    jenjangId?: string | null
-    upaId?: string | null
     mentorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19944,8 +15362,6 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    jenjang?: JenjangUpdateOneWithoutUsersNestedInput
-    upa?: UpaUpdateOneWithoutUsersNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
@@ -19962,8 +15378,6 @@ export namespace Prisma {
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19971,260 +15385,6 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     attendances?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserCreateManyJenjangInput = {
-    id?: string
-    email: string
-    password: string
-    fullName: string
-    phoneNumber?: string | null
-    employeeId?: string | null
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    upaId?: string | null
-    mentorId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserUpdateWithoutJenjangInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    upa?: UpaUpdateOneWithoutUsersNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
-    activities?: ActivityUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
-    attendances?: AttendanceUpdateManyWithoutUserNestedInput
-    presensi?: PresensiUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutJenjangInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-    activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
-    attendances?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
-    presensi?: PresensiUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateManyWithoutJenjangInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserCreateManyUpaInput = {
-    id?: string
-    email: string
-    password: string
-    fullName: string
-    phoneNumber?: string | null
-    employeeId?: string | null
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    jenjangId?: string | null
-    mentorId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ActivityCreateManyUpaInput = {
-    id?: string
-    title: string
-    description?: string | null
-    date: Date | string
-    location?: string | null
-    flag?: number
-    latitude?: number | null
-    longitude?: number | null
-    radius?: number
-    userId: string
-    answers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attendanceToken?: string | null
-    isActive?: boolean
-  }
-
-  export type UserUpdateWithoutUpaInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    jenjang?: JenjangUpdateOneWithoutUsersNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
-    activities?: ActivityUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
-    attendances?: AttendanceUpdateManyWithoutUserNestedInput
-    presensi?: PresensiUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutUpaInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-    activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
-    attendances?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
-    presensi?: PresensiUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateManyWithoutUpaInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ActivityUpdateWithoutUpaInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    flag?: IntFieldUpdateOperationsInput | number
-    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    radius?: IntFieldUpdateOperationsInput | number
-    answers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attendanceToken?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    user?: UserUpdateOneRequiredWithoutActivitiesNestedInput
-    attendances?: AttendanceUpdateManyWithoutActivityNestedInput
-  }
-
-  export type ActivityUncheckedUpdateWithoutUpaInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    flag?: IntFieldUpdateOperationsInput | number
-    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    radius?: IntFieldUpdateOperationsInput | number
-    userId?: StringFieldUpdateOperationsInput | string
-    answers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attendanceToken?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    attendances?: AttendanceUncheckedUpdateManyWithoutActivityNestedInput
-  }
-
-  export type ActivityUncheckedUpdateManyWithoutUpaInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    flag?: IntFieldUpdateOperationsInput | number
-    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    radius?: IntFieldUpdateOperationsInput | number
-    userId?: StringFieldUpdateOperationsInput | string
-    answers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attendanceToken?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type UpaCreateManyDpcInput = {
-    id?: string
-    code: string
-    name: string
-    location?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UpaUpdateWithoutDpcInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUpdateManyWithoutUpaNestedInput
-    activities?: ActivityUpdateManyWithoutUpaNestedInput
-  }
-
-  export type UpaUncheckedUpdateWithoutDpcInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutUpaNestedInput
-    activities?: ActivityUncheckedUpdateManyWithoutUpaNestedInput
-  }
-
-  export type UpaUncheckedUpdateManyWithoutDpcInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateManyMentorInput = {
@@ -20236,8 +15396,6 @@ export namespace Prisma {
     employeeId?: string | null
     role?: $Enums.Role
     status?: $Enums.UserStatus
-    jenjangId?: string | null
-    upaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20252,7 +15410,6 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     radius?: number
-    upaId: string
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20301,8 +15458,6 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    jenjang?: JenjangUpdateOneWithoutUsersNestedInput
-    upa?: UpaUpdateOneWithoutUsersNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
@@ -20319,8 +15474,6 @@ export namespace Prisma {
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -20339,8 +15492,6 @@ export namespace Prisma {
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    jenjangId?: NullableStringFieldUpdateOperationsInput | string | null
-    upaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20360,7 +15511,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attendanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    upa?: UpaUpdateOneRequiredWithoutActivitiesNestedInput
     attendances?: AttendanceUpdateManyWithoutActivityNestedInput
   }
 
@@ -20374,7 +15524,6 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     radius?: IntFieldUpdateOperationsInput | number
-    upaId?: StringFieldUpdateOperationsInput | string
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20393,7 +15542,6 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     radius?: IntFieldUpdateOperationsInput | number
-    upaId?: StringFieldUpdateOperationsInput | string
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20549,18 +15697,6 @@ export namespace Prisma {
    * Aliases for legacy arg types
    */
     /**
-     * @deprecated Use JenjangCountOutputTypeDefaultArgs instead
-     */
-    export type JenjangCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = JenjangCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use UpaCountOutputTypeDefaultArgs instead
-     */
-    export type UpaCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UpaCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use DpcCountOutputTypeDefaultArgs instead
-     */
-    export type DpcCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DpcCountOutputTypeDefaultArgs<ExtArgs>
-    /**
      * @deprecated Use UserCountOutputTypeDefaultArgs instead
      */
     export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -20572,18 +15708,6 @@ export namespace Prisma {
      * @deprecated Use MenuCountOutputTypeDefaultArgs instead
      */
     export type MenuCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MenuCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use JenjangDefaultArgs instead
-     */
-    export type JenjangArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = JenjangDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use UpaDefaultArgs instead
-     */
-    export type UpaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UpaDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use DpcDefaultArgs instead
-     */
-    export type DpcArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DpcDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */

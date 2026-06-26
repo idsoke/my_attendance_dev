@@ -11,10 +11,8 @@ datasource db {
 // Enums
 enum Role {
   ADMIN
-  EDITOR
-  USER
-  PENGGUNA
-  SEKRETARIS
+  MANAGER
+  EMPLOYEE
 }
 
 enum UserStatus {
@@ -22,42 +20,6 @@ enum UserStatus {
   ACTIVE
   INACTIVE
   SUSPENDED
-}
-
-// Master Data: Jenjang (Level)
-model Jenjang {
-  id          String   @id @default(cuid())
-  code        String   @unique // Kode Jenjang
-  name        String // Nama Jenjang
-  description String?
-  users       User[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-// Master Data: UPA (Unit/Group)
-model Upa {
-  id         String     @id @default(cuid())
-  code       String     @unique // Kode UPA
-  name       String // Nama UPA
-  location   String?
-  dpcId      String?
-  dpc        Dpc?       @relation(fields: [dpcId], references: [id])
-  users      User[]
-  activities Activity[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-}
-
-// Master Data: DPC
-model Dpc {
-  id        String   @id @default(cuid())
-  kodeDpc   String   @unique
-  namaDpc   String
-  isActive  Boolean  @default(true)
-  upas      Upa[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 // User Management
@@ -68,15 +30,8 @@ model User {
   fullName    String // Nama
   phoneNumber String? // No Telepon
   employeeId  String?    @unique // NIK / ID Karyawan
-  role        Role       @default(USER)
+  role        Role       @default(EMPLOYEE)
   status      UserStatus @default(ACTIVE)
-
-  // Relations
-  jenjangId String? // Kode Jenjang (Relation)
-  jenjang   Jenjang? @relation(fields: [jenjangId], references: [id])
-
-  upaId String? // Group UPA (Relation)
-  upa   Upa?    @relation(fields: [upaId], references: [id])
 
   // Self-relation for "Pembimbing" logic (optional, or implicit by UPA role)
   mentorId String?
@@ -107,9 +62,6 @@ model Activity {
   // Metadata
   userId String
   user   User   @relation(fields: [userId], references: [id])
-
-  upaId String // Snapshot of UPA at time of activity (or current)
-  upa   Upa    @relation(fields: [upaId], references: [id])
 
   answers Json? // Dynamic answers for Master Pertanyaan
 

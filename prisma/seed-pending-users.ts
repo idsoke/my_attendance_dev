@@ -14,7 +14,7 @@ async function main() {
             password,
             fullName: "John Doe",
             phoneNumber: "081234567801",
-            role: "USER" as const,
+            role: "EMPLOYEE" as const,
             status: "PENDING" as const,
         },
         {
@@ -22,7 +22,7 @@ async function main() {
             password,
             fullName: "Jane Smith",
             phoneNumber: "081234567802",
-            role: "USER" as const,
+            role: "EMPLOYEE" as const,
             status: "PENDING" as const,
         },
         {
@@ -30,7 +30,7 @@ async function main() {
             password,
             fullName: "Bob Wilson",
             phoneNumber: "081234567803",
-            role: "USER" as const,
+            role: "EMPLOYEE" as const,
             status: "PENDING" as const,
         },
     ]

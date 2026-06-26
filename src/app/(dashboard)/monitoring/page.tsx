@@ -21,9 +21,6 @@ interface Activity {
         fullName: string
         email: string
     }
-    upa: {
-        name: string
-    }
     answers?: Record<string, any>
 }
 
@@ -43,11 +40,6 @@ interface User {
     fullName: string
 }
 
-interface Upa {
-    id: string
-    name: string
-}
-
 export default function MonitoringPage() {
     const { data: session } = useSession()
     const [activities, setActivities] = useState<Activity[]>([])
@@ -57,15 +49,9 @@ export default function MonitoringPage() {
     const [searchText, setSearchText] = useState("")
     const [selectedUser, setSelectedUser] = useState("")
     const [selectedUserName, setSelectedUserName] = useState("")
-    const [selectedUpa, setSelectedUpa] = useState("")
-    const [selectedUpaName, setSelectedUpaName] = useState("")
     const [users, setUsers] = useState<User[]>([])
-    const [upas, setUpas] = useState<Upa[]>([])
     const [showUserLookup, setShowUserLookup] = useState(false)
     const [userSearchText, setUserSearchText] = useState("")
-
-    const [showUpaLookup, setShowUpaLookup] = useState(false)
-    const [upaSearchText, setUpaSearchText] = useState("")
     const [lookupContext, setLookupContext] = useState<"filter" | "form">("filter")
 
     // Pagination
@@ -89,7 +75,6 @@ export default function MonitoringPage() {
     // Pertanyaan for "Monitoring" type
     const [pertanyaans, setPertanyaans] = useState<Pertanyaan[]>([])
     const [answers, setAnswers] = useState<Record<string, any>>({})
-    const [masterData, setMasterData] = useState<Record<string, any[]>>({})
     const [globalStartDate, setGlobalStartDate] = useState<Date>(new Date("2026-01-01"))
 
     useEffect(() => {
@@ -97,7 +82,6 @@ export default function MonitoringPage() {
         fetchActivities()
         fetchPertanyaans()
         fetchUsers()
-        fetchUpas()
     }, [])
 
     const fetchConfig = async () => {
@@ -138,16 +122,6 @@ export default function MonitoringPage() {
         }
     }
 
-    const fetchUpas = async () => {
-        try {
-            const res = await apiClient("/api/master/upas")
-            const data = await res.json()
-            setUpas(data || [])
-        } catch (error) {
-            console.error("Error fetching upas:", error)
-        }
-    }
-
     const fetchPertanyaans = async () => {
         try {
             const res = await apiClient("/api/master/pertanyaan")
@@ -168,35 +142,8 @@ export default function MonitoringPage() {
             const dedupedQuestions = Array.from(uniqueQuestions.values());
 
             setPertanyaans(dedupedQuestions)
-
-            const sourcesToFetch = new Set<string>()
-            dedupedQuestions.forEach((p: Pertanyaan) => {
-                if (p.tipeJawaban === "LISTBOX" && p.sourceList) {
-                    sourcesToFetch.add(p.sourceList)
-                }
-            })
-            sourcesToFetch.forEach(source => fetchMasterSource(source))
         } catch (error) {
             console.error("Error fetching pertanyaan:", error)
-        }
-    }
-
-    const fetchMasterSource = async (source: string) => {
-        try {
-            let endpoint = ""
-            if (source === "DPC") endpoint = "/api/master/dpc"
-            else if (source === "UPA") endpoint = "/api/master/upas"
-            else if (source === "JENJANG") endpoint = "/api/master/jenjangs"
-
-            if (endpoint) {
-                const res = await apiClient(endpoint)
-                if (res.ok) {
-                    const data = await res.json()
-                    setMasterData(prev => ({ ...prev, [source]: data }))
-                }
-            }
-        } catch (error) {
-            console.error(`Error fetching master source ${source}:`, error)
         }
     }
 
@@ -324,10 +271,6 @@ export default function MonitoringPage() {
 
     const getAnswerDisplay = (p: Pertanyaan, value: any) => {
         if (!value) return "-"
-        if (p.tipeJawaban === "LISTBOX" && p.sourceList && masterData[p.sourceList]) {
-            const item = masterData[p.sourceList].find((i: any) => i.id === value || i.code === value || i.name === value)
-            return item ? (item.name || item.namaDpc || value) : value
-        }
         return value
     }
 
@@ -337,13 +280,12 @@ export default function MonitoringPage() {
             item.title.toLowerCase().includes(searchText.toLowerCase()) ||
             item.description?.toLowerCase().includes(searchText.toLowerCase())
 
-        if (session?.user?.role === "USER") {
+        if (session?.user?.role === "EMPLOYEE") {
             return matchText
         }
 
         const matchUser = selectedUser === "" || item.userId === selectedUser
-        const matchUpa = selectedUpa === "" || item.upa.name === selectedUpa
-        return matchText && matchUser && matchUpa
+        return matchText && matchUser
     })
 
     const totalPages = Math.ceil(filteredActivities.length / itemsPerPage)
@@ -358,7 +300,6 @@ export default function MonitoringPage() {
                 "Location": activity.location || "-",
                 "Description": activity.description || "-",
                 "Created By": activity.user.fullName,
-                "UPA": activity.upa.name,
             }
             pertanyaans.forEach(p => {
                 const val = activity.answers?.[p.id]
@@ -402,7 +343,7 @@ export default function MonitoringPage() {
             {/* Search & Filter */}
             <Card>
                 <CardContent className="pt-6">
-                    <div className={`grid grid-cols-1 gap-4 ${session?.user?.role === "USER" ? "md:grid-cols-1" : "md:grid-cols-3"}`}>
+                    <div className={`grid grid-cols-1 gap-4 ${session?.user?.role === "EMPLOYEE" ? "md:grid-cols-1" : "md:grid-cols-2"}`}>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
                             <Input
@@ -411,72 +352,40 @@ export default function MonitoringPage() {
                                 onChange={e => setSearchText(e.target.value)}
                             />
                         </div>
-                        {session?.user?.role !== "USER" && (
-                            <>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Filter by User</label>
-                                    <div className="flex gap-2">
-                                        <Input
-                                            placeholder="Select User"
-                                            value={selectedUserName}
-                                            readOnly
-                                            className="flex-1"
-                                        />
+                        {session?.user?.role !== "EMPLOYEE" && (
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Filter by User</label>
+                                <div className="flex gap-2">
+                                    <Input
+                                        placeholder="Select User"
+                                        value={selectedUserName}
+                                        readOnly
+                                        className="flex-1"
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => {
+                                            setLookupContext("filter")
+                                            setShowUserLookup(true)
+                                        }}
+                                    >
+                                        <Search size={16} />
+                                    </Button>
+                                    {selectedUser && (
                                         <Button
                                             type="button"
                                             variant="outline"
                                             onClick={() => {
-                                                setLookupContext("filter")
-                                                setShowUserLookup(true)
+                                                setSelectedUser("")
+                                                setSelectedUserName("")
                                             }}
                                         >
-                                            <Search size={16} />
+                                            <X size={16} />
                                         </Button>
-                                        {selectedUser && (
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                onClick={() => {
-                                                    setSelectedUser("")
-                                                    setSelectedUserName("")
-                                                }}
-                                            >
-                                                <X size={16} />
-                                            </Button>
-                                        )}
-                                    </div>
+                                    )}
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Filter by UPA</label>
-                                    <div className="flex gap-2">
-                                        <Input
-                                            placeholder="Select UPA"
-                                            value={selectedUpaName}
-                                            readOnly
-                                            className="flex-1"
-                                        />
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            onClick={() => setShowUpaLookup(true)}
-                                        >
-                                            <Search size={16} />
-                                        </Button>
-                                        {selectedUpa && (
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                onClick={() => {
-                                                    setSelectedUpa("")
-                                                    setSelectedUpaName("")
-                                                }}
-                                            >
-                                                <X size={16} />
-                                            </Button>
-                                        )}
-                                    </div>
-                                </div>
-                            </>
+                            </div>
                         )}
                     </div>
                 </CardContent>
@@ -611,11 +520,6 @@ export default function MonitoringPage() {
                                                             required={p.isRequired}
                                                         >
                                                             <option value="">-- Pilih {p.sourceList} --</option>
-                                                            {p.sourceList && masterData[p.sourceList] && masterData[p.sourceList].map((item: any) => (
-                                                                <option key={item.id} value={item.name || item.namaDpc}>
-                                                                    {item.name || item.namaDpc}
-                                                                </option>
-                                                            ))}
                                                         </select>
                                                     )}
                                                 </div>
@@ -695,61 +599,6 @@ export default function MonitoringPage() {
                 </div>
             )}
 
-            {/* UPA Lookup Modal */}
-            {showUpaLookup && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                    <Card className="w-full max-w-2xl bg-white shadow-xl animate-in fade-in zoom-in-95">
-                        <CardHeader className="flex flex-row items-center justify-between border-b pb-4">
-                            <CardTitle>Select UPA</CardTitle>
-                            <button onClick={() => setShowUpaLookup(false)} className="text-gray-400 hover:text-gray-600">
-                                <X size={20} />
-                            </button>
-                        </CardHeader>
-                        <CardContent className="pt-6">
-                            <div className="mb-4">
-                                <Input
-                                    placeholder="Search by name..."
-                                    value={upaSearchText}
-                                    onChange={e => setUpaSearchText(e.target.value)}
-                                />
-                            </div>
-                            <div className="max-h-96 overflow-y-auto">
-                                <table className="w-full">
-                                    <thead className="bg-gray-50 sticky top-0">
-                                        <tr>
-                                            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Name</th>
-                                            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {upas
-                                            .filter(u => u.name.toLowerCase().includes(upaSearchText.toLowerCase()))
-                                            .map(upa => (
-                                                <tr key={upa.id} className="border-b hover:bg-gray-50">
-                                                    <td className="px-4 py-3 text-sm">{upa.name}</td>
-                                                    <td className="px-4 py-3">
-                                                        <Button
-                                                            size="sm"
-                                                            onClick={() => {
-                                                                setSelectedUpa(upa.name)
-                                                                setSelectedUpaName(upa.name)
-                                                                setShowUpaLookup(false)
-                                                                setUpaSearchText("")
-                                                            }}
-                                                        >
-                                                            Select
-                                                        </Button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
-            )}
-
             {/* View Detail Modal */}
             {showDetail && selectedActivity && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
@@ -800,10 +649,6 @@ export default function MonitoringPage() {
                                 <div>
                                     <span className="block text-gray-500 text-xs uppercase">Created By</span>
                                     <span className="font-semibold text-gray-900">{selectedActivity.user.fullName}</span>
-                                </div>
-                                <div>
-                                    <span className="block text-gray-500 text-xs uppercase">UPA</span>
-                                    <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-semibold inline-block mt-1">{selectedActivity.upa.name}</span>
                                 </div>
                                 {selectedActivity.answers?._participantName && (
                                     <div className="col-span-2 border-t pt-2 mt-2">
@@ -917,13 +762,10 @@ export default function MonitoringPage() {
                                                 </div>
                                             </td>
 
-                                            {/* Author: User + UPA */}
+                                            {/* Author */}
                                             <td className="px-6 py-4 align-top">
                                                 <div className="flex flex-col gap-1">
                                                     <span className="font-medium text-gray-900">{item.user.fullName}</span>
-                                                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-orange-50 text-orange-700 border border-orange-100 w-fit">
-                                                        {item.upa.name}
-                                                    </span>
                                                 </div>
                                             </td>
 

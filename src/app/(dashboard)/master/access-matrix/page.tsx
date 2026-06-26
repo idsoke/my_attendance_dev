@@ -9,7 +9,7 @@ import { apiClient } from "@/lib/api-client"
 
 interface RoleAccess {
     id: string
-    role: "ADMIN" | "EDITOR" | "PENGGUNA" | "SEKRETARIS"
+    role: "ADMIN" | "MANAGER" | "EMPLOYEE"
     menuId: string
     canAccess: boolean
 }
@@ -22,7 +22,7 @@ interface Menu {
     accesses: RoleAccess[]
 }
 
-const ROLES = ["ADMIN", "EDITOR", "PENGGUNA", "SEKRETARIS"] as const
+const ROLES = ["ADMIN", "MANAGER", "EMPLOYEE"] as const
 
 export default function AccessMatrixPage() {
     const { data: session } = useSession()

@@ -7,46 +7,52 @@ http://localhost:3000/api
 
 ## Authentication
 
-All API endpoints (except auth endpoints) require authentication via NextAuth session.
+Semua endpoint (kecuali endpoint auth) memerlukan autentikasi melalui session NextAuth.
 
 ### Headers
 ```
-Cookie: next-auth.session-token=<token>
+Cookie: authjs.session-token=<token>
 ```
 
 ---
 
 ## Authentication Endpoints
 
-### Login
+### Login / Logout (NextAuth)
 ```http
-POST /api/auth/signin
+GET/POST /api/auth/[...nextauth]
 ```
+
+Ditangani langsung oleh NextAuth (`signIn`, `signOut`, `session`, `callback`, dll). Gunakan helper `signIn()` / `signOut()` dari `next-auth/react` di sisi client.
+
+### Register
+```http
+POST /api/auth/register
+```
+
+**Access:** Public
 
 **Request Body:**
 ```json
 {
   "email": "user@example.com",
-  "password": "password123"
+  "password": "password123",
+  "fullName": "User Name",
+  "phoneNumber": "081234567890"
 }
 ```
 
-**Response:**
+User baru dibuat dengan `role: USER` dan `status: PENDING` (perlu disetujui admin melalui endpoint Approvals).
+
+**Response:** `201 Created`
 ```json
 {
-  "user": {
-    "id": "user-id",
-    "email": "user@example.com",
-    "fullName": "User Name",
-    "role": "USER"
-  }
+  "message": "User registered successfully",
+  "userId": "user-id"
 }
 ```
 
-### Logout
-```http
-POST /api/auth/signout
-```
+**Error:** `400` jika email sudah terdaftar atau validasi gagal.
 
 ---
 
@@ -57,61 +63,59 @@ POST /api/auth/signout
 GET /api/users
 ```
 
-**Access:** Admin only
+**Access:** Sesuai scope (Admin: semua; Editor: dalam UPA-nya; User: ditentukan oleh `getUserScope`)
 
 **Response:**
 ```json
-[
-  {
-    "id": "user-id",
-    "email": "user@example.com",
-    "fullName": "User Name",
-    "phoneNumber": "081234567890",
-    "role": "USER",
-    "status": "ACTIVE",
-    "jenjang": {
-      "id": "jenjang-id",
-      "name": "Junior"
-    },
-    "upa": {
-      "id": "upa-id",
-      "name": "UPA Jakarta"
+{
+  "users": [
+    {
+      "id": "user-id",
+      "email": "user@example.com",
+      "fullName": "User Name",
+      "phoneNumber": "081234567890",
+      "role": "USER",
+      "status": "ACTIVE",
+      "jenjang": { "id": "jenjang-id", "name": "Junior" },
+      "upa": { "id": "upa-id", "name": "UPA Jakarta" }
     }
-  }
-]
+  ]
+}
 ```
+
+### Create User
+```http
+POST /api/users
+```
+
+**Access:** Admin only
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "fullName": "User Name",
+  "phoneNumber": "081234567890",
+  "role": "USER",
+  "upaId": "upa-id",
+  "jenjangId": "jenjang-id"
+}
+```
+
+Jika `password` tidak diisi, default `"123456"` digunakan. Mengembalikan `409` jika email atau nomor telepon sudah dipakai.
 
 ### Get User by ID
 ```http
 GET /api/users/:id
 ```
 
-**Access:** 
-- Admin: Can view any user
-- Editor: Can view users in their UPA
-- User: Can only view their own profile
+**Access:**
+- Admin: dapat melihat user manapun
+- Editor: dapat melihat user dalam UPA yang sama
+- User: hanya profil sendiri
 
-**Response:**
-```json
-{
-  "id": "user-id",
-  "email": "user@example.com",
-  "fullName": "User Name",
-  "phoneNumber": "081234567890",
-  "role": "USER",
-  "status": "ACTIVE",
-  "jenjang": {
-    "id": "jenjang-id",
-    "code": "J1",
-    "name": "Junior"
-  },
-  "upa": {
-    "id": "upa-id",
-    "code": "UPA001",
-    "name": "UPA Jakarta"
-  }
-}
-```
+**Response:** objek user (tanpa field `password`) beserta relasi `upa` dan `jenjang`.
 
 ### Update User
 ```http
@@ -119,10 +123,10 @@ PATCH /api/users/:id
 ```
 
 **Access:**
-- Admin: Can update any user
-- User: Can only update their own profile (limited fields)
+- Admin: dapat mengubah user manapun, termasuk `role`, `upaId`, `jenjangId`
+- User: hanya profil sendiri, field `role`/`upaId`/`jenjangId` akan diabaikan jika bukan admin
 
-**Request Body:**
+**Request Body (partial):**
 ```json
 {
   "fullName": "Updated Name",
@@ -131,24 +135,7 @@ PATCH /api/users/:id
 }
 ```
 
-**Admin can also update:**
-```json
-{
-  "role": "EDITOR",
-  "upaId": "upa-id",
-  "jenjangId": "jenjang-id"
-}
-```
-
-**Response:**
-```json
-{
-  "id": "user-id",
-  "email": "user@example.com",
-  "fullName": "Updated Name",
-  "role": "USER"
-}
-```
+Mengembalikan `409` jika email/nomor telepon baru sudah dipakai user lain.
 
 ### Delete User
 ```http
@@ -157,9 +144,103 @@ DELETE /api/users/:id
 
 **Access:** Admin only
 
-**Response:**
+**Response:** `204 No Content`
+
+---
+
+## Profile Endpoints
+
+### Get My Profile
+```http
+GET /api/profile
 ```
-204 No Content
+
+**Access:** User yang sedang login
+
+**Response:**
+```json
+{
+  "id": "user-id",
+  "fullName": "User Name",
+  "email": "user@example.com",
+  "phoneNumber": "081234567890",
+  "role": "USER",
+  "status": "ACTIVE",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "upa": { "name": "UPA Jakarta", "location": "Jakarta" },
+  "jenjang": { "name": "Junior", "description": "Junior Level" },
+  "_count": { "activities": 5 }
+}
+```
+
+### Update My Profile
+```http
+PATCH /api/profile
+```
+
+**Access:** User yang sedang login
+
+**Request Body:**
+```json
+{
+  "fullName": "Updated Name",
+  "phoneNumber": "081234567890"
+}
+```
+
+### Change Password
+```http
+POST /api/profile/password
+```
+
+**Access:** User yang sedang login
+
+**Request Body:**
+```json
+{
+  "newPassword": "newpassword123",
+  "confirmPassword": "newpassword123"
+}
+```
+
+**Response:**
+```json
+{ "message": "Password berhasil diubah" }
+```
+
+---
+
+## Approvals Endpoints
+
+### Get Pending Users
+```http
+GET /api/approvals
+```
+
+**Access:** Admin only
+
+Mengembalikan daftar user dengan `status: PENDING` (beserta relasi `jenjang` dan `upa`).
+
+### Approve / Reject User
+```http
+PATCH /api/approvals
+```
+
+**Access:** Admin only
+
+**Request Body:**
+```json
+{
+  "userId": "user-id",
+  "action": "approve"
+}
+```
+
+`action` bernilai `"approve"` (set `status: ACTIVE`) atau `"reject"` (hapus user).
+
+**Response:**
+```json
+{ "success": true }
 ```
 
 ---
@@ -168,17 +249,13 @@ DELETE /api/users/:id
 
 ### Get Activities
 ```http
-GET /api/activities?page=1&limit=10
+GET /api/activities
 ```
 
 **Access:**
-- Admin: See all activities
-- Editor: See activities in their UPA
-- User: See only their own activities
-
-**Query Parameters:**
-- `page` (optional): Page number (default: 1)
-- `limit` (optional): Items per page (default: 10)
+- Admin: melihat semua activity
+- Editor: melihat activity dalam UPA-nya
+- User: hanya activity miliknya sendiri
 
 **Response:**
 ```json
@@ -190,26 +267,17 @@ GET /api/activities?page=1&limit=10
       "description": "Monthly training",
       "date": "2024-01-15T00:00:00.000Z",
       "location": "Meeting Room A",
-      "user": {
-        "id": "user-id",
-        "fullName": "User Name",
-        "email": "user@example.com"
-      },
-      "upa": {
-        "id": "upa-id",
-        "name": "UPA Jakarta",
-        "code": "UPA001"
-      },
-      "createdAt": "2024-01-10T00:00:00.000Z",
-      "updatedAt": "2024-01-10T00:00:00.000Z"
+      "flag": 0,
+      "latitude": -6.2,
+      "longitude": 106.8,
+      "radius": 100,
+      "isActive": true,
+      "attendanceToken": "token",
+      "user": { "fullName": "User Name", "email": "user@example.com" },
+      "upa": { "name": "UPA Jakarta" },
+      "attendances": []
     }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 10,
-    "total": 25,
-    "totalPages": 3
-  }
+  ]
 }
 ```
 
@@ -218,7 +286,7 @@ GET /api/activities?page=1&limit=10
 POST /api/activities
 ```
 
-**Access:** All authenticated users
+**Access:** Semua user yang sudah login dan memiliki `upaId`
 
 **Request Body:**
 ```json
@@ -226,30 +294,91 @@ POST /api/activities
   "title": "New Activity",
   "description": "Activity description",
   "date": "2024-01-15",
-  "location": "Location Name"
+  "location": "Location Name",
+  "latitude": -6.2,
+  "longitude": 106.8,
+  "radius": 100,
+  "flag": 0
 }
 ```
+
+Activity dibuat dengan `userId` dan `upaId` dari session yang sedang login.
+
+### Get Activity by ID
+```http
+GET /api/activities/:id
+```
+
+**Access:** Public (tidak ada pengecekan session) — termasuk relasi `user`, `upa`, dan `attendances`.
+
+### Update Activity
+```http
+PATCH /api/activities/:id
+```
+
+**Access:** Admin atau pemilik activity
+
+**Request Body (partial):** sama dengan field create, ditambah `isActive`, `latitude`, `longitude`, `radius`.
+
+### Delete Activity
+```http
+DELETE /api/activities/:id
+```
+
+**Access:** Admin atau pemilik activity
+
+**Response:** `204 No Content`
+
+### Submit Attendance untuk Activity
+```http
+POST /api/activities/:id/attendance
+```
+
+**Access:** User yang sedang login
+
+**Request Body:**
+```json
+{
+  "latitude": -6.2,
+  "longitude": 106.8
+}
+```
+
+Logika:
+- Activity harus `isActive`
+- Jika activity punya `latitude`/`longitude`, lokasi user diverifikasi terhadap `radius` (geofencing, dihitung dengan formula Haversine)
+- Jika user sudah pernah absen, mengembalikan `alreadyAttended: true` beserta pesan status
+- Jika belum, attendance dibuat dengan status `ON_TIME` atau `LATE` (dibandingkan terhadap `activity.date`)
+
+**Response:**
+```json
+{ "message": "Terimakasih atas kedatangannya, anda Tiba pukul 08:00. Tepat waktu." }
+```
+
+---
+
+## My Attendance Endpoint
+
+### Get My Attendance History
+```http
+GET /api/my-attendance
+```
+
+**Access:**
+- User: hanya attendance miliknya sendiri
+- Admin: melihat seluruh attendance (termasuk data user)
 
 **Response:**
 ```json
 {
-  "id": "activity-id",
-  "title": "New Activity",
-  "description": "Activity description",
-  "date": "2024-01-15T00:00:00.000Z",
-  "location": "Location Name",
-  "userId": "user-id",
-  "upaId": "upa-id",
-  "user": {
-    "id": "user-id",
-    "fullName": "User Name",
-    "email": "user@example.com"
-  },
-  "upa": {
-    "id": "upa-id",
-    "name": "UPA Jakarta",
-    "code": "UPA001"
-  }
+  "attendances": [
+    {
+      "id": "attendance-id",
+      "status": "ON_TIME",
+      "timestamp": "2024-01-15T08:00:00.000Z",
+      "activity": { "title": "Training Session", "date": "2024-01-15T00:00:00.000Z", "location": "Meeting Room A" }
+    }
+  ]
 }
 ```
 
@@ -257,36 +386,20 @@ POST /api/activities
 
 ## Master Data Endpoints
 
-### UPA Endpoints
+### Access Matrix
 
-#### Get All UPAs
+#### Get Menu & Access Matrix
 ```http
-GET /api/master/upas
+GET /api/master/access-matrix
 ```
 
-**Access:** Admin only
+**Access:** Semua user yang sudah login
 
-**Response:**
-```json
-[
-  {
-    "id": "upa-id",
-    "code": "UPA001",
-    "name": "UPA Jakarta",
-    "location": "Jakarta",
-    "_count": {
-      "users": 10,
-      "activities": 25
-    },
-    "createdAt": "2024-01-01T00:00:00.000Z",
-    "updatedAt": "2024-01-01T00:00:00.000Z"
-  }
-]
-```
+Mengembalikan daftar `Menu` beserta relasi `accesses` (`RoleAccess` per role).
 
-#### Create UPA
+#### Update Role Access
 ```http
-POST /api/master/upas
+POST /api/master/access-matrix
 ```
 
 **Access:** Admin only
@@ -294,53 +407,39 @@ POST /api/master/upas
 **Request Body:**
 ```json
 {
-  "code": "UPA002",
-  "name": "UPA Bandung",
-  "location": "Bandung"
+  "role": "EDITOR",
+  "menuId": "menu-id",
+  "canAccess": true
 }
 ```
 
-**Response:**
-```json
-{
-  "id": "upa-id",
-  "code": "UPA002",
-  "name": "UPA Bandung",
-  "location": "Bandung",
-  "createdAt": "2024-01-01T00:00:00.000Z",
-  "updatedAt": "2024-01-01T00:00:00.000Z"
-}
-```
+`role` salah satu dari `ADMIN`, `EDITOR`, `USER`, `PENGGUNA`, `SEKRETARIS`.
 
-### Jenjang Endpoints
-
-#### Get All Jenjangs
+### Seed Default Menus
 ```http
-GET /api/master/jenjangs
+GET /api/seed-menus
 ```
 
-**Access:** Admin only
+**Access:** Tidak ada pengecekan session (utility endpoint)
 
-**Response:**
-```json
-[
-  {
-    "id": "jenjang-id",
-    "code": "J1",
-    "name": "Junior",
-    "description": "Junior Level",
-    "_count": {
-      "users": 15
-    },
-    "createdAt": "2024-01-01T00:00:00.000Z",
-    "updatedAt": "2024-01-01T00:00:00.000Z"
-  }
-]
-```
+Melakukan upsert daftar menu default (`Dashboard`, `Kegiatan`, `Anggota`, `Jenjang`, `DPC`, `Pertanyaan`, `Kata`, `Access Matrix`) ke tabel `Menu`.
 
-#### Create Jenjang
+---
+
+## Application Config Endpoint
+
+### Get Config
 ```http
-POST /api/master/jenjangs
+GET /api/config?key=<key>
+```
+
+**Access:**
+- Dengan parameter `key`: semua user yang login (mengembalikan satu config atau `null`)
+- Tanpa parameter `key`: Admin only (mengembalikan semua config)
+
+### Upsert Config
+```http
+POST /api/config
 ```
 
 **Access:** Admin only
@@ -348,21 +447,9 @@ POST /api/master/jenjangs
 **Request Body:**
 ```json
 {
-  "code": "J2",
-  "name": "Senior",
-  "description": "Senior Level"
-}
-```
-
-**Response:**
-```json
-{
-  "id": "jenjang-id",
-  "code": "J2",
-  "name": "Senior",
-  "description": "Senior Level",
-  "createdAt": "2024-01-01T00:00:00.000Z",
-  "updatedAt": "2024-01-01T00:00:00.000Z"
+  "key": "app_name",
+  "value": "AttendIQ",
+  "description": "Nama aplikasi"
 }
 ```
 
@@ -371,62 +458,36 @@ POST /api/master/jenjangs
 ## Error Responses
 
 ### 401 Unauthorized
-```json
-{
-  "error": "Unauthorized"
-}
 ```
+Unauthorized
+```
+Sebagian besar route mengembalikan plain text, beberapa (`/api/profile`, `/api/auth/register`, dll) mengembalikan JSON `{ "error": "..." }`.
 
 ### 403 Forbidden
-```json
-{
-  "error": "Forbidden"
-}
+```
+Forbidden
 ```
 
 ### 404 Not Found
-```json
-{
-  "error": "Not Found"
-}
+```
+Not Found
 ```
 
 ### 400 Bad Request
-```json
-{
-  "error": "Invalid Request",
-  "details": [
-    {
-      "field": "email",
-      "message": "Invalid email format"
-    }
-  ]
-}
-```
+Validasi gagal (Zod), mengembalikan array `errors` atau pesan tunggal tergantung route.
+
+### 409 Conflict
+Digunakan oleh `/api/users` dan `/api/users/:id` saat email atau nomor telepon sudah terdaftar.
 
 ### 500 Internal Server Error
-```json
-{
-  "error": "Internal Server Error"
-}
+```
+Internal Server Error
 ```
 
 ---
 
-## Rate Limiting
+## Catatan
 
-Currently no rate limiting is implemented. Consider adding rate limiting in production.
-
-## Pagination
-
-Endpoints that return lists support pagination:
-- `page`: Page number (default: 1)
-- `limit`: Items per page (default: 10, max: 100)
-
-## Filtering
-
-Future enhancement: Add filtering capabilities to list endpoints.
-
-## Sorting
-
-Future enhancement: Add sorting capabilities to list endpoints.
+- Tidak ada rate limiting yang diimplementasikan saat ini.
+- Endpoint list (`/api/activities`, `/api/my-attendance`, `/api/users`, `/api/approvals`) belum mendukung pagination — semua data dikembalikan dalam satu response.
+- **Diketahui rusak:** halaman `src/app/(dashboard)/master/upa/page.tsx` dan `master/jenjang/page.tsx` memanggil `/api/master/upas` dan `/api/master/jenjangs`, tetapi route tersebut tidak ada di `src/app/api/master/`. CRUD UPA dan Jenjang lewat dashboard saat ini akan menghasilkan 404.

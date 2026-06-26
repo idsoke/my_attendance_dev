@@ -11,9 +11,6 @@ interface Activity {
     description?: string | null
     date: Date
     isActive: boolean
-    upa: {
-        name: string
-    }
     user: {
         fullName: string
     }
@@ -37,10 +34,7 @@ export function ActivityList({ initialActivities }: ActivityListProps) {
                             className="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:border-orange-200 cursor-pointer"
                         >
                             <div className="p-6 flex-1 flex flex-col">
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="px-3 py-1 text-xs font-semibold bg-blue-50 text-blue-700 rounded-full">
-                                        {activity.upa.name}
-                                    </span>
+                                <div className="flex items-center justify-end mb-4">
                                     {/* Status Check if date is passed? */}
                                     {new Date(activity.date) > new Date() ? (
                                         <span className="px-2 py-1 text-xs font-medium bg-green-50 text-green-700 rounded-md border border-green-100">
@@ -139,8 +133,7 @@ export function ActivityList({ initialActivities }: ActivityListProps) {
                                 </>
                             )}
 
-                            <div className="flex items-center justify-between text-xs text-gray-400 pt-2 border-t border-gray-100">
-                                <span>Penyelenggara: {selectedActivity.upa.name}</span>
+                            <div className="flex items-center justify-end text-xs text-gray-400 pt-2 border-t border-gray-100">
                                 <span>PIC: {selectedActivity.user.fullName}</span>
                             </div>
                         </div>

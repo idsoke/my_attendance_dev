@@ -32,19 +32,11 @@ interface Activity {
         fullName: string
         email: string
     }
-    upa: {
-        name: string
-    }
 }
 
 interface User {
     id: string
     fullName: string
-}
-
-interface Upa {
-    id: string
-    name: string
 }
 
 export default function KegiatanPage() {
@@ -56,14 +48,9 @@ export default function KegiatanPage() {
     const [searchText, setSearchText] = useState("")
     const [selectedUser, setSelectedUser] = useState("")
     const [selectedUserName, setSelectedUserName] = useState("")
-    const [selectedUpa, setSelectedUpa] = useState("")
-    const [selectedUpaName, setSelectedUpaName] = useState("")
     const [users, setUsers] = useState<User[]>([])
-    const [upas, setUpas] = useState<Upa[]>([])
     const [showUserLookup, setShowUserLookup] = useState(false)
     const [userSearchText, setUserSearchText] = useState("")
-    const [showUpaLookup, setShowUpaLookup] = useState(false)
-    const [upaSearchText, setUpaSearchText] = useState("")
 
     // Pagination
     const [currentPage, setCurrentPage] = useState(1)
@@ -90,7 +77,6 @@ export default function KegiatanPage() {
     useEffect(() => {
         fetchActivities()
         fetchUsers()
-        fetchUpas()
     }, [])
 
     const fetchActivities = async () => {
@@ -116,16 +102,6 @@ export default function KegiatanPage() {
             setUsers(data.users || [])
         } catch (error) {
             console.error("Error fetching users:", error)
-        }
-    }
-
-    const fetchUpas = async () => {
-        try {
-            const res = await apiClient("/api/master/upas")
-            const data = await res.json()
-            setUpas(data || [])
-        } catch (error) {
-            console.error("Error fetching upas:", error)
         }
     }
 
@@ -207,7 +183,6 @@ export default function KegiatanPage() {
             title: activity.title,
             description: activity.description || "",
             date: formattedDate,
-            date: formattedDate,
             isActive: activity.isActive ?? true,
             latitude: (activity.latitude as any) ?? "",
             longitude: (activity.longitude as any) ?? "",
@@ -287,13 +262,12 @@ export default function KegiatanPage() {
             item.title.toLowerCase().includes(searchText.toLowerCase()) ||
             item.description?.toLowerCase().includes(searchText.toLowerCase())
 
-        if (session?.user?.role === "USER") {
+        if (session?.user?.role === "EMPLOYEE") {
             return matchText
         }
 
         const matchUser = selectedUser === "" || item.userId === selectedUser
-        const matchUpa = selectedUpa === "" || item.upa.name === selectedUpa
-        return matchText && matchUser && matchUpa
+        return matchText && matchUser
     })
 
     const totalPages = Math.ceil(filteredActivities.length / itemsPerPage)
@@ -306,7 +280,6 @@ export default function KegiatanPage() {
             "Tanggal dan Jam": new Date(activity.date).toLocaleString("id-ID"),
             "Keterangan": activity.description || "-",
             "Dibuat Oleh": activity.user.fullName,
-            "UPA": activity.upa.name,
         }))
 
         const worksheet = XLSX.utils.json_to_sheet(dataToExport)
@@ -344,7 +317,7 @@ export default function KegiatanPage() {
             {/* Search & Filter */}
             <Card>
                 <CardContent className="pt-6">
-                    <div className={`grid grid-cols-1 gap-4 ${session?.user?.role === "USER" ? "md:grid-cols-1" : "md:grid-cols-3"}`}>
+                    <div className={`grid grid-cols-1 gap-4 ${session?.user?.role === "EMPLOYEE" ? "md:grid-cols-1" : "md:grid-cols-2"}`}>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Cari</label>
                             <Input
@@ -353,47 +326,26 @@ export default function KegiatanPage() {
                                 onChange={e => setSearchText(e.target.value)}
                             />
                         </div>
-                        {session?.user?.role !== "USER" && (
-                            <>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Filter Pengguna</label>
-                                    <div className="flex gap-2">
-                                        <Input
-                                            placeholder="Pilih Pengguna"
-                                            value={selectedUserName}
-                                            readOnly
-                                            className="flex-1"
-                                        />
-                                        <Button type="button" variant="outline" onClick={() => setShowUserLookup(true)}>
-                                            <Search size={16} />
+                        {session?.user?.role !== "EMPLOYEE" && (
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Filter Pengguna</label>
+                                <div className="flex gap-2">
+                                    <Input
+                                        placeholder="Pilih Pengguna"
+                                        value={selectedUserName}
+                                        readOnly
+                                        className="flex-1"
+                                    />
+                                    <Button type="button" variant="outline" onClick={() => setShowUserLookup(true)}>
+                                        <Search size={16} />
+                                    </Button>
+                                    {selectedUser && (
+                                        <Button type="button" variant="outline" onClick={() => { setSelectedUser(""); setSelectedUserName(""); }}>
+                                            <X size={16} />
                                         </Button>
-                                        {selectedUser && (
-                                            <Button type="button" variant="outline" onClick={() => { setSelectedUser(""); setSelectedUserName(""); }}>
-                                                <X size={16} />
-                                            </Button>
-                                        )}
-                                    </div>
+                                    )}
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Filter UPA</label>
-                                    <div className="flex gap-2">
-                                        <Input
-                                            placeholder="Pilih UPA"
-                                            value={selectedUpaName}
-                                            readOnly
-                                            className="flex-1"
-                                        />
-                                        <Button type="button" variant="outline" onClick={() => setShowUpaLookup(true)}>
-                                            <Search size={16} />
-                                        </Button>
-                                        {selectedUpa && (
-                                            <Button type="button" variant="outline" onClick={() => { setSelectedUpa(""); setSelectedUpaName(""); }}>
-                                                <X size={16} />
-                                            </Button>
-                                        )}
-                                    </div>
-                                </div>
-                            </>
+                            </div>
                         )}
                     </div>
                 </CardContent>
@@ -547,7 +499,6 @@ export default function KegiatanPage() {
                             </div>
                             <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-xs">
                                 <span className="font-medium text-gray-700">{activity.user.fullName}</span>
-                                <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded-full">{activity.upa.name}</span>
                             </div>
                         </div>
                     ))
@@ -583,7 +534,7 @@ export default function KegiatanPage() {
                 )
             }
 
-            {/* Lookup Modals (User & UPA) - Reusing logic from Activities page */}
+            {/* Lookup Modal (User) - Reusing logic from Activities page */}
             {
                 showUserLookup && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
@@ -618,52 +569,6 @@ export default function KegiatanPage() {
                                                         <td className="px-4 py-2">{user.fullName}</td>
                                                         <td className="px-4 py-2">
                                                             <Button size="sm" onClick={() => { setSelectedUser(user.id); setSelectedUserName(user.fullName); setShowUserLookup(false); }}>Pilih</Button>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-                )
-            }
-
-            {
-                showUpaLookup && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                        <Card className="w-full max-w-2xl bg-white shadow-xl">
-                            <CardHeader className="flex flex-row items-center justify-between border-b pb-4">
-                                <CardTitle>Pilih UPA</CardTitle>
-                                <button onClick={() => setShowUpaLookup(false)} className="text-gray-400 hover:text-gray-600">
-                                    <X size={20} />
-                                </button>
-                            </CardHeader>
-                            <CardContent className="pt-6">
-                                <div className="mb-4">
-                                    <Input
-                                        placeholder="Cari berdasarkan nama UPA..."
-                                        value={upaSearchText}
-                                        onChange={e => setUpaSearchText(e.target.value)}
-                                    />
-                                </div>
-                                <div className="max-h-96 overflow-y-auto">
-                                    <table className="w-full text-sm">
-                                        <thead className="bg-gray-50 sticky top-0">
-                                            <tr>
-                                                <th className="px-4 py-2 text-left">Nama UPA</th>
-                                                <th className="px-4 py-2 text-left">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {upas
-                                                .filter(u => u.name.toLowerCase().includes(upaSearchText.toLowerCase()))
-                                                .map(upa => (
-                                                    <tr key={upa.id} className="border-b">
-                                                        <td className="px-4 py-2">{upa.name}</td>
-                                                        <td className="px-4 py-2">
-                                                            <Button size="sm" onClick={() => { setSelectedUpa(upa.name); setSelectedUpaName(upa.name); setShowUpaLookup(false); }}>Pilih</Button>
                                                         </td>
                                                     </tr>
                                                 ))}

@@ -11,9 +11,9 @@ export function Navbar() {
     const { data: session } = useSession()
 
     const navigation = [
-        { name: "Dashboard", href: "/dashboard", roles: ["ADMIN", "EDITOR", "USER"] },
-        { name: "Activities", href: "/activities", roles: ["ADMIN", "EDITOR", "USER"] },
-        { name: "Master Data", href: "/master", roles: ["ADMIN"] },
+        { name: "Dashboard", href: "/dashboard", roles: ["ADMIN", "MANAGER", "EMPLOYEE"] },
+        { name: "Activities", href: "/activities", roles: ["ADMIN", "MANAGER", "EMPLOYEE"] },
+        { name: "Master Data", href: "/master/anggota", roles: ["ADMIN"] },
     ]
 
     const filteredNavigation = navigation.filter((item) =>

@@ -12,9 +12,10 @@ import {
     LogOut,
     ChevronDown,
     Menu,
-    Building2,
     FileQuestion,
-    User
+    User,
+    CalendarOff,
+    ClipboardCheck
 } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
@@ -180,6 +181,35 @@ export function Sidebar() {
                         Kehadiran
                     </Link>
 
+                    {/* Pengajuan Izin — visible to all authenticated users */}
+                    <Link
+                        href="/izin"
+                        className={cn(
+                            "flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-r-full transition-colors",
+                            isActive("/izin") && !isActive("/izin/admin")
+                                ? "bg-orange-50 text-orange-700 border-l-4 border-orange-700"
+                                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        )}
+                    >
+                        <CalendarOff size={18} />
+                        Pengajuan Izin
+                    </Link>
+
+                    {(session?.user?.role === "ADMIN" || session?.user?.role === "MANAGER") && (
+                        <Link
+                            href="/izin/admin"
+                            className={cn(
+                                "flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-r-full transition-colors",
+                                isActive("/izin/admin")
+                                    ? "bg-orange-50 text-orange-700 border-l-4 border-orange-700"
+                                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                            )}
+                        >
+                            <ClipboardCheck size={18} />
+                            Persetujuan Izin
+                        </Link>
+                    )}
+
                     {session?.user?.role === "ADMIN" && (
                         <>
                             <Link
@@ -211,15 +241,6 @@ export function Sidebar() {
                                     {/* All submenus */}
                                     <Link href="/master/anggota" className={cn("flex items-center gap-3 px-4 py-2 pl-12 text-sm font-medium rounded-r-full transition-colors", isActive("/master/anggota") ? "text-orange-700" : "text-gray-500 hover:text-gray-900")}>
                                         <Users size={16} /> {t("menu.members")}
-                                    </Link>
-                                    <Link href="/master/jenjang" className={cn("flex items-center gap-3 px-4 py-2 pl-12 text-sm font-medium rounded-r-full transition-colors", isActive("/master/jenjang") ? "text-orange-700" : "text-gray-500 hover:text-gray-900")}>
-                                        <Settings size={16} /> {t("menu.levels")}
-                                    </Link>
-                                    <Link href="/master/upa" className={cn("flex items-center gap-3 px-4 py-2 pl-12 text-sm font-medium rounded-r-full transition-colors", isActive("/master/upa") ? "text-orange-700" : "text-gray-500 hover:text-gray-900")}>
-                                        <Database size={16} /> {t("menu.upa")}
-                                    </Link>
-                                    <Link href="/master/dpc" className={cn("flex items-center gap-3 px-4 py-2 pl-12 text-sm font-medium rounded-r-full transition-colors", isActive("/master/dpc") ? "text-orange-700" : "text-gray-500 hover:text-gray-900")}>
-                                        <Building2 size={16} /> {t("menu.dpc")}
                                     </Link>
                                     <Link href="/master/pertanyaan" className={cn("flex items-center gap-3 px-4 py-2 pl-12 text-sm font-medium rounded-r-full transition-colors", isActive("/master/pertanyaan") ? "text-orange-700" : "text-gray-500 hover:text-gray-900")}>
                                         <FileQuestion size={16} /> {t("menu.questions")}

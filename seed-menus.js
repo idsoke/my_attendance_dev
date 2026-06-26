@@ -7,11 +7,11 @@ async function main() {
         { label: "Activities", path: "/activities", group: "Main", order: 2 },
         { label: "Kegiatan", path: "/kegiatan", group: "Main", order: 2 },
         { label: "Anggota", path: "/master/anggota", group: "Master Data", order: 3 },
-        { label: "Jenjang", path: "/master/jenjang", group: "Master Data", order: 4 },
-        { label: "DPC", path: "/master/dpc", group: "Master Data", order: 5 },
-        { label: "Pertanyaan", path: "/master/pertanyaan", group: "Master Data", order: 6 },
-        { label: "Kata", path: "/master/translations", group: "Master Data", order: 7 },
-        { label: "Access Matrix", path: "/master/access-matrix", group: "Settings", order: 8 },
+        { label: "Pertanyaan", path: "/master/pertanyaan", group: "Master Data", order: 4 },
+        { label: "Kata", path: "/master/translations", group: "Master Data", order: 5 },
+        { label: "Access Matrix", path: "/master/access-matrix", group: "Settings", order: 6 },
+        { label: "Pengajuan Izin", path: "/izin", group: "Main", order: 7 },
+        { label: "Persetujuan Izin", path: "/izin/admin", group: "Main", order: 8 },
     ]
 
     for (const menu of menus) {

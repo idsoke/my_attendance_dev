@@ -42,7 +42,7 @@ POST /api/auth/register
 }
 ```
 
-User baru dibuat dengan `role: USER` dan `status: PENDING` (perlu disetujui admin melalui endpoint Approvals).
+User baru dibuat dengan `role: EMPLOYEE` dan `status: PENDING` (perlu disetujui admin melalui endpoint Approvals).
 
 **Response:** `201 Created`
 ```json
@@ -63,7 +63,10 @@ User baru dibuat dengan `role: USER` dan `status: PENDING` (perlu disetujui admi
 GET /api/users
 ```
 
-**Access:** Sesuai scope (Admin: semua; Editor: dalam UPA-nya; User: ditentukan oleh `getUserScope`)
+**Access:**
+- `ADMIN`: semua user
+- `MANAGER`: semua user (read-only scope)
+- `EMPLOYEE`: ditentukan oleh `getUserScope` (hanya diri sendiri)
 
 **Response:**
 ```json
@@ -74,10 +77,9 @@ GET /api/users
       "email": "user@example.com",
       "fullName": "User Name",
       "phoneNumber": "081234567890",
-      "role": "USER",
-      "status": "ACTIVE",
-      "jenjang": { "id": "jenjang-id", "name": "Junior" },
-      "upa": { "id": "upa-id", "name": "UPA Jakarta" }
+      "employeeId": "EMP001",
+      "role": "EMPLOYEE",
+      "status": "ACTIVE"
     }
   ]
 }
@@ -97,9 +99,7 @@ POST /api/users
   "password": "password123",
   "fullName": "User Name",
   "phoneNumber": "081234567890",
-  "role": "USER",
-  "upaId": "upa-id",
-  "jenjangId": "jenjang-id"
+  "role": "EMPLOYEE"
 }
 ```
 
@@ -111,11 +111,10 @@ GET /api/users/:id
 ```
 
 **Access:**
-- Admin: dapat melihat user manapun
-- Editor: dapat melihat user dalam UPA yang sama
-- User: hanya profil sendiri
+- `ADMIN`/`MANAGER`: dapat melihat user manapun
+- `EMPLOYEE`: hanya profil sendiri
 
-**Response:** objek user (tanpa field `password`) beserta relasi `upa` dan `jenjang`.
+**Response:** objek user (tanpa field `password`).
 
 ### Update User
 ```http
@@ -123,8 +122,8 @@ PATCH /api/users/:id
 ```
 
 **Access:**
-- Admin: dapat mengubah user manapun, termasuk `role`, `upaId`, `jenjangId`
-- User: hanya profil sendiri, field `role`/`upaId`/`jenjangId` akan diabaikan jika bukan admin
+- `ADMIN`: dapat mengubah user manapun termasuk `role`
+- `EMPLOYEE`: hanya profil sendiri, field `role` diabaikan
 
 **Request Body (partial):**
 ```json
@@ -134,8 +133,6 @@ PATCH /api/users/:id
   "password": "newpassword123"
 }
 ```
-
-Mengembalikan `409` jika email/nomor telepon baru sudah dipakai user lain.
 
 ### Delete User
 ```http
@@ -164,11 +161,10 @@ GET /api/profile
   "fullName": "User Name",
   "email": "user@example.com",
   "phoneNumber": "081234567890",
-  "role": "USER",
+  "employeeId": "EMP001",
+  "role": "EMPLOYEE",
   "status": "ACTIVE",
   "createdAt": "2024-01-01T00:00:00.000Z",
-  "upa": { "name": "UPA Jakarta", "location": "Jakarta" },
-  "jenjang": { "name": "Junior", "description": "Junior Level" },
   "_count": { "activities": 5 }
 }
 ```
@@ -219,7 +215,7 @@ GET /api/approvals
 
 **Access:** Admin only
 
-Mengembalikan daftar user dengan `status: PENDING` (beserta relasi `jenjang` dan `upa`).
+Mengembalikan daftar user dengan `status: PENDING`.
 
 ### Approve / Reject User
 ```http
@@ -253,9 +249,8 @@ GET /api/activities
 ```
 
 **Access:**
-- Admin: melihat semua activity
-- Editor: melihat activity dalam UPA-nya
-- User: hanya activity miliknya sendiri
+- `ADMIN`/`MANAGER`: melihat semua activity
+- `EMPLOYEE`: hanya activity miliknya sendiri
 
 **Response:**
 ```json
@@ -274,7 +269,6 @@ GET /api/activities
       "isActive": true,
       "attendanceToken": "token",
       "user": { "fullName": "User Name", "email": "user@example.com" },
-      "upa": { "name": "UPA Jakarta" },
       "attendances": []
     }
   ]
@@ -286,7 +280,7 @@ GET /api/activities
 POST /api/activities
 ```
 
-**Access:** Semua user yang sudah login dan memiliki `upaId`
+**Access:** Semua user yang sudah login
 
 **Request Body:**
 ```json
@@ -302,14 +296,12 @@ POST /api/activities
 }
 ```
 
-Activity dibuat dengan `userId` dan `upaId` dari session yang sedang login.
-
 ### Get Activity by ID
 ```http
 GET /api/activities/:id
 ```
 
-**Access:** Public (tidak ada pengecekan session) — termasuk relasi `user`, `upa`, dan `attendances`.
+**Access:** Public — termasuk relasi `user` dan `attendances`.
 
 ### Update Activity
 ```http
@@ -346,9 +338,9 @@ POST /api/activities/:id/attendance
 
 Logika:
 - Activity harus `isActive`
-- Jika activity punya `latitude`/`longitude`, lokasi user diverifikasi terhadap `radius` (geofencing, dihitung dengan formula Haversine)
-- Jika user sudah pernah absen, mengembalikan `alreadyAttended: true` beserta pesan status
-- Jika belum, attendance dibuat dengan status `ON_TIME` atau `LATE` (dibandingkan terhadap `activity.date`)
+- Jika activity punya koordinat, lokasi user diverifikasi terhadap `radius` (geofencing Haversine)
+- Jika user sudah pernah absen, mengembalikan `alreadyAttended: true`
+- Status attendance: `ON_TIME` atau `LATE` berdasarkan `activity.date`
 
 **Response:**
 ```json
@@ -365,8 +357,8 @@ GET /api/my-attendance
 ```
 
 **Access:**
-- User: hanya attendance miliknya sendiri
-- Admin: melihat seluruh attendance (termasuk data user)
+- `EMPLOYEE`: hanya attendance miliknya sendiri
+- `ADMIN`/`MANAGER`: seluruh attendance
 
 **Response:**
 ```json
@@ -376,11 +368,142 @@ GET /api/my-attendance
       "id": "attendance-id",
       "status": "ON_TIME",
       "timestamp": "2024-01-15T08:00:00.000Z",
-      "activity": { "title": "Training Session", "date": "2024-01-15T00:00:00.000Z", "location": "Meeting Room A" }
+      "activity": {
+        "title": "Training Session",
+        "date": "2024-01-15T00:00:00.000Z",
+        "location": "Meeting Room A"
+      }
     }
   ]
 }
 ```
+
+---
+
+## Izin (Leave Management) Endpoints
+
+### Get Leave Requests
+```http
+GET /api/izin
+```
+
+**Access:**
+- `ADMIN`/`MANAGER`: semua pengajuan izin
+- `EMPLOYEE`: hanya pengajuan milik sendiri
+
+**Query Parameters (opsional):**
+- `status` — filter berdasarkan status: `PENDING`, `APPROVED`, `REJECTED`, `CANCELLED`
+- `userId` — filter berdasarkan user (hanya untuk Admin/Manager)
+
+**Response:**
+```json
+[
+  {
+    "id": "leave-id",
+    "type": "CUTI",
+    "startDate": "2024-02-01T00:00:00.000Z",
+    "endDate": "2024-02-05T00:00:00.000Z",
+    "reason": "Liburan keluarga",
+    "status": "PENDING",
+    "approverNote": null,
+    "user": { "id": "...", "fullName": "User Name", "email": "...", "employeeId": "EMP001" },
+    "approvedBy": null,
+    "createdAt": "2024-01-20T10:00:00.000Z"
+  }
+]
+```
+
+### Create Leave Request
+```http
+POST /api/izin
+```
+
+**Access:** Semua user yang sudah login
+
+**Request Body:**
+```json
+{
+  "type": "CUTI",
+  "startDate": "2024-02-01",
+  "endDate": "2024-02-05",
+  "reason": "Liburan keluarga"
+}
+```
+
+Tipe izin yang valid: `CUTI` (Cuti Tahunan), `SAKIT`, `DINAS`, `IZIN` (Izin Pribadi).
+
+Validasi:
+- `startDate` tidak boleh lebih besar dari `endDate`
+- Tidak boleh tumpang tindih dengan pengajuan lain yang masih `PENDING` atau `APPROVED`
+- Jika tipe `CUTI`, saldo cuti tahun berjalan harus mencukupi
+
+**Response:** `201 Created` — objek `LeaveRequest` yang dibuat.
+
+**Error:** `400` validasi gagal, `409` tumpang tindih tanggal.
+
+### Get Leave Request by ID
+```http
+GET /api/izin/:id
+```
+
+**Access:** Pemilik request, Admin, atau Manager
+
+### Update Leave Request Status
+```http
+PATCH /api/izin/:id
+```
+
+**Access:**
+- `ADMIN`/`MANAGER`: approve atau reject (hanya status `PENDING`)
+- Pemilik: cancel (hanya status `PENDING`)
+
+**Request Body:**
+```json
+{
+  "action": "approve",
+  "approverNote": "Disetujui. Selamat berlibur."
+}
+```
+
+`action` bernilai `"approve"`, `"reject"`, atau `"cancel"`. `approverNote` opsional.
+
+Ketika `CUTI` disetujui, `usedDays` pada `LeaveBalance` otomatis bertambah sesuai jumlah hari kerja.
+
+**Response:** objek `LeaveRequest` yang diperbarui.
+
+### Delete Leave Request
+```http
+DELETE /api/izin/:id
+```
+
+**Access:** Pemilik (hanya status `PENDING`) atau Admin
+
+**Response:** `204 No Content`
+
+### Get Leave Balance
+```http
+GET /api/izin/balance
+```
+
+**Access:** Semua user yang sudah login
+
+**Query Parameters (opsional):**
+- `year` — tahun yang diminta (default: tahun berjalan)
+- `userId` — target user (hanya Admin/Manager)
+
+**Response:**
+```json
+{
+  "id": "balance-id",
+  "userId": "user-id",
+  "year": 2024,
+  "totalDays": 12,
+  "usedDays": 3,
+  "remaining": 9
+}
+```
+
+Jika record belum ada, otomatis dibuat dengan kuota default 12 hari.
 
 ---
 
@@ -407,13 +530,13 @@ POST /api/master/access-matrix
 **Request Body:**
 ```json
 {
-  "role": "EDITOR",
+  "role": "MANAGER",
   "menuId": "menu-id",
   "canAccess": true
 }
 ```
 
-`role` salah satu dari `ADMIN`, `EDITOR`, `USER`, `PENGGUNA`, `SEKRETARIS`.
+`role` salah satu dari `ADMIN`, `MANAGER`, `EMPLOYEE`.
 
 ### Seed Default Menus
 ```http
@@ -422,7 +545,7 @@ GET /api/seed-menus
 
 **Access:** Tidak ada pengecekan session (utility endpoint)
 
-Melakukan upsert daftar menu default (`Dashboard`, `Kegiatan`, `Anggota`, `Jenjang`, `DPC`, `Pertanyaan`, `Kata`, `Access Matrix`) ke tabel `Menu`.
+Melakukan upsert daftar menu default ke tabel `Menu`.
 
 ---
 
@@ -434,8 +557,8 @@ GET /api/config?key=<key>
 ```
 
 **Access:**
-- Dengan parameter `key`: semua user yang login (mengembalikan satu config atau `null`)
-- Tanpa parameter `key`: Admin only (mengembalikan semua config)
+- Dengan parameter `key`: semua user yang login
+- Tanpa parameter `key`: Admin only
 
 ### Upsert Config
 ```http
@@ -457,37 +580,20 @@ POST /api/config
 
 ## Error Responses
 
-### 401 Unauthorized
-```
-Unauthorized
-```
-Sebagian besar route mengembalikan plain text, beberapa (`/api/profile`, `/api/auth/register`, dll) mengembalikan JSON `{ "error": "..." }`.
-
-### 403 Forbidden
-```
-Forbidden
-```
-
-### 404 Not Found
-```
-Not Found
-```
-
-### 400 Bad Request
-Validasi gagal (Zod), mengembalikan array `errors` atau pesan tunggal tergantung route.
-
-### 409 Conflict
-Digunakan oleh `/api/users` dan `/api/users/:id` saat email atau nomor telepon sudah terdaftar.
-
-### 500 Internal Server Error
-```
-Internal Server Error
-```
+| Status | Keterangan |
+|--------|-----------|
+| `400 Bad Request` | Validasi gagal (Zod), mengembalikan array `errors` atau pesan tunggal |
+| `401 Unauthorized` | Tidak ada session aktif |
+| `403 Forbidden` | Role tidak memiliki izin akses |
+| `404 Not Found` | Resource tidak ditemukan |
+| `409 Conflict` | Duplikasi data (email/telepon sudah dipakai, atau tanggal izin tumpang tindih) |
+| `500 Internal Server Error` | Kesalahan server |
 
 ---
 
 ## Catatan
 
 - Tidak ada rate limiting yang diimplementasikan saat ini.
-- Endpoint list (`/api/activities`, `/api/my-attendance`, `/api/users`, `/api/approvals`) belum mendukung pagination — semua data dikembalikan dalam satu response.
-- **Diketahui rusak:** halaman `src/app/(dashboard)/master/upa/page.tsx` dan `master/jenjang/page.tsx` memanggil `/api/master/upas` dan `/api/master/jenjangs`, tetapi route tersebut tidak ada di `src/app/api/master/`. CRUD UPA dan Jenjang lewat dashboard saat ini akan menghasilkan 404.
+- Endpoint list (`/api/activities`, `/api/izin`, `/api/users`, `/api/approvals`) belum mendukung pagination — semua data dikembalikan dalam satu response.
+- Geofencing check-in menggunakan formula Haversine untuk menghitung jarak koordinat.
+- Saldo cuti (`LeaveBalance`) hanya berlaku untuk tipe `CUTI`; tipe lain (`SAKIT`, `DINAS`, `IZIN`) tidak dibatasi kuota.

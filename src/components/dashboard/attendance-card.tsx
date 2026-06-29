@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -23,6 +24,8 @@ interface AttendanceCardProps {
 }
 
 export function AttendanceCard({ data, user }: AttendanceCardProps) {
+    const router = useRouter()
+    const [localData, setLocalData] = useState<Presensi | null>(data)
     const [currentTime, setCurrentTime] = useState<Date | null>(null)
     const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null)
     const [loading, setLoading] = useState(false)
@@ -107,52 +110,78 @@ export function AttendanceCard({ data, user }: AttendanceCardProps) {
         }
     }
 
-    const getLocation = () => {
-        return new Promise<{ lat: number; lng: number }>((resolve, reject) => {
+    const getLocation = (): Promise<{ lat: number; lng: number } | null> => {
+        return new Promise((resolve) => {
             if (!navigator.geolocation) {
-                reject("Geolocation is not supported by your browser")
+                resolve(null)
                 return
             }
+            const timer = setTimeout(() => resolve(null), 5000)
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    resolve({
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    })
+                    clearTimeout(timer)
+                    resolve({ lat: position.coords.latitude, lng: position.coords.longitude })
                 },
-                (error) => {
-                    reject("Unable to retrieve your location. Check permissions.")
-                }
+                () => {
+                    clearTimeout(timer)
+                    resolve(null)
+                },
+                { timeout: 5000, maximumAge: 60000 }
             )
         })
     }
 
-    const handleSubmitAttendance = async () => {
-        if (!capturedImage || !actionType) return
+    const handleSubmitCheckIn = async () => {
+        if (!capturedImage) return
 
         setLoading(true)
         setError(null)
 
         try {
             const loc = await getLocation()
-            setLocation(loc)
+            if (loc) setLocation(loc)
 
-            let res
-            if (actionType === 'checkIn') {
-                res = await checkInAction(String(loc.lat), String(loc.lng), capturedImage)
-            } else {
-                res = await checkOutAction(String(loc.lat), String(loc.lng), capturedImage)
-            }
+            const res = await checkInAction(
+                loc ? String(loc.lat) : "",
+                loc ? String(loc.lng) : "",
+                capturedImage
+            )
 
             if (!res.success) throw new Error(res.message)
 
-            // Success cleanup
+            setLocalData({ checkIn: new Date().toISOString(), checkOut: null, status: "PRESENT" })
             stopCamera()
             setCapturedImage(null)
             setActionType(null)
+            router.refresh()
 
         } catch (err: any) {
-            setError(err.message || "Gagal melakukan absensi")
+            setError(err.message || "Gagal absen masuk")
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const handleCheckOut = async () => {
+        setLoading(true)
+        setError(null)
+
+        try {
+            const loc = await getLocation()
+            if (loc) setLocation(loc)
+
+            const res = await checkOutAction(
+                loc ? String(loc.lat) : "",
+                loc ? String(loc.lng) : ""
+            )
+
+            if (!res.success) throw new Error(res.message)
+
+            setLocalData(prev => prev ? { ...prev, checkOut: new Date().toISOString() } : prev)
+            router.refresh()
+
+        } catch (err: any) {
+            setError(err.message || "Gagal absen pulang")
         } finally {
             setLoading(false)
         }
@@ -160,8 +189,8 @@ export function AttendanceCard({ data, user }: AttendanceCardProps) {
 
     if (!currentTime) return null
 
-    const isCheckedIn = !!data?.checkIn
-    const isCheckedOut = !!data?.checkOut
+    const isCheckedIn = !!localData?.checkIn
+    const isCheckedOut = !!localData?.checkOut
 
     // Format times safely
     const formatTime = (date: Date | string | null) => {
@@ -215,11 +244,11 @@ export function AttendanceCard({ data, user }: AttendanceCardProps) {
                         ) : (
                             <div className="flex flex-col w-full gap-3">
                                 <Button
-                                    onClick={handleSubmitAttendance}
-                                    className={`w-full h-12 font-bold text-lg ${actionType === 'checkIn' ? 'bg-green-600 hover:bg-green-700' : 'bg-orange-600 hover:bg-orange-700'}`}
+                                    onClick={handleSubmitCheckIn}
+                                    className="w-full h-12 font-bold text-lg bg-green-600 hover:bg-green-700"
                                     disabled={loading}
                                 >
-                                    {loading ? "Menyimpan..." : (actionType === 'checkIn' ? "KIRIM ABSEN MASUK" : "KIRIM ABSEN PULANG")}
+                                    {loading ? "Menyimpan..." : "KIRIM ABSEN MASUK"}
                                 </Button>
                                 <Button variant="outline" onClick={retakePhoto} className="w-full h-12 text-black bg-white hover:bg-gray-100 border-none">
                                     <RotateCcw size={18} className="mr-2" />
@@ -280,7 +309,7 @@ export function AttendanceCard({ data, user }: AttendanceCardProps) {
                         </div>
                         <span className="text-xs text-gray-500 font-medium mb-1">Jam Masuk</span>
                         <span className="text-xl font-bold text-gray-800">
-                            {formatTime(data?.checkIn ?? null)}
+                            {formatTime(localData?.checkIn ?? null)}
                         </span>
                     </div>
 
@@ -291,7 +320,7 @@ export function AttendanceCard({ data, user }: AttendanceCardProps) {
                         </div>
                         <span className="text-xs text-gray-500 font-medium mb-1">Jam Pulang</span>
                         <span className="text-xl font-bold text-gray-800">
-                            {formatTime(data?.checkOut ?? null)}
+                            {formatTime(localData?.checkOut ?? null)}
                         </span>
                     </div>
                 </div>
@@ -314,12 +343,12 @@ export function AttendanceCard({ data, user }: AttendanceCardProps) {
                     ) : !isCheckedOut ? (
                         <Button
                             className="w-full h-16 text-lg font-bold bg-orange-500 hover:bg-orange-600 shadow-lg shadow-orange-500/30 rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-3"
-                            onClick={() => startCamera('checkOut')}
+                            onClick={handleCheckOut}
                             disabled={loading}
                         >
-                            {loading ? <span className="animate-pulse">Locating...</span> : (
+                            {loading ? <span className="animate-pulse">Menyimpan...</span> : (
                                 <>
-                                    <div className="p-1 bg-white/20 rounded-full"><Camera size={20} /></div>
+                                    <div className="p-1 bg-white/20 rounded-full"><LogOut size={20} /></div>
                                     ABSEN PULANG
                                 </>
                             )}

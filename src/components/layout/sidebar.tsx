@@ -15,7 +15,8 @@ import {
     FileQuestion,
     User,
     CalendarOff,
-    ClipboardCheck
+    ClipboardCheck,
+    BarChart2
 } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
@@ -63,7 +64,7 @@ export function Sidebar() {
         if (session?.user?.role !== "ADMIN") {
             // For regular users, ONLY show Dashboard and maybe Profile/Logout
             // The user said "menu yang lain hilangkan" (remove other menus).
-            const allowed = ["/dashboard", "/my-attendance", "/api/auth/signout", "/profile", "/monitoring"]
+            const allowed = ["/dashboard", "/my-attendance", "/api/auth/signout", "/profile", "/monitoring", "/laporan"]
             // I'm keeping my-attendance so they can see history, and profile.
             // But let's be strict if they really want minified.
             // Actually, let's keep Dashboard + My Attendance + Profile.
@@ -207,6 +208,21 @@ export function Sidebar() {
                         >
                             <ClipboardCheck size={18} />
                             Persetujuan Izin
+                        </Link>
+                    )}
+
+                    {(session?.user?.role === "ADMIN" || session?.user?.role === "MANAGER") && (
+                        <Link
+                            href="/laporan"
+                            className={cn(
+                                "flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-r-full transition-colors",
+                                isActive("/laporan")
+                                    ? "bg-orange-50 text-orange-700 border-l-4 border-orange-700"
+                                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                            )}
+                        >
+                            <BarChart2 size={18} />
+                            Laporan Bulanan
                         </Link>
                     )}
 

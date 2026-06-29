@@ -10,6 +10,12 @@ import { Building2, Lock, Mail, ArrowRight, Loader2 } from "lucide-react"
 
 import { Suspense } from "react"
 
+const DEMO_USERS = [
+    { role: "Admin", email: "admin@example.com", password: "admin123", color: "from-violet-500 to-purple-600", badge: "bg-purple-100 text-purple-700" },
+    { role: "Manager", email: "manager@example.com", password: "manager123", color: "from-blue-500 to-blue-600", badge: "bg-blue-100 text-blue-700" },
+    { role: "Employee", email: "user@example.com", password: "user123", color: "from-emerald-500 to-green-600", badge: "bg-emerald-100 text-emerald-700" },
+]
+
 function LoginForm() {
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -19,6 +25,11 @@ function LoginForm() {
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+
+    const loginAs = (demoEmail: string, demoPassword: string) => {
+        setEmail(demoEmail)
+        setPassword(demoPassword)
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -126,7 +137,39 @@ function LoginForm() {
                         </Button>
                     </form>
 
-                    <div className="mt-8 text-center">
+                    {/* Demo Users */}
+                    <div className="mt-6">
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="flex-1 h-px bg-gray-100"></div>
+                            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Demo Accounts</span>
+                            <div className="flex-1 h-px bg-gray-100"></div>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2">
+                            {DEMO_USERS.map(u => (
+                                <button
+                                    key={u.role}
+                                    type="button"
+                                    onClick={() => loginAs(u.email, u.password)}
+                                    className="group relative flex flex-col items-center gap-1.5 p-3 rounded-xl border border-gray-100 hover:border-transparent hover:shadow-md transition-all duration-200 bg-white hover:scale-[1.03]"
+                                >
+                                    <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${u.color} flex items-center justify-center text-white text-xs font-bold shadow-sm`}>
+                                        {u.role[0]}
+                                    </div>
+                                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${u.badge}`}>
+                                        {u.role}
+                                    </span>
+                                    <span className="text-[10px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity absolute -bottom-5 whitespace-nowrap">
+                                        Klik untuk isi otomatis
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                        <p className="text-center text-[11px] text-gray-400 mt-4">
+                            Klik role di atas untuk mengisi form otomatis
+                        </p>
+                    </div>
+
+                    <div className="mt-6 text-center">
                         <p className="text-xs text-gray-400">
                             © 2026 AttendIQ. All rights reserved.
                         </p>

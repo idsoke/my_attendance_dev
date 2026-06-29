@@ -8,68 +8,72 @@ export async function getTodayPresensi() {
     const session = await auth()
     if (!session?.user?.id) return null
 
-    const today = new Date()
-    const startOfDay = new Date(today)
-    startOfDay.setHours(0, 0, 0, 0)
-
-    const endOfDay = new Date(today)
-    endOfDay.setHours(23, 59, 59, 999)
-
-    // Using findFirst because unique constraint is on [userId, date]
-    // Note: With @db.Date, exact match logic depends on Prisma provider (MySQL here).
-    // Using range covers most cases safely.
-    const presensi = await prisma.presensi.findFirst({
-        where: {
-            userId: session.user.id,
-            date: {
-                gte: startOfDay,
-                lte: endOfDay
-            }
-        }
+    // Find open check-in (no checkout yet) OR most recent today
+    // Don't rely on @db.Date range comparison (timezone-sensitive)
+    const latest = await prisma.presensi.findFirst({
+        where: { userId: session.user.id },
+        orderBy: { checkIn: 'desc' },
     })
-    return presensi
+
+    if (!latest) return null
+
+    // Compare date using UTC date string to avoid timezone issues
+    const todayUTC = new Date().toISOString().slice(0, 10) // "YYYY-MM-DD" UTC
+    const recordUTC = new Date(latest.date).toISOString().slice(0, 10)
+
+    if (recordUTC !== todayUTC) return null
+    return latest
 }
 
 export async function checkInAction(lat: string, lng: string, photo: string, notes?: string) {
     const session = await auth()
     if (!session?.user?.id) throw new Error("Unauthorized")
 
-    const existing = await getTodayPresensi()
-    if (existing) {
-        throw new Error("Anda sudah absen masuk hari ini.")
+    // Check for any open (unchecked-out) attendance
+    const openPresensi = await prisma.presensi.findFirst({
+        where: { userId: session.user.id, checkIn: { not: null }, checkOut: null },
+        orderBy: { checkIn: 'desc' },
+    })
+    if (openPresensi) {
+        return { success: false, message: "Anda sudah absen masuk hari ini." }
     }
 
     try {
+        const now = new Date()
         await prisma.presensi.create({
             data: {
                 userId: session.user.id,
-                date: new Date(),
-                checkIn: new Date(),
-                locationIn: `${lat},${lng}`,
-                photoIn: photo,
+                date: now,
+                checkIn: now,
+                locationIn: lat && lng ? `${lat},${lng}` : null,
+                photoIn: photo || null,
                 status: "PRESENT",
-                notes: notes
-            }
+                notes: notes,
+            },
         })
         revalidatePath("/dashboard")
         return { success: true, message: "Berhasil absen masuk!" }
-    } catch (error) {
+    } catch (error: any) {
+        if (error?.code === 'P2002') {
+            return { success: false, message: "Anda sudah absen hari ini." }
+        }
         console.error("Check-in error:", error)
         return { success: false, message: "Gagal absen masuk. Silakan coba lagi." }
     }
 }
 
-export async function checkOutAction(lat: string, lng: string, photo: string, notes?: string) {
+export async function checkOutAction(lat: string, lng: string) {
     const session = await auth()
     if (!session?.user?.id) throw new Error("Unauthorized")
 
-    const existing = await getTodayPresensi()
-    if (!existing) {
-        throw new Error("Anda belum absen masuk.")
-    }
+    // Find any open check-in for this user (not limited to today — handles timezone edge cases)
+    const existing = await prisma.presensi.findFirst({
+        where: { userId: session.user.id, checkIn: { not: null }, checkOut: null },
+        orderBy: { checkIn: 'desc' },
+    })
 
-    if (existing.checkOut) {
-        throw new Error("Anda sudah absen pulang hari ini.")
+    if (!existing) {
+        return { success: false, message: "Anda belum absen masuk." }
     }
 
     try {
@@ -77,10 +81,8 @@ export async function checkOutAction(lat: string, lng: string, photo: string, no
             where: { id: existing.id },
             data: {
                 checkOut: new Date(),
-                locationOut: `${lat},${lng}`,
-                photoOut: photo,
-                notes: notes ? (existing.notes ? `${existing.notes}\nPulang: ${notes}` : `Pulang: ${notes}`) : existing.notes
-            }
+                locationOut: lat && lng ? `${lat},${lng}` : null,
+            },
         })
         revalidatePath("/dashboard")
         return { success: true, message: "Berhasil absen pulang!" }

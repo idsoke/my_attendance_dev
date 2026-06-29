@@ -1,15 +1,16 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Loader2, CheckCircle, XCircle, Clock } from "lucide-react"
+import { Loader2, CheckCircle, XCircle, Clock, User, Home } from "lucide-react"
 
 export default function AttendancePage() {
     const params = useParams()
-    const { data: session } = useSession()
+    const router = useRouter()
+    const { data: session, status: sessionStatus } = useSession()
     const [status, setStatus] = useState<"loading" | "success" | "error" | "idle">("idle")
     const [message, setMessage] = useState("")
     const [activity, setActivity] = useState<any>(null)
@@ -20,6 +21,12 @@ export default function AttendancePage() {
     useEffect(() => {
         if (id) fetchActivity()
     }, [id])
+
+    useEffect(() => {
+        if (sessionStatus === "unauthenticated") {
+            router.push(`/login?callbackUrl=/attendance/${id}`)
+        }
+    }, [sessionStatus, id, router])
 
     const fetchActivity = async () => {
         try {
@@ -93,17 +100,15 @@ export default function AttendancePage() {
         }
     }
 
-    if (!session) {
+    if (sessionStatus === "loading") {
         return (
-            <div className="flex items-center justify-center min-h-[60vh] p-4">
-                <Card className="w-full max-w-md text-center">
-                    <CardContent className="pt-6">
-                        <p>Silakan login terlebih dahulu untuk melakukan absensi.</p>
-                    </CardContent>
-                </Card>
+            <div className="flex items-center justify-center min-h-[60vh]">
+                <Loader2 className="animate-spin text-orange-500 h-10 w-10" />
             </div>
         )
     }
+
+    if (!session) return null
 
     return (
         <div className="flex items-center justify-center min-h-[60vh] p-4">
@@ -112,6 +117,12 @@ export default function AttendancePage() {
                     <CardTitle className="text-2xl">Absensi Kegiatan</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
+                    {/* Info user yang sedang login */}
+                    <div className="flex items-center justify-center gap-2 text-sm text-gray-500 bg-gray-50 rounded-lg py-2 px-4">
+                        <User size={14} />
+                        <span>Login sebagai <span className="font-semibold text-gray-700">{session.user?.fullName || session.user?.email}</span></span>
+                    </div>
+
                     {loadingActivity ? (
                         <div className="py-8"><Loader2 className="animate-spin mx-auto text-gray-400" /></div>
                     ) : activity ? (
@@ -162,6 +173,13 @@ export default function AttendancePage() {
                             <CheckCircle size={64} className="mx-auto text-green-500 mb-4" />
                             <h3 className="font-bold text-green-800 text-xl mb-2">Berhasil!</h3>
                             <p className="text-green-700 font-medium">{message}</p>
+                            <Button
+                                onClick={() => router.push("/dashboard")}
+                                className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white"
+                            >
+                                <Home size={16} className="mr-2" />
+                                Kembali ke Dashboard
+                            </Button>
                         </div>
                     )}
 
@@ -170,9 +188,15 @@ export default function AttendancePage() {
                             <XCircle size={64} className="mx-auto text-red-500 mb-4" />
                             <h3 className="font-bold text-red-800 text-xl mb-2">Gagal</h3>
                             <p className="text-red-700 font-medium">{message}</p>
-                            <Button onClick={() => setStatus("idle")} variant="ghost" className="mt-4 text-red-600 hover:text-red-800 hover:bg-red-100">
-                                Coba Lagi
-                            </Button>
+                            <div className="flex flex-col gap-2 mt-4">
+                                <Button onClick={() => setStatus("idle")} variant="outline" className="w-full text-red-600 border-red-200 hover:bg-red-50">
+                                    Coba Lagi
+                                </Button>
+                                <Button onClick={() => router.push("/dashboard")} variant="ghost" className="w-full text-gray-600 hover:bg-gray-100">
+                                    <Home size={16} className="mr-2" />
+                                    Kembali ke Dashboard
+                                </Button>
+                            </div>
                         </div>
                     )}
                 </CardContent>

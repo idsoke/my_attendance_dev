@@ -13,13 +13,11 @@ export default function DashboardLayout({
         <SessionProvider>
             <LanguageProvider>
                 <SidebarProvider>
-                    <div className="min-h-screen bg-[#f2edf3] flex flex-col relative">
-                        {/* Minimal Header just for Profile/Logout if needed, or keeping it clean as requested */}
-                        {/* <div className="absolute top-4 right-4 z-50">
-                            <ProfileDropdown /> 
-                        </div> */}
+                    <div className="min-h-screen bg-[#f2edf3] relative">
+                        <Sidebar />
+                        <Header />
 
-                        <main className="flex-1 flex flex-col h-full w-full max-w-md mx-auto p-4 md:p-6 justify-center">
+                        <main className="flex flex-col min-h-screen w-full pt-16 md:pl-64 p-4 md:p-6">
                             {children}
                         </main>
                     </div>

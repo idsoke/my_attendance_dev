@@ -42,7 +42,7 @@ export default async function DashboardPage() {
             <div className="w-full flex justify-center py-4 min-h-[80vh] items-center">
                 <AttendanceCard
                     data={formattedPresensi}
-                    user={{ name: session.user.name ?? "Karyawan", role: session.user.role }}
+                    user={{ name: session.user.fullName ?? "Karyawan", role: session.user.role }}
                 />
             </div>
 

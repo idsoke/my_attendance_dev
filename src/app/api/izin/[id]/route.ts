@@ -13,12 +13,13 @@ function countWorkdays(start: Date, end: Date): number {
     return count
 }
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const session = await auth()
     if (!session?.user) return new NextResponse("Unauthorized", { status: 401 })
 
+    const { id } = await params
     const request = await prisma.leaveRequest.findUnique({
-        where: { id: params.id },
+        where: { id },
         include: {
             user: { select: { id: true, fullName: true, email: true, employeeId: true } },
             approvedBy: { select: { id: true, fullName: true } },
@@ -36,11 +37,12 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 }
 
 // PATCH: approve / reject (admin/manager) or cancel (owner)
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const session = await auth()
     if (!session?.user) return new NextResponse("Unauthorized", { status: 401 })
 
-    const request = await prisma.leaveRequest.findUnique({ where: { id: params.id } })
+    const { id } = await params
+    const request = await prisma.leaveRequest.findUnique({ where: { id } })
     if (!request) return new NextResponse("Not Found", { status: 404 })
 
     const isPrivileged = session.user.role === "ADMIN" || session.user.role === "MANAGER"
@@ -62,7 +64,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
             return NextResponse.json({ error: "Hanya pengajuan dengan status PENDING yang bisa dibatalkan." }, { status: 400 })
         }
         const updated = await prisma.leaveRequest.update({
-            where: { id: params.id },
+            where: { id },
             data: { status: "CANCELLED" },
         })
         return NextResponse.json(updated)
@@ -77,7 +79,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     const newStatus = action === "approve" ? "APPROVED" : "REJECTED"
 
     const updated = await prisma.leaveRequest.update({
-        where: { id: params.id },
+        where: { id },
         data: {
             status: newStatus,
             approvedById: session.user.id,
@@ -100,11 +102,12 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 }
 
 // DELETE: only owner can delete PENDING requests
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const session = await auth()
     if (!session?.user) return new NextResponse("Unauthorized", { status: 401 })
 
-    const request = await prisma.leaveRequest.findUnique({ where: { id: params.id } })
+    const { id } = await params
+    const request = await prisma.leaveRequest.findUnique({ where: { id } })
     if (!request) return new NextResponse("Not Found", { status: 404 })
 
     const isAdmin = session.user.role === "ADMIN"
@@ -115,6 +118,6 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         return NextResponse.json({ error: "Hanya pengajuan PENDING yang bisa dihapus." }, { status: 400 })
     }
 
-    await prisma.leaveRequest.delete({ where: { id: params.id } })
+    await prisma.leaveRequest.delete({ where: { id } })
     return new NextResponse(null, { status: 204 })
 }

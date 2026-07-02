@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
         const validation = passwordChangeSchema.safeParse(body)
 
         if (!validation.success) {
-            return NextResponse.json({ error: validation.error.errors[0].message }, { status: 400 })
+            return NextResponse.json({ error: validation.error.issues[0].message }, { status: 400 })
         }
 
         const { newPassword } = validation.data

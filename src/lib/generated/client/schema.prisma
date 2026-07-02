@@ -38,10 +38,13 @@ model User {
   mentor   User?   @relation("Mentorship", fields: [mentorId], references: [id])
   mentees  User[]  @relation("Mentorship")
 
-  activities  Activity[]
-  auditLogs   AuditLog[]
-  attendances Attendance[]
-  presensi    Presensi[]
+  activities     Activity[]
+  auditLogs      AuditLog[]
+  attendances    Attendance[]
+  presensi       Presensi[]
+  leaveRequests  LeaveRequest[] @relation("LeaveRequester")
+  approvedLeaves LeaveRequest[] @relation("LeaveApprover")
+  leaveBalances  LeaveBalance[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -187,4 +190,47 @@ model Presensi {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, date]) // One attendance record per user per day
+}
+
+// === Leave Management (Modul Izin) ===
+
+enum LeaveType {
+  CUTI // Annual Leave (tracked against quota)
+  SAKIT // Sick Leave
+  DINAS // Official Business / Work Trip
+  IZIN // Personal Leave
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+model LeaveRequest {
+  id           String      @id @default(cuid())
+  userId       String
+  user         User        @relation("LeaveRequester", fields: [userId], references: [id])
+  type         LeaveType
+  startDate    DateTime    @db.Date
+  endDate      DateTime    @db.Date
+  reason       String      @db.Text
+  status       LeaveStatus @default(PENDING)
+  approvedById String?
+  approvedBy   User?       @relation("LeaveApprover", fields: [approvedById], references: [id])
+  approverNote String?     @db.Text
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model LeaveBalance {
+  id        String @id @default(cuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+  year      Int
+  totalDays Int    @default(12) // Annual CUTI quota
+  usedDays  Int    @default(0) // Auto-updated when CUTI approved
+
+  @@unique([userId, year])
 }

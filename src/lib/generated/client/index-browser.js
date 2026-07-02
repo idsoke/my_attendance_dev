@@ -237,6 +237,28 @@ exports.Prisma.PresensiScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.LeaveRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  reason: 'reason',
+  status: 'status',
+  approvedById: 'approvedById',
+  approverNote: 'approverNote',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeaveBalanceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  year: 'year',
+  totalDays: 'totalDays',
+  usedDays: 'usedDays'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -277,6 +299,20 @@ exports.TipeJawaban = exports.$Enums.TipeJawaban = {
   LISTBOX: 'LISTBOX'
 };
 
+exports.LeaveType = exports.$Enums.LeaveType = {
+  CUTI: 'CUTI',
+  SAKIT: 'SAKIT',
+  DINAS: 'DINAS',
+  IZIN: 'IZIN'
+};
+
+exports.LeaveStatus = exports.$Enums.LeaveStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Activity: 'Activity',
@@ -287,7 +323,9 @@ exports.Prisma.ModelName = {
   Menu: 'Menu',
   RoleAccess: 'RoleAccess',
   ApplicationConfig: 'ApplicationConfig',
-  Presensi: 'Presensi'
+  Presensi: 'Presensi',
+  LeaveRequest: 'LeaveRequest',
+  LeaveBalance: 'LeaveBalance'
 };
 
 /**
